@@ -1,0 +1,2106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BushidoGuide — Le média des arts martiaux et sports de combat</title>
+  <meta name="description" content="Guides, actualités, équipements, salles et événements pour tous les sports de combat : MMA, UFC, Boxe anglaise, Muay-Thaï, Lethwei, Savate et bien plus."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════
+       VARIABLES & RESET
+    ══════════════════════════════════════════ */
+    :root {
+      --black:#080808; --charcoal:#111111; --iron:#1a1a1a; --steel:#242424;
+      --border:#2e2e2e; --muted:#5a5a5a; --silver:#9a9a9a; --light:#e5e1d8;
+      --white:#f2ede6; --red:#b83232; --red-dim:rgba(184,50,50,0.12);
+      --gold:#c49a3a; --gold-dim:rgba(196,154,58,0.12);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--black);color:var(--light);font-family:'DM Sans',sans-serif;
+      font-weight:300;font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+    a{text-decoration:none;color:inherit}
+
+    /* ══════════════════════════════════════════
+       PAGES SYSTEM
+    ══════════════════════════════════════════ */
+    .page{display:none}
+    .page.active{display:block}
+
+    /* ══════════════════════════════════════════
+       HEADER (shared)
+    ══════════════════════════════════════════ */
+    header{
+      background:var(--charcoal);border-bottom:1px solid var(--border);
+      position:sticky;top:0;z-index:200;
+    }
+    .header-top{
+      max-width:1300px;margin:0 auto;padding:0 2rem;
+      display:flex;align-items:center;justify-content:space-between;height:64px;
+    }
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.04em;
+      color:var(--white);cursor:pointer}
+    .logo span{color:var(--red)}
+    .header-actions{display:flex;gap:1rem;align-items:center}
+    .btn-nl{background:var(--red);color:var(--white);padding:.4rem 1.1rem;
+      font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+      border-radius:3px;cursor:pointer;transition:opacity .2s}
+    .btn-nl:hover{opacity:.85}
+    .nav-bar{border-top:1px solid var(--border);overflow-x:auto}
+    .nav-bar::-webkit-scrollbar{display:none}
+    .nav-inner{max-width:1300px;margin:0 auto;padding:0 2rem;display:flex;gap:0}
+    .nav-link{display:flex;align-items:center;gap:.4rem;padding:.65rem 1.1rem;
+      font-size:.78rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+      color:var(--silver);border-bottom:2px solid transparent;white-space:nowrap;
+      cursor:pointer;transition:color .2s,border-color .2s}
+    .nav-link:hover,.nav-link.active{color:var(--white)}
+    .nav-link.active{border-bottom-color:var(--red)}
+    .nav-dot{width:6px;height:6px;border-radius:50%}
+
+    /* ══════════════════════════════════════════
+       AD SLOTS
+    ══════════════════════════════════════════ */
+    .ad-bar{background:var(--iron);border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;padding:.6rem;position:relative}
+    .ad-bar::before{content:'PUBLICITÉ';position:absolute;top:4px;left:50%;
+      transform:translateX(-50%);font-size:.58rem;color:var(--muted);letter-spacing:.12em}
+    .ad-slot{border:1px dashed var(--border);border-radius:2px;
+      display:flex;align-items:center;justify-content:center;
+      color:var(--muted);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase}
+    .ad-leader{width:728px;height:80px;max-width:100%}
+    .ad-rect{width:300px;height:250px}
+    .ad-inline{width:100%;height:180px;margin:2rem 0}
+
+    /* ══════════════════════════════════════════
+       HOME — HERO
+    ══════════════════════════════════════════ */
+    .hero{max-width:1300px;margin:0 auto;padding:2.5rem 2rem;
+      display:grid;grid-template-columns:1fr 360px;gap:2rem}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}}
+
+    .featured-card{background:var(--charcoal);border:1px solid var(--border);
+      border-radius:4px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+      transition:border-color .2s}
+    .featured-card:hover{border-color:var(--muted)}
+    .featured-img{height:280px;display:flex;align-items:center;justify-content:center;
+      position:relative;overflow:hidden;
+      background:linear-gradient(135deg,#1a0a0a 0%,#2d1515 50%,#1a0a0a 100%)}
+    .featured-img::before{content:'⛩';font-size:8rem;opacity:.12;position:absolute}
+    .fi-badge{position:absolute;top:1rem;left:1rem;background:var(--red);color:var(--white);
+      font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+      padding:.25rem .75rem;border-radius:2px}
+    .fi-sport{position:absolute;top:1rem;right:1rem;background:rgba(0,0,0,.7);
+      border:1px solid var(--border);color:var(--silver);
+      font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+      padding:.2rem .6rem;border-radius:2px}
+    .featured-body{padding:1.75rem;flex:1;display:flex;flex-direction:column}
+    .feat-meta{display:flex;gap:1rem;margin-bottom:.75rem;
+      font-size:.75rem;color:var(--muted);letter-spacing:.06em}
+    .feat-meta .cat{color:var(--gold);font-weight:500;text-transform:uppercase}
+    .feat-h1{font-family:'DM Serif Display',serif;font-size:1.7rem;line-height:1.2;
+      font-weight:400;color:var(--white);margin-bottom:.75rem}
+    .feat-h1 em{font-style:italic;color:var(--gold)}
+    .feat-desc{color:var(--silver);font-size:.9rem;flex:1}
+    .feat-footer{display:flex;align-items:center;justify-content:space-between;
+      margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)}
+    .read-more{font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--red);display:flex;align-items:center;gap:.4rem;transition:gap .2s}
+    .read-more:hover{gap:.7rem}
+
+    .hero-sidebar{display:flex;flex-direction:column;gap:1rem}
+    .mini-card{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;
+      padding:1rem;display:flex;gap:1rem;align-items:flex-start;cursor:pointer;
+      transition:border-color .2s}
+    .mini-card:hover{border-color:var(--muted)}
+    .mini-icon{width:48px;height:48px;border-radius:3px;background:var(--steel);
+      display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+    .mini-cat{font-size:.68rem;color:var(--gold);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:.2rem}
+    .mini-title{font-size:.85rem;color:var(--light);line-height:1.35;font-weight:500}
+    .mini-date{font-size:.7rem;color:var(--muted);margin-top:.25rem}
+
+    /* ══════════════════════════════════════════
+       HOME — SECTION TITLES
+    ══════════════════════════════════════════ */
+    .sec-bar{max-width:1300px;margin:0 auto;padding:0 2rem 1rem;
+      display:flex;align-items:center;gap:1rem}
+    .sec-bar h2{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;
+      letter-spacing:.06em;color:var(--white)}
+    .sec-line{flex:1;height:1px;background:var(--border)}
+    .see-all{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--gold);font-weight:500;display:flex;align-items:center;gap:.3rem;
+      cursor:pointer}
+
+    /* ══════════════════════════════════════════
+       HOME — SPORT HUB GRID
+    ══════════════════════════════════════════ */
+    .sports-hub{max-width:1300px;margin:0 auto;padding:0 2rem 2.5rem;
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+      gap:1px;background:var(--border);border:1px solid var(--border);
+      border-radius:4px;overflow:hidden}
+    .sport-hub-card{background:var(--charcoal);padding:1.5rem;
+      display:flex;flex-direction:column;gap:1rem;transition:background .2s;position:relative}
+    .sport-hub-card:hover{background:var(--iron)}
+    .sport-hub-top{display:flex;align-items:center;gap:.75rem}
+    .sport-emoji{font-size:1.8rem}
+    .sport-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;
+      letter-spacing:.05em;color:var(--white)}
+    .sport-origin{font-size:.7rem;color:var(--muted);letter-spacing:.06em;
+      text-transform:uppercase;margin-top:-.2rem}
+    .sport-links{display:flex;flex-direction:column;gap:.4rem}
+    .sport-link{display:flex;align-items:center;gap:.6rem;padding:.45rem .75rem;
+      background:var(--steel);border:1px solid var(--border);border-radius:3px;
+      font-size:.78rem;color:var(--silver);cursor:pointer;
+      transition:color .15s,border-color .15s}
+    .sport-link:hover{color:var(--white);border-color:var(--muted)}
+    .sport-link .sl-icon{font-size:.9rem;opacity:.7}
+    .sport-link .sl-count{margin-left:auto;font-size:.68rem;color:var(--muted);
+      background:var(--black);border-radius:2px;padding:.1rem .4rem}
+    .niche-badge{position:absolute;top:.75rem;right:.75rem;background:var(--gold-dim);
+      border:1px solid var(--gold);color:var(--gold);font-size:.6rem;
+      letter-spacing:.1em;text-transform:uppercase;padding:.15rem .5rem;border-radius:2px}
+
+    /* ══════════════════════════════════════════
+       HOME — ARTICLES GRID + SIDEBAR
+    ══════════════════════════════════════════ */
+    .main-layout{max-width:1300px;margin:0 auto;padding:0 2rem 3rem;
+      display:grid;grid-template-columns:1fr 300px;gap:2.5rem}
+    @media(max-width:900px){.main-layout{grid-template-columns:1fr}.sidebar-col{display:none}}
+
+    .art-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    @media(max-width:600px){.art-grid{grid-template-columns:1fr}}
+
+    .art-card{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;
+      overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+      transition:border-color .2s}
+    .art-card:hover{border-color:var(--muted)}
+    .art-thumb{height:140px;display:flex;align-items:center;justify-content:center;
+      font-size:3rem;position:relative}
+    .art-thumb-tag{position:absolute;bottom:.5rem;left:.5rem;background:rgba(0,0,0,.8);
+      border:1px solid var(--border);font-size:.65rem;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--silver);padding:.15rem .5rem;border-radius:2px}
+    .art-body{padding:1rem;flex:1;display:flex;flex-direction:column}
+    .art-cat{font-size:.68rem;color:var(--gold);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:.35rem;font-weight:500}
+    .art-title-sm{font-size:.9rem;font-weight:500;color:var(--light);line-height:1.4;flex:1}
+    .art-foot{display:flex;justify-content:space-between;align-items:center;
+      margin-top:.75rem;padding-top:.6rem;border-top:1px solid var(--border);
+      font-size:.7rem;color:var(--muted)}
+    .atype{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+      padding:.15rem .5rem;border-radius:2px}
+    .t-actu{background:var(--red-dim);border:1px solid rgba(184,50,50,.3);color:#d97a7a}
+    .t-conseil{background:var(--gold-dim);border:1px solid rgba(196,154,58,.3);color:#c9a060}
+    .t-analyse{background:rgba(100,150,220,.1);border:1px solid rgba(100,150,220,.25);color:#7aaddc}
+    .t-event{background:rgba(240,98,146,.1);border:1px solid rgba(240,98,146,.25);color:#f48fb1}
+    .t-equip{background:rgba(100,180,100,.1);border:1px solid rgba(100,180,100,.25);color:#81c784}
+
+    /* ══════════════════════════════════════════
+       HOME — SIDEBAR
+    ══════════════════════════════════════════ */
+    .sidebar-col{display:flex;flex-direction:column;gap:1.5rem}
+    .widget{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+    .widget-head{background:var(--iron);border-bottom:1px solid var(--border);
+      padding:.65rem 1rem;font-family:'Bebas Neue',sans-serif;font-size:1rem;
+      letter-spacing:.1em;color:var(--white);display:flex;align-items:center;justify-content:space-between}
+    .widget-head a{font-family:'DM Sans',sans-serif;font-size:.68rem;color:var(--gold);cursor:pointer}
+    .widget-body{padding:1rem}
+
+    .ev-item{display:flex;gap:.75rem;align-items:flex-start;
+      padding:.6rem 0;border-bottom:1px solid var(--border)}
+    .ev-item:last-child{border-bottom:none}
+    .ev-date{background:var(--red);color:var(--white);text-align:center;
+      padding:.3rem .5rem;border-radius:2px;min-width:40px;flex-shrink:0}
+    .ev-day{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1}
+    .ev-month{font-size:.6rem;letter-spacing:.06em;text-transform:uppercase}
+    .ev-name{font-size:.82rem;font-weight:500;color:var(--light)}
+    .ev-detail{font-size:.72rem;color:var(--muted);margin-top:.1rem}
+
+    .aff-item{display:flex;justify-content:space-between;align-items:center;
+      padding:.55rem 0;border-bottom:1px solid var(--border)}
+    .aff-item:last-child{border-bottom:none}
+    .aff-left{display:flex;align-items:center;gap:.6rem}
+    .aff-icon{font-size:1.2rem}
+    .aff-name{font-size:.82rem;color:var(--light)}
+    .aff-sub{font-size:.68rem;color:var(--muted)}
+    .btn-aff{background:var(--gold);color:var(--black);font-size:.68rem;font-weight:700;
+      letter-spacing:.06em;text-transform:uppercase;padding:.25rem .65rem;
+      border-radius:2px;transition:opacity .2s;cursor:pointer}
+    .btn-aff:hover{opacity:.85}
+
+    .nl-widget{background:linear-gradient(135deg,var(--iron),#1e0f0f);
+      border:1px solid var(--red);border-radius:4px;padding:1.25rem;text-align:center}
+    .nl-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.4rem}
+    .nl-desc{font-size:.8rem;color:var(--silver);margin-bottom:1rem;line-height:1.5}
+    .nl-input{width:100%;background:var(--black);border:1px solid var(--border);
+      border-radius:3px;padding:.55rem .75rem;color:var(--light);font-size:.82rem;
+      outline:none;margin-bottom:.5rem}
+    .nl-input:focus{border-color:var(--muted)}
+    .nl-btn{width:100%;background:var(--red);color:var(--white);border:none;cursor:pointer;
+      padding:.6rem;border-radius:3px;font-size:.78rem;font-weight:600;
+      letter-spacing:.08em;text-transform:uppercase;transition:opacity .2s}
+    .nl-btn:hover{opacity:.85}
+
+    /* ══════════════════════════════════════════
+       HOME — NICHE SECTION
+    ══════════════════════════════════════════ */
+    .niche-section{background:var(--charcoal);border-top:1px solid var(--border);
+      border-bottom:1px solid var(--border);padding:2.5rem 0;margin-bottom:2.5rem}
+    .niche-inner{max-width:1300px;margin:0 auto;padding:0 2rem}
+    .niche-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+      gap:1rem;margin-top:1.5rem}
+    .niche-card{background:var(--iron);border:1px solid var(--border);border-radius:4px;
+      padding:1.25rem;display:flex;flex-direction:column;gap:.6rem;cursor:pointer;
+      transition:border-color .2s}
+    .niche-card:hover{border-color:var(--gold)}
+    .niche-card:hover .niche-name{color:var(--gold)}
+    .niche-flag{font-size:1.5rem}
+    .niche-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;
+      letter-spacing:.05em;color:var(--white);transition:color .2s}
+    .niche-origin{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+    .niche-desc{font-size:.78rem;color:var(--silver);line-height:1.45}
+    .niche-stats{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.25rem}
+    .niche-stat{font-size:.65rem;letter-spacing:.07em;text-transform:uppercase;
+      padding:.15rem .5rem;border-radius:2px;background:var(--steel);
+      color:var(--muted);border:1px solid var(--border)}
+
+    /* ══════════════════════════════════════════
+       ARTICLES LIST PAGE
+    ══════════════════════════════════════════ */
+    .list-page{max-width:1000px;margin:0 auto;padding:3rem 2rem}
+    .list-hero{margin-bottom:2.5rem}
+    .list-hero h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.5rem}
+    .list-hero p{color:var(--silver);font-size:.9rem}
+    .list-filter{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+    .filter-btn{background:var(--steel);border:1px solid var(--border);color:var(--silver);
+      font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+      padding:.3rem .9rem;border-radius:2px;cursor:pointer;transition:all .2s}
+    .filter-btn:hover,.filter-btn.active{background:var(--red);border-color:var(--red);color:var(--white)}
+    .list-grid{display:flex;flex-direction:column;gap:.75rem}
+    .list-item{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;
+      padding:1.25rem;display:flex;align-items:center;gap:1.25rem;cursor:pointer;
+      transition:border-color .2s,background .2s}
+    .list-item:hover{border-color:var(--muted);background:var(--iron)}
+    .list-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--border);
+      min-width:36px;line-height:1}
+    .list-info{flex:1}
+    .list-cat{font-size:.68rem;color:var(--gold);text-transform:uppercase;
+      letter-spacing:.08em;margin-bottom:.25rem}
+    .list-title{font-size:.95rem;font-weight:500;color:var(--light);line-height:1.35}
+    .list-meta{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+    .list-badge{flex-shrink:0}
+
+    /* ══════════════════════════════════════════
+       ARTICLE PAGE
+    ══════════════════════════════════════════ */
+    .article-wrap{max-width:1200px;margin:0 auto;padding:2.5rem 2rem;
+      display:grid;grid-template-columns:1fr 280px;gap:3rem;align-items:start}
+    @media(max-width:900px){.article-wrap{grid-template-columns:1fr}.art-sidebar{display:none}}
+
+    .art-main{}
+    .back-btn{display:inline-flex;align-items:center;gap:.5rem;color:var(--gold);
+      font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2rem;
+      cursor:pointer;border:1px solid var(--border);padding:.4rem .9rem;
+      border-radius:3px;background:var(--charcoal);transition:border-color .2s}
+    .back-btn:hover{border-color:var(--gold)}
+    .art-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+    .art-tag{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+      padding:.2rem .6rem;border-radius:2px;background:var(--steel);
+      border:1px solid var(--border);color:var(--silver)}
+    .art-tag.red{background:var(--red-dim);border-color:var(--red);color:#d97a7a}
+    .art-tag.gold{background:var(--gold-dim);border-color:var(--gold);color:#c9a060}
+    .art-h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.6rem);
+      font-weight:400;line-height:1.15;color:var(--white);margin-bottom:1rem}
+    .art-h1 em{font-style:italic;color:var(--gold)}
+    .art-lead{font-size:1.05rem;color:var(--silver);line-height:1.7;
+      margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+    .art-meta-row{display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+    .art-meta-row strong{color:var(--silver)}
+
+    .art-content h2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;
+      letter-spacing:.05em;color:var(--white);margin:2.25rem 0 .75rem;
+      padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+    .art-content h3{font-family:'DM Serif Display',serif;font-size:1.1rem;
+      color:var(--light);margin:1.5rem 0 .4rem;font-style:italic;font-weight:400}
+    .art-content p{color:var(--silver);margin-bottom:1rem}
+    .art-content strong{color:var(--light);font-weight:500}
+    .art-content ul{color:var(--silver);padding-left:1.25rem;margin-bottom:1rem}
+    .art-content ul li{margin-bottom:.4rem}
+
+    .info-box{background:var(--charcoal);border:1px solid var(--border);
+      border-radius:4px;padding:1.25rem;margin:1.5rem 0}
+    .info-box-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;
+      letter-spacing:.08em;color:var(--white);margin-bottom:.75rem}
+    .info-row{display:flex;justify-content:space-between;padding:.4rem 0;
+      border-bottom:1px solid var(--border);font-size:.85rem}
+    .info-row:last-child{border-bottom:none}
+    .info-label{color:var(--muted)}
+    .info-value{color:var(--light);font-weight:500;text-align:right;max-width:60%}
+
+    .callout{background:var(--iron);border-left:3px solid var(--gold);
+      padding:1rem 1.25rem;margin:1.5rem 0;border-radius:0 4px 4px 0}
+    .callout p{color:var(--light);font-style:italic;font-family:'DM Serif Display',serif;
+      font-size:1rem;margin:0;line-height:1.6}
+
+    .verdict-box{background:var(--charcoal);border:1px solid var(--border);
+      border-top:3px solid var(--red);padding:1.5rem;border-radius:0 0 4px 4px;margin:2rem 0}
+    .verdict-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.75rem}
+    .verdict-box p{color:var(--silver);margin-bottom:.6rem}
+    .verdict-box p:last-child{margin-bottom:0}
+
+    .art-nav{display:flex;gap:1rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+    .art-nav-btn{flex:1;background:var(--charcoal);border:1px solid var(--border);
+      padding:1rem;border-radius:4px;cursor:pointer;transition:border-color .2s;
+      font-size:.8rem;color:var(--silver)}
+    .art-nav-btn:hover{border-color:var(--muted);color:var(--white)}
+    .art-nav-btn .nav-dir{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--muted);margin-bottom:.3rem}
+    .art-nav-btn.right{text-align:right}
+
+    .art-sidebar{display:flex;flex-direction:column;gap:1.5rem;position:sticky;top:80px}
+
+    /* ══════════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════════ */
+    .footer-ad{background:var(--iron);border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:center;
+      padding:1.2rem 1rem .8rem;position:relative}
+    .footer-ad::before{content:'PUBLICITÉ';position:absolute;top:4px;left:50%;
+      transform:translateX(-50%);font-size:.58rem;color:var(--muted);letter-spacing:.12em}
+    footer{background:var(--charcoal);border-top:1px solid var(--border)}
+    .footer-inner{max-width:1300px;margin:0 auto;padding:2.5rem 2rem;
+      display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:2rem}
+    @media(max-width:700px){.footer-inner{grid-template-columns:1fr 1fr}}
+    .footer-brand p{font-size:.82rem;color:var(--silver);line-height:1.6;margin-top:.75rem}
+    .footer-col h4{font-family:'Bebas Neue',sans-serif;font-size:1rem;
+      letter-spacing:.08em;color:var(--white);margin-bottom:.75rem}
+    .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+    .footer-col li span{font-size:.8rem;color:var(--muted);cursor:pointer;
+      transition:color .2s;display:block}
+    .footer-col li span:hover{color:var(--silver)}
+    .footer-bottom{border-top:1px solid var(--border);padding:1.25rem 2rem;
+      max-width:1300px;margin:0 auto;
+      display:flex;justify-content:space-between;font-size:.75rem;color:var(--muted)}
+
+    /* ══════════════════════════════════════════
+       GUIDES PAGE
+    ══════════════════════════════════════════ */
+    .guides-page{max-width:1200px;margin:0 auto;padding:3rem 2rem}
+    .guides-hero{margin-bottom:2.5rem}
+    .guides-hero h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.5rem}
+    .guides-hero p{color:var(--silver);font-size:.9rem;max-width:620px}
+    .guides-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem}
+    .guide-card{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;
+      overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s}
+    .guide-card:hover{border-color:var(--muted);transform:translateY(-2px)}
+    .guide-card-banner{height:110px;display:flex;align-items:center;justify-content:center;
+      font-size:3.5rem;position:relative}
+    .guide-level-badge{position:absolute;bottom:.6rem;right:.6rem;
+      background:rgba(0,0,0,.75);border:1px solid var(--border);
+      font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--silver);padding:.15rem .5rem;border-radius:2px}
+    .guide-card-body{padding:1.25rem}
+    .guide-card-sport{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.2rem}
+    .guide-card-origin{font-size:.68rem;color:var(--muted);text-transform:uppercase;
+      letter-spacing:.07em;margin-bottom:.75rem}
+    .guide-card-desc{font-size:.82rem;color:var(--silver);line-height:1.55;margin-bottom:1rem}
+    .guide-card-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+    .guide-card-tag{font-size:.62rem;letter-spacing:.07em;text-transform:uppercase;
+      padding:.15rem .5rem;border-radius:2px;background:var(--steel);
+      color:var(--muted);border:1px solid var(--border)}
+    .guide-card-footer{display:flex;align-items:center;justify-content:space-between;
+      margin-top:1rem;padding-top:.75rem;border-top:1px solid var(--border)}
+    .guide-card-cta{font-size:.72rem;font-weight:600;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--red)}
+
+    /* GUIDE DETAIL PAGE */
+    .guide-detail-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem;
+      display:grid;grid-template-columns:1fr 260px;gap:2.5rem;align-items:start}
+    @media(max-width:850px){.guide-detail-wrap{grid-template-columns:1fr}.guide-side{display:none}}
+    .guide-main{}
+    .guide-intro-banner{height:200px;border-radius:4px;display:flex;
+      align-items:center;justify-content:center;font-size:5rem;
+      margin-bottom:2rem;position:relative;overflow:hidden}
+    .guide-sport-tag{position:absolute;top:1rem;left:1rem;
+      background:rgba(0,0,0,.75);border:1px solid var(--border);
+      font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--white);padding:.25rem .75rem;border-radius:2px}
+    .guide-difficulty{position:absolute;top:1rem;right:1rem;
+      font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+      padding:.25rem .75rem;border-radius:2px}
+    .diff-debutant{background:rgba(100,180,100,.15);border:1px solid rgba(100,180,100,.4);color:#81c784}
+    .diff-intermediaire{background:rgba(255,200,80,.1);border:1px solid rgba(255,200,80,.3);color:#ffd54f}
+    .diff-avance{background:var(--red-dim);border:1px solid rgba(184,50,50,.4);color:#e57373}
+
+    .guide-steps{display:flex;flex-direction:column;gap:0;margin:2rem 0}
+    .guide-step{display:flex;gap:1.25rem;padding:1.25rem 0;border-bottom:1px solid var(--border)}
+    .guide-step:last-child{border-bottom:none}
+    .step-num{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--border);
+      min-width:40px;line-height:1;flex-shrink:0}
+    .step-body h3{font-family:'DM Serif Display',serif;font-size:1rem;
+      color:var(--light);font-style:italic;margin-bottom:.4rem}
+    .step-body p{color:var(--silver);font-size:.88rem;line-height:1.6;margin:0}
+
+    .guide-timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+      background:var(--border);border:1px solid var(--border);border-radius:4px;
+      overflow:hidden;margin:2rem 0}
+    .timeline-block{background:var(--charcoal);padding:1.25rem;text-align:center}
+    .tl-period{font-family:'Bebas Neue',sans-serif;font-size:1rem;
+      letter-spacing:.06em;color:var(--gold);margin-bottom:.5rem}
+    .tl-level{font-size:.75rem;font-weight:500;color:var(--light);margin-bottom:.4rem}
+    .tl-desc{font-size:.75rem;color:var(--muted);line-height:1.5}
+
+    .equip-list{display:flex;flex-direction:column;gap:.5rem;margin:1.5rem 0}
+    .equip-item{display:flex;gap:.75rem;align-items:center;padding:.75rem;
+      background:var(--iron);border:1px solid var(--border);border-radius:3px}
+    .equip-icon{font-size:1.3rem;min-width:28px}
+    .equip-name{font-size:.85rem;color:var(--light);font-weight:500}
+    .equip-price{font-size:.75rem;color:var(--muted);margin-top:.1rem}
+    .equip-badge{margin-left:auto;font-size:.62rem;letter-spacing:.07em;
+      text-transform:uppercase;padding:.15rem .5rem;border-radius:2px}
+    .badge-must{background:rgba(184,50,50,.12);border:1px solid rgba(184,50,50,.3);color:#d97a7a}
+    .badge-useful{background:var(--gold-dim);border:1px solid rgba(196,154,58,.3);color:#c9a060}
+    .badge-later{background:var(--steel);border:1px solid var(--border);color:var(--muted)}
+
+    .guide-side{display:flex;flex-direction:column;gap:1.25rem;position:sticky;top:80px}
+    .toc-widget{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+    .toc-head{background:var(--iron);border-bottom:1px solid var(--border);padding:.65rem 1rem;
+      font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:.1em;color:var(--white)}
+    .toc-body{padding:.75rem 1rem}
+    .toc-item{display:block;padding:.45rem 0;border-bottom:1px solid var(--border);
+      font-size:.8rem;color:var(--silver);cursor:pointer;transition:color .15s}
+    .toc-item:last-child{border-bottom:none}
+    .toc-item:hover{color:var(--gold)}
+
+    /* ══════════════════════════════════════════
+       RECOMMANDATIONS PAGE
+    ══════════════════════════════════════════ */
+    .reco-page{max-width:1200px;margin:0 auto;padding:3rem 2rem}
+    .reco-hero{margin-bottom:2rem}
+    .reco-hero h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;
+      letter-spacing:.06em;color:var(--white);margin-bottom:.5rem}
+    .reco-hero p{color:var(--silver);font-size:.9rem;max-width:620px}
+
+    .reco-filters{display:flex;flex-direction:column;gap:1rem;margin-bottom:2.5rem}
+    .filter-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+    .filter-label{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--muted);min-width:70px}
+    .filter-sport,.filter-level{background:var(--steel);border:1px solid var(--border);
+      color:var(--silver);font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;
+      padding:.35rem .9rem;border-radius:2px;cursor:pointer;transition:all .15s}
+    .filter-sport:hover,.filter-level:hover{border-color:var(--muted);color:var(--white)}
+    .filter-sport.active{background:var(--red);border-color:var(--red);color:var(--white)}
+    .filter-level.active.debutant{background:rgba(100,180,100,.2);border-color:rgba(100,180,100,.6);color:#81c784}
+    .filter-level.active.intermediaire{background:rgba(255,200,80,.15);border-color:rgba(255,200,80,.5);color:#ffd54f}
+    .filter-level.active.avance{background:var(--red-dim);border-color:rgba(184,50,50,.5);color:#e57373}
+
+    .reco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1rem}
+    .reco-card{background:var(--charcoal);border:1px solid var(--border);border-radius:4px;
+      padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;
+      cursor:pointer;transition:border-color .2s}
+    .reco-card:hover{border-color:var(--muted)}
+    .reco-card.hidden{display:none}
+    .reco-top{display:flex;align-items:flex-start;justify-content:space-between;gap:.75rem}
+    .reco-sport-icon{font-size:1.6rem;flex-shrink:0}
+    .reco-badges{display:flex;gap:.4rem;flex-wrap:wrap;margin-left:auto}
+    .level-badge{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+      padding:.2rem .55rem;border-radius:2px;font-weight:600}
+    .lb-debutant{background:rgba(100,180,100,.15);border:1px solid rgba(100,180,100,.4);color:#81c784}
+    .lb-intermediaire{background:rgba(255,200,80,.1);border:1px solid rgba(255,200,80,.3);color:#ffd54f}
+    .lb-avance{background:var(--red-dim);border:1px solid rgba(184,50,50,.4);color:#e57373}
+    .reco-sport-tag{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+      padding:.2rem .55rem;border-radius:2px;background:var(--steel);
+      border:1px solid var(--border);color:var(--muted)}
+    .reco-title{font-size:.92rem;font-weight:500;color:var(--light);line-height:1.4}
+    .reco-desc{font-size:.78rem;color:var(--muted);line-height:1.55}
+    .reco-footer{display:flex;align-items:center;justify-content:space-between;
+      padding-top:.75rem;border-top:1px solid var(--border)}
+    .reco-type{font-size:.65rem;letter-spacing:.07em;text-transform:uppercase;
+      padding:.15rem .5rem;border-radius:2px}
+    .reco-cta{font-size:.72rem;font-weight:600;color:var(--red);
+      letter-spacing:.07em;text-transform:uppercase}
+
+    .reco-empty{text-align:center;padding:4rem 2rem;color:var(--muted);
+      font-size:.9rem;display:none}
+
+    /* ══════════════════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════════════════ */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+    .page.active .sport-hub-card{animation:fadeUp .35s ease both}
+    .page.active .sport-hub-card:nth-child(2){animation-delay:.05s}
+    .page.active .sport-hub-card:nth-child(3){animation-delay:.1s}
+    .page.active .sport-hub-card:nth-child(4){animation-delay:.15s}
+    .page.active .sport-hub-card:nth-child(5){animation-delay:.2s}
+    .page.active .sport-hub-card:nth-child(6){animation-delay:.25s}
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════ HEADER ══════════════════════ -->
+<header>
+  <div class="header-top">
+    <div class="logo" onclick="nav('home')">Bushido<span>Guide</span></div>
+    <div class="header-actions">
+      <div class="btn-nl" onclick="nav('home')">Newsletter gratuite</div>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <div class="nav-link active" id="nav-home" onclick="nav('home')">
+        <span class="nav-dot" style="background:#e57373"></span> À la une
+      </div>
+      <div class="nav-link" id="nav-mma" onclick="nav('mma')">
+        <span class="nav-dot" style="background:#64b5f6"></span> MMA / UFC
+      </div>
+      <div class="nav-link" id="nav-boxe" onclick="nav('boxe')">
+        <span class="nav-dot" style="background:#c49a3a"></span> Boxe
+      </div>
+      <div class="nav-link" id="nav-niche" onclick="nav('niche')">
+        <span class="nav-dot" style="background:#ba68c8"></span> Disciplines rares
+      </div>
+      <div class="nav-link" id="nav-guides" onclick="nav('guides')">
+        <span class="nav-dot" style="background:#4db6ac"></span> Guides débutants
+      </div>
+      <div class="nav-link" id="nav-recommandations" onclick="nav('recommandations')">
+        <span class="nav-dot" style="background:#f06292"></span> Recommandations
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════════════════ AD BAR ══════════════════════ -->
+<div class="ad-bar"><div class="ad-slot ad-leader">AdSense 728 × 90 — À remplacer par votre code ins.adsbygoogle</div></div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : HOME
+══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="featured-card" onclick="openArticle('a1')">
+      <div class="featured-img">
+        <span class="fi-badge">🔥 À la une</span>
+        <span class="fi-sport">MMA · UFC 313</span>
+      </div>
+      <div class="featured-body">
+        <div class="feat-meta"><span class="cat">Analyse</span><span>Mars 2025</span><span>· 7 min</span></div>
+        <h2 class="feat-h1">UFC 313 : Alex Pereira confirme son règne face à <em>Ankalaev</em></h2>
+        <p class="feat-desc">Dans la nuit du 8 au 9 mars 2025, "Poatan" a dominé le numéro un mondial de la catégorie et conservé sa ceinture des mi-lourds avec autorité. Retour sur un combat historique.</p>
+        <div class="feat-footer">
+          <span class="read-more">Lire l'article →</span>
+          <span style="font-size:.72rem;color:var(--muted)">💬 MMA · UFC</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-sidebar">
+      <div class="mini-card" onclick="openArticle('a5')">
+        <div class="mini-icon">🇫🇷</div>
+        <div><div class="mini-cat">MMA · Événement</div>
+          <div class="mini-title">UFC Paris 2025 : la 4e édition à l'Accor Arena</div>
+          <div class="mini-date">Septembre 2025</div></div>
+      </div>
+      <div class="mini-card" onclick="openArticle('b1')">
+        <div class="mini-icon">🥊</div>
+        <div><div class="mini-cat">Boxe · Actualité</div>
+          <div class="mini-title">Canelo vs Crawford sur Netflix : le combat du siècle</div>
+          <div class="mini-date">Septembre 2025</div></div>
+      </div>
+      <div class="mini-card" onclick="openArticle('a4')">
+        <div class="mini-icon">⚡</div>
+        <div><div class="mini-cat">MMA · UFC 317</div>
+          <div class="mini-title">Topuria KO au 1er round — double champion UFC</div>
+          <div class="mini-date">Juin 2025</div></div>
+      </div>
+      <div class="mini-card" onclick="openArticle('b7')">
+        <div class="mini-icon">🏆</div>
+        <div><div class="mini-cat">Boxe · Classement</div>
+          <div class="mini-title">Meilleur boxeur pound-for-pound 2025 : notre Top 5</div>
+          <div class="mini-date">Décembre 2025</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISCIPLINES HUB -->
+  <div class="sec-bar">
+    <h2>Disciplines principales</h2><div class="sec-line"></div>
+    <span class="see-all" onclick="nav('niche')">Toutes les disciplines →</span>
+  </div>
+  <div class="sports-hub" style="margin-bottom:2rem">
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🥊</span>
+        <div><div class="sport-name">MMA</div><div class="sport-origin">Mixed Martial Arts · Mondial</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link" onclick="nav('mma')"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">10 articles</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Équipement MMA <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Salles de MMA <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> UFC · Bellator · PFL <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🥊</span>
+        <div><div class="sport-name">Boxe anglaise</div><div class="sport-origin">Boxing · Grande-Bretagne</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link" onclick="nav('boxe')"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">10 articles</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Équipement boxe <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Clubs de boxe <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> WBC · WBA · IBF · WBO <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🦵</span>
+        <div><div class="sport-name">Muay-Thaï</div><div class="sport-origin">Art martial · Thaïlande</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">À venir</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Équipement muay-thaï <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Salles de Muay-Thaï <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> ONE · Lumpinee <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🤼</span>
+        <div><div class="sport-name">Jiu-Jitsu Brésilien</div><div class="sport-origin">BJJ · Brésil</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">À venir</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Kimonos & Équipement <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Académies BJJ <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> ADCC · IBJJF <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🥋</span>
+        <div><div class="sport-name">Judo</div><div class="sport-origin">Art martial · Japon</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">À venir</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Judogis & Équipement <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Dojos de Judo <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> IJF Grand Slam <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+    <div class="sport-hub-card">
+      <div class="sport-hub-top"><span class="sport-emoji">🥋</span>
+        <div><div class="sport-name">Karaté</div><div class="sport-origin">Art martial · Japon · Okinawa</div></div>
+      </div>
+      <div class="sport-links">
+        <div class="sport-link"><span class="sl-icon">📝</span> Articles & Guides <span class="sl-count">À venir</span></div>
+        <div class="sport-link"><span class="sl-icon">🛒</span> Karategis & Équipement <span class="sl-count">Sélection</span></div>
+        <div class="sport-link"><span class="sl-icon">📍</span> Dojos de Karaté <span class="sl-count">Localiser</span></div>
+        <div class="sport-link"><span class="sl-icon">🏆</span> WKF · Karaté Combat <span class="sl-count">Agenda</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DERNIÈRES PUBLICATIONS + SIDEBAR -->
+  <div class="main-layout">
+    <main>
+      <div class="sec-bar" style="padding:0 0 1rem">
+        <h2>Dernières publications</h2><div class="sec-line"></div>
+      </div>
+      <div class="art-grid">
+        <div class="art-card" onclick="openArticle('a2')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#1a0a0a,#2d1515)"><span>🏆</span><span class="art-thumb-tag">MMA · UFC 314</span></div>
+          <div class="art-body"><div class="art-cat">Actualité</div>
+            <div class="art-title-sm">UFC 314 : Volkanovski reconquiert sa ceinture face à Diego Lopes à Miami</div>
+            <div class="art-foot"><span>Avril 2025</span><span class="atype t-actu">Actualité</span></div></div>
+        </div>
+        <div class="art-card" onclick="openArticle('b2')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#0a0a1a,#101025)"><span>🥊</span><span class="art-thumb-tag">Boxe</span></div>
+          <div class="art-body"><div class="art-cat">Actualité</div>
+            <div class="art-title-sm">Jake Paul vs Tank Davis : l'influenceur face au vrai champion</div>
+            <div class="art-foot"><span>Novembre 2025</span><span class="atype t-actu">Actualité</span></div></div>
+        </div>
+        <div class="art-card" onclick="openArticle('a6')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#0a1a0f,#0f2018)"><span>🇫🇷</span><span class="art-thumb-tag">MMA · France</span></div>
+          <div class="art-body"><div class="art-cat">Portrait</div>
+            <div class="art-title-sm">Manon Fiorot : la meilleure combattante française de l'histoire de l'UFC</div>
+            <div class="art-foot"><span>Octobre 2025</span><span class="atype t-analyse">Analyse</span></div></div>
+        </div>
+        <div class="art-card" onclick="openArticle('b8')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#1a100a,#2a1808)"><span>🥊</span><span class="art-thumb-tag">Boxe · Conseil</span></div>
+          <div class="art-body"><div class="art-cat">Conseil débutant</div>
+            <div class="art-title-sm">Débuter la boxe anglaise à l'âge adulte : conseils pratiques et attentes réalistes</div>
+            <div class="art-foot"><span>Octobre 2025</span><span class="atype t-conseil">Conseil</span></div></div>
+        </div>
+        <div class="art-card" onclick="openArticle('a8')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#0a0f1a,#101828)"><span>💪</span><span class="art-thumb-tag">MMA · Guide</span></div>
+          <div class="art-body"><div class="art-cat">Guide débutant</div>
+            <div class="art-title-sm">Comment débuter le MMA en 2025 : le guide complet pour les débutants</div>
+            <div class="art-foot"><span>Novembre 2025</span><span class="atype t-conseil">Conseil</span></div></div>
+        </div>
+        <div class="art-card" onclick="openArticle('b5')">
+          <div class="art-thumb" style="background:linear-gradient(135deg,#0f0a1a,#1a1028)"><span>🎬</span><span class="art-thumb-tag">Boxe · Médias</span></div>
+          <div class="art-body"><div class="art-cat">Analyse</div>
+            <div class="art-title-sm">Netflix et la boxe : comment la plateforme a révolutionné la diffusion du noble art</div>
+            <div class="art-foot"><span>Décembre 2025</span><span class="atype t-analyse">Analyse</span></div></div>
+        </div>
+      </div>
+    </main>
+
+    <aside class="sidebar-col">
+      <div class="nl-widget">
+        <div class="nl-title">📬 Newsletter hebdo</div>
+        <div class="nl-desc">Les meilleurs articles + événements près de chez vous. Gratuit.</div>
+        <input class="nl-input" type="email" placeholder="votre@email.com"/>
+        <button class="nl-btn">S'abonner gratuitement</button>
+      </div>
+      <div class="widget">
+        <div class="widget-head">🏆 Prochains événements <span style="color:var(--gold);font-size:.68rem">Voir tout</span></div>
+        <div class="widget-body">
+          <div class="ev-item"><div class="ev-date"><div class="ev-day">12</div><div class="ev-month">Avr</div></div>
+            <div><div class="ev-name">UFC 314 — Miami</div><div class="ev-detail">MMA · Kaseya Center</div></div></div>
+          <div class="ev-item"><div class="ev-date"><div class="ev-day">10</div><div class="ev-month">Mai</div></div>
+            <div><div class="ev-name">UFC 315 — Montréal</div><div class="ev-detail">MMA · Bell Centre</div></div></div>
+          <div class="ev-item"><div class="ev-date"><div class="ev-day">28</div><div class="ev-month">Jun</div></div>
+            <div><div class="ev-name">UFC 317 — Las Vegas</div><div class="ev-detail">MMA · T-Mobile Arena</div></div></div>
+          <div class="ev-item"><div class="ev-date"><div class="ev-day">06</div><div class="ev-month">Sep</div></div>
+            <div><div class="ev-name">UFC Paris 2025</div><div class="ev-detail">MMA · Accor Arena</div></div></div>
+        </div>
+      </div>
+      <div style="position:relative;padding-top:1.2rem;text-align:center">
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:.58rem;color:var(--muted);letter-spacing:.12em">PUBLICITÉ</div>
+        <div class="ad-slot ad-rect">AdSense 300 × 250</div>
+      </div>
+      <div class="widget">
+        <div class="widget-head">🛒 Équipements du moment</div>
+        <div class="widget-body">
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🥊</span><div><div class="aff-name">Gants Venum Elite</div><div class="aff-sub">Boxe · MMA · dès 60€</div></div></div><div class="btn-aff">Voir →</div></div>
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🩱</span><div><div class="aff-name">Short Hayabusa Geo</div><div class="aff-sub">MMA · Grappling · 89€</div></div></div><div class="btn-aff">Voir →</div></div>
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🥋</span><div><div class="aff-name">Kimono Tatami Elements</div><div class="aff-sub">BJJ · Judo · 79€</div></div></div><div class="btn-aff">Voir →</div></div>
+          <p style="font-size:.68rem;color:var(--muted);margin-top:.75rem;line-height:1.5">* Liens d'affiliation. Commission sans surcoût pour vous.</p>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : MMA LIST
+══════════════════════════════════════════ -->
+<div class="page" id="page-mma">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>🥊 MMA / UFC — Tous les articles</h1>
+      <p>Actualités, analyses, conseils et guides sur le MMA et l'UFC — 10 articles disponibles.</p>
+    </div>
+    <div class="list-filter">
+      <div class="filter-btn active">Tous</div>
+      <div class="filter-btn">Actualité</div>
+      <div class="filter-btn">Analyse</div>
+      <div class="filter-btn">Conseil</div>
+    </div>
+    <div class="list-grid">
+      <div class="list-item" onclick="openArticle('a1')"><span class="list-num">01</span><div class="list-info"><div class="list-cat">Actualité · UFC 313</div><div class="list-title">UFC 313 : Alex Pereira confirme son règne face à Ankalaev — analyse du combat</div><div class="list-meta">Mars 2025 · 7 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('a2')"><span class="list-num">02</span><div class="list-info"><div class="list-cat">Actualité · UFC 314</div><div class="list-title">UFC 314 : Volkanovski reconquiert sa ceinture face à Lopes à Miami</div><div class="list-meta">Avril 2025 · 7 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('a3')"><span class="list-num">03</span><div class="list-info"><div class="list-cat">Actualité · UFC 315</div><div class="list-title">UFC 315 à Montréal : Della Maddalena sacré champion et Manon Fiorot défie Shevchenko</div><div class="list-meta">Mai 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('a4')"><span class="list-num">04</span><div class="list-info"><div class="list-cat">Actualité · UFC 317</div><div class="list-title">UFC 317 : Ilia Topuria KO au 1er round — double champion UFC</div><div class="list-meta">Juin 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('a5')"><span class="list-num">05</span><div class="list-info"><div class="list-cat">Événement · France</div><div class="list-title">UFC Paris 2025 : tout ce qu'il faut savoir sur la 4e édition à l'Accor Arena</div><div class="list-meta">Septembre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-event">Événement</span></div></div>
+      <div class="list-item" onclick="openArticle('a6')"><span class="list-num">06</span><div class="list-info"><div class="list-cat">Portrait · France</div><div class="list-title">Manon Fiorot : la meilleure combattante française de l'histoire de l'UFC</div><div class="list-meta">Octobre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('a7')"><span class="list-num">07</span><div class="list-info"><div class="list-cat">Bilan · Statistiques</div><div class="list-title">UFC 2025 en chiffres : l'année des KO spectaculaires et des nouveaux champions</div><div class="list-meta">Décembre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('a8')"><span class="list-num">08</span><div class="list-info"><div class="list-cat">Conseil · Débutant</div><div class="list-title">Comment débuter le MMA en 2025 : le guide complet pour les débutants</div><div class="list-meta">Novembre 2025 · 10 min</div></div><div class="list-badge"><span class="atype t-conseil">Conseil</span></div></div>
+      <div class="list-item" onclick="openArticle('a9')"><span class="list-num">09</span><div class="list-info"><div class="list-cat">Équipement · Guide</div><div class="list-title">Quel équipement acheter pour commencer le MMA ? Notre sélection pour tous les budgets</div><div class="list-meta">Octobre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-equip">Équipement</span></div></div>
+      <div class="list-item" onclick="openArticle('a10')"><span class="list-num">10</span><div class="list-info"><div class="list-cat">Analyse · Technique</div><div class="list-title">Wrestling et MMA : pourquoi maîtriser la lutte reste la clé du succès à l'UFC</div><div class="list-meta">Novembre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : BOXE LIST
+══════════════════════════════════════════ -->
+<div class="page" id="page-boxe">
+  <div class="list-page">
+    <div class="list-hero">
+      <h1>🥊 Boxe anglaise — Tous les articles</h1>
+      <p>Actualités des combats, analyses des champions, conseils techniques et guides pour débutants — 10 articles disponibles.</p>
+    </div>
+    <div class="list-filter">
+      <div class="filter-btn active">Tous</div>
+      <div class="filter-btn">Actualité</div>
+      <div class="filter-btn">Analyse</div>
+      <div class="filter-btn">Conseil</div>
+    </div>
+    <div class="list-grid">
+      <div class="list-item" onclick="openArticle('b1')"><span class="list-num">01</span><div class="list-info"><div class="list-cat">Actualité · Netflix</div><div class="list-title">Canelo vs Crawford sur Netflix : le combat du siècle a-t-il tenu ses promesses ?</div><div class="list-meta">Septembre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('b2')"><span class="list-num">02</span><div class="list-info"><div class="list-cat">Actualité · Netflix</div><div class="list-title">Jake Paul vs Tank Davis : l'influenceur face au vrai champion</div><div class="list-meta">Novembre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('b3')"><span class="list-num">03</span><div class="list-info"><div class="list-cat">Actualité · Poids lourds</div><div class="list-title">Usyk vs Dubois 2 : la revanche des poids lourds qui a enflammé 2025</div><div class="list-meta">Août 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-actu">Actualité</span></div></div>
+      <div class="list-item" onclick="openArticle('b4')"><span class="list-num">04</span><div class="list-info"><div class="list-cat">Analyse · Poids lourds</div><div class="list-title">Fury vs Joshua : le mega-fight que la boxe attend depuis 10 ans est-il enfin possible ?</div><div class="list-meta">Octobre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('b5')"><span class="list-num">05</span><div class="list-info"><div class="list-cat">Analyse · Médias</div><div class="list-title">Netflix et la boxe : comment la plateforme a révolutionné la diffusion du noble art</div><div class="list-meta">Décembre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('b6')"><span class="list-num">06</span><div class="list-info"><div class="list-cat">Portrait · Champion</div><div class="list-title">Gervonta "Tank" Davis : le profil technique du boxeur le plus explosif de sa génération</div><div class="list-meta">Novembre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('b7')"><span class="list-num">07</span><div class="list-info"><div class="list-cat">Classement · Analyse</div><div class="list-title">Qui est le meilleur boxeur pound-for-pound en 2025 ? Notre classement commenté</div><div class="list-meta">Décembre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-analyse">Analyse</span></div></div>
+      <div class="list-item" onclick="openArticle('b8')"><span class="list-num">08</span><div class="list-info"><div class="list-cat">Conseil · Débutant</div><div class="list-title">Débuter la boxe anglaise à l'âge adulte : conseils pratiques et attentes réalistes</div><div class="list-meta">Octobre 2025 · 10 min</div></div><div class="list-badge"><span class="atype t-conseil">Conseil</span></div></div>
+      <div class="list-item" onclick="openArticle('b9')"><span class="list-num">09</span><div class="list-info"><div class="list-cat">Conseil · Technique</div><div class="list-title">Les 7 erreurs les plus courantes des débutants en boxe (et comment les corriger)</div><div class="list-meta">Novembre 2025 · 8 min</div></div><div class="list-badge"><span class="atype t-conseil">Conseil</span></div></div>
+      <div class="list-item" onclick="openArticle('b10')"><span class="list-num">10</span><div class="list-info"><div class="list-cat">Conseil · Équipement</div><div class="list-title">Boxe à la maison : comment s'entraîner efficacement sans salle ni partenaire</div><div class="list-meta">Décembre 2025 · 9 min</div></div><div class="list-badge"><span class="atype t-conseil">Conseil</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : NICHE
+══════════════════════════════════════════ -->
+<div class="page" id="page-niche">
+  <div class="niche-section" style="margin-bottom:0;padding-top:3rem">
+    <div class="niche-inner">
+      <div class="sec-bar" style="padding:0 0 1rem"><h2>Disciplines rares & niches</h2><div class="sec-line"></div></div>
+      <p style="font-size:.85rem;color:var(--silver);max-width:600px;margin-bottom:0">Les disciplines que personne ne couvre — notre terrain de jeu. Histoires, techniques, pratiquants, salles en France.</p>
+      <div class="niche-grid">
+        <div class="niche-card"><span class="niche-flag">🇲🇲</span><div class="niche-name">Lethwei</div><div class="niche-origin">Myanmar · Boxe birmane</div><div class="niche-desc">La boxe sans gants. Corps-à-corps, têtes autorisées — l'un des sports de contact les plus durs au monde.</div><div class="niche-stats"><span class="niche-stat">Très intense</span><span class="niche-stat">Rare en France</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇫🇷</span><div class="niche-name">Savate</div><div class="niche-origin">France · Boxe française</div><div class="niche-desc">La seule boxe pieds-poings à chaussures. Élégante, technique, avec une vraie culture du jeu de jambes.</div><div class="niche-stats"><span class="niche-stat">Intermédiaire</span><span class="niche-stat">Clubs en France</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇳🇬</span><div class="niche-name">Dambe</div><div class="niche-origin">Afrique de l'Ouest · Nigeria</div><div class="niche-desc">Art martial traditionnel haoussa. Un seul poing bandé "la lance", combat debout ultra-puissant.</div><div class="niche-stats"><span class="niche-stat">Très rare</span><span class="niche-stat">Croissance UFC</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇮🇩</span><div class="niche-name">Pencak Silat</div><div class="niche-origin">Indonésie · Malaisie</div><div class="niche-desc">Système complet : frappes, projections, armes, sol. Une des disciplines les plus complètes d'Asie du Sud-Est.</div><div class="niche-stats"><span class="niche-stat">Complet</span><span class="niche-stat">Quelques clubs</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇵🇭</span><div class="niche-name">Arnis / Kali</div><div class="niche-origin">Philippines · Eskrima</div><div class="niche-desc">Art martial aux bâtons, couteaux et mains nues. Approche unique : les armes d'abord, mains nues ensuite.</div><div class="niche-stats"><span class="niche-stat">Armes incluses</span><span class="niche-stat">Quelques clubs</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇹🇭</span><div class="niche-name">Krabi-Krabong</div><div class="niche-origin">Thaïlande · Armes royales</div><div class="niche-desc">L'ancêtre du Muay-Thaï. Combat aux épées, boucliers et bâtons. Art martial de la cour royale thaïlandaise.</div><div class="niche-stats"><span class="niche-stat">Historique</span><span class="niche-stat">Très rare</span></div></div>
+        <div class="niche-card"><span class="niche-flag">🇰🇿</span><div class="niche-name">Kazakh Kuresi</div><div class="niche-origin">Kazakhstan · Lutte traditionnelle</div><div class="niche-desc">Lutte traditionnelle de la steppe, popularisée par les succès des lutteurs kazakhs en MMA et aux JO.</div><div class="niche-stats"><span class="niche-stat">Lutte debout</span><span class="niche-stat">Très rare</span></div></div>
+        <div class="niche-card" style="opacity:.5;border-style:dashed;cursor:default"><span class="niche-flag">➕</span><div class="niche-name">Votre discipline</div><div class="niche-origin">Vous pratiquez un art rare ?</div><div class="niche-desc">Contactez-nous pour qu'on couvre votre discipline.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : ARTICLE (dynamic content injected here)
+══════════════════════════════════════════ -->
+<div class="page" id="page-article">
+  <div class="article-wrap">
+    <div class="art-main" id="article-content"><!-- injected by JS --></div>
+    <aside class="art-sidebar">
+      <div class="nl-widget">
+        <div class="nl-title">📬 Newsletter</div>
+        <div class="nl-desc">Les meilleurs articles chaque semaine, gratuitement.</div>
+        <input class="nl-input" type="email" placeholder="votre@email.com"/>
+        <button class="nl-btn">S'abonner</button>
+      </div>
+      <div style="position:relative;padding-top:1.2rem;text-align:center">
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:.58rem;color:var(--muted);letter-spacing:.12em">PUBLICITÉ</div>
+        <div class="ad-slot ad-rect">AdSense 300 × 250</div>
+      </div>
+      <div class="widget">
+        <div class="widget-head">🛒 Équipement</div>
+        <div class="widget-body">
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🥊</span><div><div class="aff-name">Gants Venum Elite</div><div class="aff-sub">dès 60€</div></div></div><div class="btn-aff">Voir →</div></div>
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🩱</span><div><div class="aff-name">Short Hayabusa</div><div class="aff-sub">89€</div></div></div><div class="btn-aff">Voir →</div></div>
+          <div class="aff-item"><div class="aff-left"><span class="aff-icon">🥋</span><div><div class="aff-name">Kimono Tatami</div><div class="aff-sub">79€</div></div></div><div class="btn-aff">Voir →</div></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : GUIDES DÉBUTANTS (liste)
+══════════════════════════════════════════ -->
+<div class="page" id="page-guides">
+  <div class="guides-page">
+    <div class="guides-hero">
+      <h1>🎓 Guides Débutants — Chaque sport, de zéro</h1>
+      <p>Vous ne savez pas par où commencer ? Chaque guide vous donne tout ce qu'il faut savoir avant votre première séance : histoire du sport, techniques de base, équipement, comment choisir une salle, et combien de temps pour progresser.</p>
+    </div>
+    <div class="guides-grid">
+      <div class="guide-card" onclick="openGuide('mma')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#1a0a0a,#2d1010)">🥊<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">MMA — Mixed Martial Arts</div>
+          <div class="guide-card-origin">Mondial · Combat complet</div>
+          <div class="guide-card-desc">Le sport de combat le plus complet au monde. Frappes, projections, soumissions — tout est permis. Ce guide vous explique comment entrer dans cet univers sans se perdre.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Self-défense</span><span class="guide-card-tag">Fitness</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">8 sections · 12 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('boxe')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#0a0f1a,#10182a)">🥊<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Boxe Anglaise</div>
+          <div class="guide-card-origin">Grande-Bretagne · Noble art</div>
+          <div class="guide-card-desc">Deux siècles de technique condensés en un sport. Le jab, le croisé, l'uppercut, le crochet — et surtout le jeu de jambes. Un art accessible à tout âge.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Cardio</span><span class="guide-card-tag">Confiance</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">8 sections · 11 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('muay')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#1a0f00,#2a1800)">🦵<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Muay-Thaï</div>
+          <div class="guide-card-origin">Thaïlande · Art des 8 membres</div>
+          <div class="guide-card-desc">Poings, pieds, coudes, genoux. Le Muay-Thaï est surnommé "l'art des 8 membres" et produit les combattants debout les plus redoutables du monde.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Impact</span><span class="guide-card-tag">Polyvalent</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">8 sections · 11 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('bjj')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#0a0a1a,#101025)">🤼<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Jiu-Jitsu Brésilien (BJJ)</div>
+          <div class="guide-card-origin">Brésil · Combat au sol</div>
+          <div class="guide-card-desc">La philosophie du BJJ : un petit gabarit peut maîtriser un adversaire plus grand grâce à la technique. Le sport de combat qui a le plus progressé ces 20 dernières années.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Sol</span><span class="guide-card-tag">Tactique</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">8 sections · 12 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('judo')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#0f0808,#1e1010)">🥋<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Judo</div>
+          <div class="guide-card-origin">Japon · Voie de la souplesse</div>
+          <div class="guide-card-desc">Sport olympique depuis 1964, discipline fondatrice de nombreux arts martiaux modernes. Le judo développe l'équilibre, la coordination et la lecture du corps adverse.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Projections</span><span class="guide-card-tag">Olympique</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">7 sections · 10 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('karate')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#0a0f0a,#101810)">🥋<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Karaté</div>
+          <div class="guide-card-origin">Japon · Okinawa · Main vide</div>
+          <div class="guide-card-desc">Bien plus qu'un art martial scolaire, le karaté est une discipline exigeante qui développe la précision, la distance, et la maîtrise du corps — du débutant au compétiteur olympique.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Précision</span><span class="guide-card-tag">Discipline</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">7 sections · 10 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('savate')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#0a1215,#0f1f25)">👟<span class="guide-level-badge">Tous niveaux</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Savate — Boxe française</div>
+          <div class="guide-card-origin">France · XIXe siècle</div>
+          <div class="guide-card-desc">La seule boxe pieds-poings pratiquée avec des chaussures. Élégante, technique et typiquement française — une discipline rare qui vaut vraiment le détour.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Débutant</span><span class="guide-card-tag">Élégance</span><span class="guide-card-tag">Niche</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">6 sections · 9 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+      <div class="guide-card" onclick="openGuide('lethwei')">
+        <div class="guide-card-banner" style="background:linear-gradient(135deg,#1a0808,#2a1010)">💀<span class="guide-level-badge">Sportifs confirmés</span></div>
+        <div class="guide-card-body">
+          <div class="guide-card-sport">Lethwei — Boxe birmane</div>
+          <div class="guide-card-origin">Myanmar · Sans gants</div>
+          <div class="guide-card-desc">Le sport de combat le plus brutal qui existe. Pas de gants, les têtes autorisées — mais une philosophie de guerrier et une technique d'une richesse insoupçonnée.</div>
+          <div class="guide-card-tags"><span class="guide-card-tag">Confirmé</span><span class="guide-card-tag">Intense</span><span class="guide-card-tag">Rare</span></div>
+          <div class="guide-card-footer"><span style="font-size:.75rem;color:var(--muted)">6 sections · 9 min</span><span class="guide-card-cta">Lire le guide →</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : GUIDE DETAIL (dynamic)
+══════════════════════════════════════════ -->
+<div class="page" id="page-guide-detail">
+  <div class="guide-detail-wrap">
+    <div class="guide-main" id="guide-content"></div>
+    <aside class="guide-side">
+      <div class="toc-widget" id="guide-toc">
+        <div class="toc-head">📋 Sommaire</div>
+        <div class="toc-body" id="toc-body"></div>
+      </div>
+      <div class="nl-widget">
+        <div class="nl-title">📬 Newsletter</div>
+        <div class="nl-desc">Guides, conseils et actus chaque semaine.</div>
+        <input class="nl-input" type="email" placeholder="votre@email.com"/>
+        <button class="nl-btn">S'abonner</button>
+      </div>
+      <div style="position:relative;padding-top:1.2rem;text-align:center">
+        <div style="position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:.58rem;color:var(--muted);letter-spacing:.12em">PUBLICITÉ</div>
+        <div class="ad-slot ad-rect">AdSense 300 × 250</div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     PAGE : RECOMMANDATIONS
+══════════════════════════════════════════ -->
+<div class="page" id="page-recommandations">
+  <div class="reco-page">
+    <div class="reco-hero">
+      <h1>⭐ Recommandations par sport & niveau</h1>
+      <p>Filtrez par discipline et niveau pour trouver exactement les articles qui correspondent à votre pratique — du premier cours au niveau confirmé.</p>
+    </div>
+
+    <div class="reco-filters">
+      <div class="filter-row">
+        <span class="filter-label">🥊 Sport</span>
+        <div class="filter-sport active" data-sport="all">Tous</div>
+        <div class="filter-sport" data-sport="mma">MMA</div>
+        <div class="filter-sport" data-sport="boxe">Boxe</div>
+        <div class="filter-sport" data-sport="muay">Muay-Thaï</div>
+        <div class="filter-sport" data-sport="bjj">BJJ</div>
+        <div class="filter-sport" data-sport="judo">Judo</div>
+        <div class="filter-sport" data-sport="karate">Karaté</div>
+        <div class="filter-sport" data-sport="niche">Niche</div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">📊 Niveau</span>
+        <div class="filter-level active debutant" data-level="all">Tous niveaux</div>
+        <div class="filter-level debutant" data-level="debutant">🟢 Débutant</div>
+        <div class="filter-level intermediaire" data-level="intermediaire">🟡 Intermédiaire</div>
+        <div class="filter-level avance" data-level="avance">🔴 Avancé</div>
+      </div>
+    </div>
+
+    <div class="reco-grid" id="reco-grid">
+      <!-- Populated by JS -->
+    </div>
+    <div class="reco-empty" id="reco-empty">Aucun article trouvé pour cette combinaison. D'autres articles arrivent bientôt !</div>
+  </div>
+</div>
+
+
+<div class="footer-ad"><div class="ad-slot ad-leader">AdSense 728 × 90</div></div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo" onclick="nav('home')">Bushido<span>Guide</span></div>
+      <p>Le média indépendant des arts martiaux et sports de combat en France. Guides, équipements, salles, événements — tout pour les pratiquants.</p>
+    </div>
+    <div class="footer-col"><h4>Disciplines</h4><ul>
+      <li><span onclick="nav('mma')">MMA / UFC</span></li>
+      <li><span onclick="nav('boxe')">Boxe anglaise</span></li>
+      <li><span>Muay-Thaï</span></li>
+      <li><span>Jiu-Jitsu Brésilien</span></li>
+      <li><span onclick="nav('niche')">Disciplines rares ✨</span></li>
+    </ul></div>
+    <div class="footer-col"><h4>Explorer</h4><ul>
+      <li><span>Équipement</span></li>
+      <li><span>Salles & Clubs</span></li>
+      <li><span>Événements</span></li>
+      <li><span>Guides débutant</span></li>
+      <li><span>Comparatifs</span></li>
+    </ul></div>
+    <div class="footer-col"><h4>BushidoGuide</h4><ul>
+      <li><span>À propos</span></li>
+      <li><span>Contribuer</span></li>
+      <li><span>Contact</span></li>
+      <li><span>Mentions légales</span></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 BushidoGuide — Tous droits réservés</span>
+    <span>Fait avec ❤️ par des pratiquants, pour des pratiquants</span>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════
+     ARTICLES DATA + NAVIGATION LOGIC
+══════════════════════════════════════════ -->
+<script>
+const ARTICLES = {
+  a1:{tags:['MMA','UFC 313','Actualité'],tagColors:['red','red',''],
+    title:'UFC 313 : Alex Pereira confirme son règne face à <em>Ankalaev</em>',
+    lead:'Dans la nuit du 8 au 9 mars 2025 à Las Vegas, "Poatan" a réalisé ce que beaucoup jugeaient impossible : dominer le Russe Magomed Ankalaev, numéro un mondial de la catégorie, et conserver sa ceinture des mi-lourds avec autorité.',
+    date:'Mars 2025',time:'7 min',listPage:'mma',prev:null,prevTitle:'',next:'a2',nextTitle:'UFC 314 : Volkanovski',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche de l'événement</div>
+      <div class="info-row"><span class="info-label">Événement</span><span class="info-value">UFC 313 — Las Vegas, T-Mobile Arena</span></div>
+      <div class="info-row"><span class="info-label">Date</span><span class="info-value">8–9 mars 2025</span></div>
+      <div class="info-row"><span class="info-label">Main Event</span><span class="info-value">Alex Pereira vs. Magomed Ankalaev (titre mi-lourds)</span></div>
+      <div class="info-row"><span class="info-label">Résultat</span><span class="info-value">Pereira par décision unanime</span></div></div>
+    <h2>Un champion sous pression</h2>
+    <p>Avant l'UFC 313, nombreux étaient les sceptiques. Ankalaev, invaincu à l'UFC depuis 2019, était présenté comme le défi le plus complexe qu'Alex Pereira n'avait jamais affronté. Le Russe est méthodique, difficile à finir, et particulièrement redoutable dans le clinch et au niveau du contrôle de distance.</p>
+    <p>Pereira, de son côté, était présenté comme un bulldozer puissant mais limité techniquement face à un adversaire de ce calibre. La réalité du combat a rapidement mis fin à ces projections.</p>
+    <h2>Ce que le combat a révélé</h2>
+    <p>"Poatan" a montré une maturité tactique surprenante. Plutôt que de chercher le KO dès les premiers rounds comme à son habitude, il a géré son rythme, utilisé son jeu de jambes et répondu aux tentatives de wrestling d'Ankalaev avec une défense solide. Après cinq rounds intenses, les trois juges lui ont accordé la décision.</p>
+    <div class="callout"><p>"Je suis le meilleur combattant de la planète. Je le prouve à chaque fois qu'on me dit que c'est impossible." — Alex Pereira, après l'UFC 313</p></div>
+    <h2>Et maintenant ?</h2>
+    <p>La prochaine étape logique pour Pereira semble être la montée chez les lourds, une division qu'il lorgnait depuis plusieurs mois. Un combat face à Jon Jones ou à Stipe Miocic serait un événement planétaire. À 37 ans, "Poatan" n'a clairement pas terminé d'écrire son histoire.</p>
+    <div class="verdict-box"><div class="verdict-title">🏆 Notre verdict</div>
+    <p>L'UFC 313 a confirmé ce que les fans pressentaient depuis 2023 : Alex Pereira est le combattant le plus passionnant de l'UFC. Sa capacité à gagner des combats qu'on lui prédit perdus est devenue sa marque de fabrique. Un champion atypique, au sommet de sa carrière.</p></div>`},
+
+  a2:{tags:['MMA','UFC 314','Actualité'],tagColors:['red','red',''],
+    title:'UFC 314 : Volkanovski reconquiert sa ceinture face à <em>Diego Lopes</em> à Miami',
+    lead:"Le 12 avril 2025, au Kaseya Center de Miami, Alexander Volkanovski a écrit l'un des chapitres les plus émouvants de sa carrière en reprenant la ceinture des poids plumes à l'ambitieux Brésilien Diego Lopes.",
+    date:'Avril 2025',time:'7 min',listPage:'mma',prev:'a1',prevTitle:'UFC 313 : Pereira',next:'a3',nextTitle:'UFC 315 Montréal',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche de l'événement</div>
+      <div class="info-row"><span class="info-label">Événement</span><span class="info-value">UFC 314 — Miami, Kaseya Center</span></div>
+      <div class="info-row"><span class="info-label">Date</span><span class="info-value">12 avril 2025</span></div>
+      <div class="info-row"><span class="info-label">Main Event</span><span class="info-value">Alexander Volkanovski vs. Diego Lopes (titre poids plumes)</span></div>
+      <div class="info-row"><span class="info-label">Résultat</span><span class="info-value">Volkanovski par décision unanime</span></div></div>
+    <h2>La revanche d'un grand champion</h2>
+    <p>L'histoire de Volkanovski avec l'UFC est l'une des plus riches de la décennie. Après avoir perdu sa ceinture face à Ilia Topuria à l'UFC 298 en 2024, l'Australien avait dû rebrousser chemin, digérer la défaite, et reconstruire sa progression vers le sommet. L'UFC 314 était son moment de vérité.</p>
+    <p>Face à lui, <strong>Diego Lopes</strong> — boxeur brésilien explosif, monté en puissance à une vitesse impressionnante, et présenté comme un challenger légitime. Le combat s'annonçait incertain, et il l'a été.</p>
+    <h2>Une domination méritée</h2>
+    <p>Volkanovski a utilisé toute l'expérience accumulée en dix ans de pratique au plus haut niveau. Son jeu de jambes, sa précision au sol et sa capacité à varier les niveaux d'attaque ont fait la différence. Lopes a montré de belles qualités de frappe, mais l'Australien a su couper le ring et imposer son rythme.</p>
+    <div class="callout"><p>"Chaque défaite m'a appris quelque chose. Ce soir, j'ai mis tout ça en pratique." — Alexander Volkanovski</p></div>
+    <h2>La suite logique : Topuria II ?</h2>
+    <p>Avec Ilia Topuria désormais champion des poids légers après l'UFC 317, une trilogie Volkanovski-Topuria dans une catégorie non encore déterminée semble être l'affiche rêvée pour 2026. Les deux hommes partagent un respect mutuel affiché, mais une rivalité sportive féroce.</p>
+    <div class="verdict-box"><div class="verdict-title">🏆 Notre verdict</div>
+    <p>L'UFC 314 nous a rappelé pourquoi Volkanovski est l'un des plus grands combattants de l'ère moderne. Sa résilience mentale et technique reste un modèle pour tout pratiquant de MMA. Un champion deux fois couronné qui n'a pas dit son dernier mot.</p></div>`},
+
+  a3:{tags:['MMA','UFC 315','France'],tagColors:['red','red','gold'],
+    title:'UFC 315 à Montréal : Della Maddalena sacré champion, <em>Manon Fiorot</em> crée l\'événement',
+    lead:'Le 10 mai 2025, le Bell Centre de Montréal a vibré pour deux combats de titre mémorables. L\'Australien Jack Della Maddalena est devenu champion des welters, et la Française Manon Fiorot a défié la légendaire Valentina Shevchenko pour le titre des mouches.',
+    date:'Mai 2025',time:'8 min',listPage:'mma',prev:'a2',prevTitle:'UFC 314 : Volkanovski',next:'a4',nextTitle:'UFC 317 : Topuria KO',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche de l'événement</div>
+      <div class="info-row"><span class="info-label">Événement</span><span class="info-value">UFC 315 — Montréal, Bell Centre</span></div>
+      <div class="info-row"><span class="info-label">Date</span><span class="info-value">10 mai 2025</span></div>
+      <div class="info-row"><span class="info-label">Main Event 1</span><span class="info-value">Belal Muhammad vs. Jack Della Maddalena (titre welters)</span></div>
+      <div class="info-row"><span class="info-label">Main Event 2</span><span class="info-value">Valentina Shevchenko vs. Manon Fiorot (titre mouches)</span></div></div>
+    <h2>Della Maddalena : le 13e champion welter de l'UFC</h2>
+    <p>La victoire de <strong>Jack Della Maddalena</strong> par décision unanime face à Belal Muhammad est l'une des performances les plus complètes de 2025. L'Australien a montré une défense au sol bluffante — élément qui avait jusque-là semblé être son point faible — et une précision de frappe redoutable. Cinq rounds d'un niveau exceptionnel, avec un Bell Centre suspendu à chaque échange. Un vrai classique instantané.</p>
+    <h2>Manon Fiorot : l'honneur intact</h2>
+    <p>De son côté, la Française Manon Fiorot a livré un combat d'une dignité admirable face à Valentina Shevchenko, dominatrice absolue de la catégorie depuis 2018. Fiorot n'a pas démérité, mais la Kirghize a démontré une fois de plus pourquoi elle est considérée comme l'une des meilleures combattantes de l'histoire du MMA.</p>
+    <div class="callout"><p>"Fiorot a le niveau pour gagner cette ceinture. Elle n'a pas démérité ce soir — Shevchenko est juste dans une classe à part." — Dana White, après l'UFC 315</p></div>
+    <h2>Ce qu'il faut retenir de Montréal</h2>
+    <p>L'UFC 315 est entré directement dans le top 5 des soirées de l'année 2025. Deux combats de titre, deux cartes serrées, un public canadien électrisé. Le MMA n'a jamais été aussi populaire en Amérique du Nord francophone.</p>`},
+
+  a4:{tags:['MMA','UFC 317','Champion'],tagColors:['red','red',''],
+    title:'UFC 317 : Ilia Topuria KO au 1er round — <em>la naissance d\'un champion double division</em>',
+    lead:'Le 28 juin 2025, à la T-Mobile Arena de Las Vegas, Ilia Topuria a réalisé l\'impensable : mettre fin au combat face à Charles Oliveira dès le premier round, s\'emparant de la ceinture des poids légers et devenant le troisième combattant à remporter deux titres UFC par KO.',
+    date:'Juin 2025',time:'8 min',listPage:'mma',prev:'a3',prevTitle:'UFC 315 Montréal',next:'a5',nextTitle:'UFC Paris 2025',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche de l'événement</div>
+      <div class="info-row"><span class="info-label">Événement</span><span class="info-value">UFC 317 — Las Vegas, T-Mobile Arena</span></div>
+      <div class="info-row"><span class="info-label">Date</span><span class="info-value">28 juin 2025</span></div>
+      <div class="info-row"><span class="info-label">Main Event</span><span class="info-value">Ilia Topuria vs. Charles Oliveira (titre poids légers)</span></div>
+      <div class="info-row"><span class="info-label">Résultat</span><span class="info-value">Topuria par KO au round 1 — crochet droit</span></div></div>
+    <h2>Un KO annoncé, livré à la perfection</h2>
+    <p>Dans ses conférences de presse, Topuria avait promis de terminer le combat au premier round par un crochet droit. La plupart avaient souri. Charles Oliveira, surnommé "Do Bronx", est l'un des combattants les plus dangereux et les plus expérimentés de l'UFC, détenteur du record de soumissions dans l'organisation. Personne ne l'avait mis KO debout en carrière.</p>
+    <p>Topuria l'a fait en 2 minutes et 17 secondes.</p>
+    <h2>Pourquoi ce KO est historique</h2>
+    <p>Le crochet droit parfaitement placé sur une combinaison de contre a été une démonstration pure de timing et de puissance. Topuria a plongé sous un direct d'Oliveira et délivré son coup signature avec une précision chirurgicale. La salle a retenu son souffle avant d'exploser.</p>
+    <p>Devenu champion dans deux catégories différentes, l'Espagnol d'origine géorgienne rejoint un panthéon rarissime. À seulement 27 ans, il est déjà en conversation pour le titre de meilleur combattant livre pour livre au monde.</p>
+    <div class="callout"><p>"J'avais dit round un, crochet droit. Je ne mens jamais." — Ilia Topuria, au micro de Joe Rogan après l'UFC 317</p></div>`},
+
+  a5:{tags:['MMA','France','Événement'],tagColors:['red','gold',''],
+    title:'UFC Paris 2025 : tout ce qu\'il faut savoir sur <em>la 4e édition</em> à l\'Accor Arena',
+    lead:'Le 6 septembre 2025, l\'UFC est revenu à Paris pour une quatrième édition à l\'Accor Arena. Billetterie, carte des combats, combattants français, diffusion TV : voici le guide complet.',
+    date:'Septembre 2025',time:'9 min',listPage:'mma',prev:'a4',prevTitle:'UFC 317 : Topuria',next:'a6',nextTitle:'Portrait Manon Fiorot',
+    html:`<h2>Un rendez-vous devenu incontournable</h2>
+    <p>Depuis la première édition en 2022, l'UFC Paris est devenu l'événement sportif de combat le plus attendu de l'année en France. L'Accor Arena, avec ses 20 000 places, crée une atmosphère que les combattants eux-mêmes décrivent comme unique au monde.</p>
+    <p>La 4e édition a été annoncée officiellement par Dana White au printemps 2025. La billetterie, ouverte début juillet, s'est arrachée en quelques heures. Une logistique rodée pour une organisation qui a compris l'importance stratégique du marché français.</p>
+    <h2>Les combattants français à suivre</h2>
+    <p><strong>Benoit Saint-Denis</strong>, <strong>Ciryl Gane</strong> et <strong>Manon Fiorot</strong> représentent une génération dorée du MMA tricolore qui n'a rien à envier aux meilleures nations du monde. Le public parisien, passionné et connaisseur, en fait toujours une soirée électrique.</p>
+    <div class="callout"><p>L'UFC Paris 2025 a attiré plus de 19 500 spectateurs et a été diffusé en direct sur RMC Sport devant plusieurs millions de téléspectateurs en France.</p></div>
+    <h2>Conseils pour les prochaines éditions</h2>
+    <ul>
+      <li>Inscrivez-vous à la newsletter UFC France pour accéder aux préventes</li>
+      <li>Les abonnés Fight Club bénéficient d'un accès prioritaire de 48h</li>
+      <li>Surveillez la revente officielle sur le site de l'Accor Arena</li>
+      <li>Anticipez la logistique transport — le métro Bercy est pris d'assaut le soir des événements</li>
+    </ul>
+    <h2>L'UFC en France : un marché en pleine explosion</h2>
+    <p>Les audiences télévisées de l'UFC en France ont doublé entre 2021 et 2025. RMC Sport, diffuseur officiel, a enregistré ses meilleures audiences de l'histoire sur les soirées parisiennes. Le MMA est en train de devenir le sport de combat le plus suivi du pays.</p>`},
+
+  a6:{tags:['MMA','France','Portrait'],tagColors:['red','gold',''],
+    title:'Manon Fiorot : portrait de la <em>meilleure combattante française</em> de l\'histoire de l\'UFC',
+    lead:'Kickboxeuse reconvertie au MMA, Manon Fiorot a construit en quatre ans une carrière qui force le respect au niveau mondial. Retour sur le parcours d\'une athlète hors du commun.',
+    date:'Octobre 2025',time:'9 min',listPage:'mma',prev:'a5',prevTitle:'UFC Paris 2025',next:'a7',nextTitle:'UFC 2025 en chiffres',
+    html:`<h2>Des tatamis de kickboxing aux octogones de l'UFC</h2>
+    <p>Avant de rejoindre l'UFC, Manon Fiorot était déjà une sportive accomplie. Championne du monde de kickboxing en ISKA, elle a décidé de se lancer dans le MMA à 27 ans — un âge auquel d'autres commencent à penser à leur reconversion. Ce choix courageux a tout changé.</p>
+    <p>Elle a rejoint l'UFC en 2021 et n'a depuis perdu qu'une seule fois — face à Erin Blanchfield en 2024, dans un combat qu'elle menait avant d'être renversée au troisième round. Une défaite qui ne l'a pas brisée, bien au contraire.</p>
+    <h2>Son style : une boxe de haute volée</h2>
+    <p>Ce qui distingue Fiorot de ses concurrentes, c'est avant tout la qualité de sa frappe debout. Son jab précis, sa mobilité de jambes et sa capacité à enchaîner les combinaisons sur plusieurs niveaux lui confèrent un avantage structurel dans une division où le combat debout est roi.</p>
+    <div class="callout"><p>"Je ne fais pas du MMA pour être la meilleure Française. Je fais du MMA pour être la meilleure du monde." — Manon Fiorot</p></div>
+    <h2>Un symbole pour une génération</h2>
+    <p>Au-delà des performances sportives, Manon Fiorot est devenue une icône pour une génération de jeunes Françaises attirées par les sports de combat. Dans un milieu encore très masculin, elle occupe une place unique : celle d'une athlète qui a réussi à imposer son style, sa personnalité et sa compétence sans compromis.</p>`},
+
+  a7:{tags:['MMA','Bilan','Analyse'],tagColors:['red','',''],
+    title:'UFC 2025 en chiffres : <em>l\'année des KO spectaculaires</em> et des nouveaux champions',
+    lead:'L\'année 2025 à l\'UFC a été exceptionnelle sur le plan sportif. Retour sur les chiffres, les performances marquantes et les tendances qui ont façonné cette saison historique.',
+    date:'Décembre 2025',time:'8 min',listPage:'mma',prev:'a6',prevTitle:'Portrait Manon Fiorot',next:'a8',nextTitle:'Débuter le MMA',
+    html:`<h2>Une saison dominée par les KO</h2>
+    <p>2025 restera dans les annales comme l'une des années les plus riches en finitions de l'histoire récente de l'UFC. Le taux de KO par rapport au nombre total de combats a atteint son plus haut niveau depuis 2019. Plusieurs facteurs expliquent cette tendance : des combattants plus agressifs, une meilleure préparation physique, et des affiches mieux construites qui opposent des styles complémentaires.</p>
+    <h2>Les nouveaux champions de 2025</h2>
+    <ul>
+      <li><strong>Jack Della Maddalena</strong> — Champion welterweight (UFC 315, Montréal)</li>
+      <li><strong>Ilia Topuria</strong> — Champion lightweight, double champion UFC (UFC 317, Las Vegas)</li>
+      <li><strong>Alexander Volkanovski</strong> — Champion featherweight reconquis (UFC 314, Miami)</li>
+    </ul>
+    <h2>Les combattants français en 2025</h2>
+    <p>L'équipe de France de MMA a confirmé son statut de nation émergente. Manon Fiorot, Benoit Saint-Denis et Ciryl Gane ont tous livré des combats de haut niveau. Morgan Charrière, malgré une défaite surprenante face à Melquizael Costa, a montré qu'il avait les qualités pour s'installer durablement dans le Top 15 de sa catégorie.</p>
+    <div class="callout"><p>En 2025, l'UFC a organisé plus de 40 événements dans 20 pays différents, confirmant son statut d'organisation sportive la plus globalisée du monde des sports de combat.</p></div>
+    <h2>Les tendances techniques qui ont dominé l'année</h2>
+    <p>Sur le plan tactique, deux grandes tendances ont émergé. D'une part, le retour en force du wrestling comme outil offensif — pas seulement défensif. D'autre part, une sophistication croissante du jeu de jambes debout, directement inspirée de la boxe anglaise et du muay-thaï.</p>`},
+
+  a8:{tags:['MMA','Conseil','Débutant'],tagColors:['','gold',''],
+    title:'Comment débuter le MMA en 2025 : <em>le guide complet</em> pour les débutants',
+    lead:'Vous regardez l\'UFC depuis des mois et vous avez envie de vous y mettre ? Voici tout ce que vous devez savoir avant d\'entrer dans votre première salle de MMA.',
+    date:'Novembre 2025',time:'10 min',listPage:'mma',prev:'a7',prevTitle:'UFC 2025 en chiffres',next:'a9',nextTitle:'Équipement MMA',
+    html:`<h2>L'idée reçue à briser en premier</h2>
+    <p>Le MMA n'est pas réservé aux gens "déjà sportifs" ou aux anciens pratiquants d'arts martiaux. Les meilleures salles en France accueillent des débutants complets, des adultes de 25 à 50 ans, des hommes et des femmes qui n'ont jamais mis un pied sur un tapis de leur vie. La courbe d'apprentissage est longue, mais accessible.</p>
+    <h2>Par où commencer concrètement ?</h2>
+    <ul>
+      <li><strong>Option A — Débuter directement en MMA :</strong> Des cours "MMA débutant" existent dans les salles spécialisées. Vous touchez à tout dès le départ, de façon progressive et encadrée.</li>
+      <li><strong>Option B — Commencer par une discipline :</strong> 12 à 18 mois de boxe anglaise, de muay-thaï ou de jiu-jitsu brésilien avant d'intégrer un cours de MMA. Cette approche construit des bases plus solides.</li>
+    </ul>
+    <h2>Choisir sa salle</h2>
+    <p>C'est l'étape la plus importante. Une bonne salle de MMA se reconnaît à plusieurs signes : des entraîneurs diplômés ou avec un passé compétitif sérieux, une ambiance non toxique et ouverte aux débutants, des cours spécifiquement adaptés aux différents niveaux, et des règles claires de sparring pour éviter les blessures inutiles.</p>
+    <div class="callout"><p>"La discipline que vous choisissez importe moins que la salle dans laquelle vous la pratiquez et la constance avec laquelle vous vous y rendez."</p></div>
+    <h2>Le budget réaliste pour débuter</h2>
+    <ul>
+      <li>Abonnement mensuel salle MMA : entre 70 et 120 €/mois selon les villes</li>
+      <li>Équipement de base (gants, protège-dents, short) : 120 à 200 € à l'achat</li>
+      <li>Budget total première année : environ 1 000 à 1 500 €</li>
+    </ul>`},
+
+  a9:{tags:['MMA','Équipement','Conseil'],tagColors:['','gold','gold'],
+    title:'Quel équipement acheter pour commencer le MMA ? <em>Notre sélection</em> pour tous les budgets',
+    lead:'Gants, short, protège-dents, protège-tibias… L\'équipement MMA peut sembler imposant au premier abord. On vous guide pour dépenser bien et éviter les erreurs classiques du débutant.',
+    date:'Octobre 2025',time:'8 min',listPage:'mma',prev:'a8',prevTitle:'Débuter le MMA',next:'a10',nextTitle:'Wrestling et MMA',
+    html:`<h2>Les essentiels absolus pour commencer</h2>
+    <p>Avant votre premier cours, vous n'avez besoin que de trois choses : des gants de sparring, un protège-dents et un short adapté. Le reste peut attendre.</p>
+    <h3>Les gants de sparring</h3>
+    <p>C'est l'investissement le plus important. Évitez les gants à moins de 30 € — ils ne protègent pas suffisamment vos poignets ni vos partenaires. Le budget recommandé pour un gant de débutant sérieux se situe entre <strong>60 et 100 €</strong>. Les marques Venum, Hayabusa et RDX offrent d'excellents rapports qualité-prix dans cette gamme. Choisissez un poids de 14 ou 16 oz pour le sparring.</p>
+    <h3>Le protège-dents</h3>
+    <p>Ne lésinez pas sur ce point. Un protège-dents thermomoulable de bonne qualité (Shock Doctor, Venum) coûte entre 15 et 30 €. Il protège vos dents, vos mâchoires et réduit le risque de commotion. C'est la meilleure assurance que vous puissiez prendre avant de commencer.</p>
+    <h3>Le short de MMA ou de grappling</h3>
+    <p>Choisissez un short qui permet une liberté de mouvement complète — notamment pour les coups de pied et les mouvements au sol. Les shorts Hayabusa, Venum ou Bad Boy sont des valeurs sûres entre 30 et 70 €.</p>
+    <h2>L'équipement complet (après 2–3 mois)</h2>
+    <ul>
+      <li><strong>Protège-tibias :</strong> indispensable pour le travail de pieds. Budget : 30–70 €.</li>
+      <li><strong>Bandages :</strong> protègent les poignets et les articulations. Comptez 10–20 € la paire.</li>
+      <li><strong>Coquille :</strong> obligatoire pour les hommes en sparring. Entre 15 et 30 €.</li>
+      <li><strong>Gants de grappling :</strong> petits gants ouverts pour les exercices au sol. 30–60 €.</li>
+    </ul>
+    <div class="callout"><p>Conseil pratique : avant d'acheter, demandez à votre salle quelles marques ils recommandent. Certaines salles vendent de l'équipement directement et offrent des tarifs préférentiels à leurs membres.</p></div>
+    <h2>Ce qu'il ne faut pas acheter au départ</h2>
+    <p>Évitez d'investir trop tôt dans un kimono (gi), un sac de frappe ou des protections de tête onéreuses. Attendez de savoir si la discipline vous convient vraiment avant de dépenser 200 € ou plus sur un équipement que vous n'utiliserez peut-être jamais.</p>`},
+
+  a10:{tags:['MMA','Wrestling','Analyse'],tagColors:['red','',''],
+    title:'Wrestling et MMA : pourquoi maîtriser la lutte reste <em>la clé du succès</em> à l\'UFC',
+    lead:'Les données de 2025 confirment une tendance de fond : les combattants à solide background wrestling dominent les statistiques de titres et de finitions à l\'UFC. Analyse d\'un phénomène structurel.',
+    date:'Novembre 2025',time:'9 min',listPage:'mma',prev:'a9',prevTitle:'Équipement MMA',next:'b1',nextTitle:'Canelo vs Crawford',
+    html:`<h2>Une discipline au cœur de tout</h2>
+    <p>Si vous demandez à n'importe quel entraîneur de MMA de haut niveau quelle est la compétence la plus précieuse qu'un combattant peut avoir, la réponse sera quasi systématiquement la même : le <strong>contrôle du niveau et du positionnement</strong>. En d'autres termes, savoir amener le combat là où vous êtes le plus fort — et empêcher votre adversaire de faire de même. C'est exactement ce que le wrestling développe.</p>
+    <h2>Les chiffres qui parlent</h2>
+    <p>Sur les 10 dernières années, plus de 60 % des champions UFC ont un passé significatif en lutte — que ce soit le freestyle, le gréco-romain ou le folkstyle américain. Les noms les plus marquants de l'ère moderne — Khabib Nurmagomedov, Georges St-Pierre, Kamaru Usman — ont tous utilisé leur domination au clinch et au sol comme fondation de leur système de combat.</p>
+    <h2>Comment ça fonctionne concrètement ?</h2>
+    <ul>
+      <li><strong>Debout :</strong> le lutteur contrôle la distance et le clinch, imposant ou refusant les échanges selon sa stratégie.</li>
+      <li><strong>Au sol :</strong> il dicte le positionnement et peut passer d'une position dominante à l'autre avec fluidité.</li>
+      <li><strong>En défense :</strong> il empêche ses adversaires de l'amener là où ils sont forts.</li>
+    </ul>
+    <div class="callout"><p>"Si tu ne peux pas choisir où se déroule le combat, tu ne peux pas avoir de vrai game plan." — Randy Couture, légende de l'UFC</p></div>
+    <h2>Que retenir pour votre pratique ?</h2>
+    <p>Si vous pratiquez le MMA ou envisagez de commencer, investir du temps dans les fondamentaux de la lutte — même six mois de cours de judo ou de grappling — changera radicalement votre compréhension du combat. La plupart des pratiquants de salle négligent cette dimension, préférant le travail de boxe ou de muay-thaï, plus spectaculaire. C'est une erreur que les meilleurs combattants du monde n'ont pas faite.</p>`},
+
+  b1:{tags:['Boxe','Netflix','Actualité'],tagColors:['red','',''],
+    title:'Canelo vs Crawford sur Netflix : <em>le combat du siècle</em> a-t-il tenu ses promesses ?',
+    lead:'Le 13 septembre 2025, Canelo Álvarez et Terence Crawford se sont affrontés dans ce qui était présenté comme le plus grand combat de boxe de la décennie. Retour sur une nuit qui a ébranlé le monde du noble art.',
+    date:'Septembre 2025',time:'9 min',listPage:'boxe',prev:'a10',prevTitle:'Wrestling et MMA',next:'b2',nextTitle:'Jake Paul vs Tank Davis',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche du combat</div>
+      <div class="info-row"><span class="info-label">Combat</span><span class="info-value">Canelo Álvarez vs. Terence Crawford</span></div>
+      <div class="info-row"><span class="info-label">Catégorie</span><span class="info-value">Super poids moyens (168 lbs)</span></div>
+      <div class="info-row"><span class="info-label">En jeu</span><span class="info-value">Titres WBC, WBA, IBF et WBO (unification)</span></div>
+      <div class="info-row"><span class="info-label">Diffusion</span><span class="info-value">Netflix, monde entier</span></div></div>
+    <h2>Deux légendes, deux styles</h2>
+    <p>Canelo Álvarez est le boxeur le plus bankable de sa génération : solide, précis, imprévisible, avec une capacité d'adaptation unique. Terence Crawford, de son côté, est considéré par beaucoup comme techniquement le meilleur boxeur au monde — capable de boxer aussi bien en orthodoxe qu'en southpaw, et redouté pour ses combinaisons à courte distance.</p>
+    <h2>Netflix change les règles du jeu</h2>
+    <p>Ce combat représente également un tournant historique pour la diffusion de la boxe. Disponible dans le monde entier sans frais supplémentaires pour les abonnés Netflix, il a battu des records d'audience pour un événement sportif live sur la plateforme. Le modèle "pay-per-view" traditionnel est sérieusement bousculé.</p>
+    <div class="callout"><p>Crawford lui-même a qualifié ce combat de "meilleur de l'histoire de la boxe". Que l'on soit d'accord ou non, le simple fait que deux champions de cet acabit aient pu se battre est une victoire pour tout le sport.</p></div>
+    <h2>Les implications pour la boxe mondiale</h2>
+    <p>Au-delà du résultat, ce combat a confirmé que la boxe anglaise vit un véritable renouveau médiatique. L'entrée de Netflix dans le marché force les autres diffuseurs à revoir leurs modèles. Pour les fans, c'est une excellente nouvelle : plus de grands combats accessibles, moins de barrières financières.</p>`},
+
+  b2:{tags:['Boxe','Netflix','Actualité'],tagColors:['red','',''],
+    title:'Jake Paul vs Tank Davis : l\'influenceur face <em>au vrai champion</em>',
+    lead:'Le 14 novembre 2025 à Atlanta, Jake Paul a affronté Gervonta "Tank" Davis, triple champion du monde invaincu. Un combat qui opposait deux visions radicalement différentes du sport.',
+    date:'Novembre 2025',time:'8 min',listPage:'boxe',prev:'b1',prevTitle:'Canelo vs Crawford',next:'b3',nextTitle:'Usyk vs Dubois 2',
+    html:`<div class="info-box"><div class="info-box-title">📋 Fiche du combat</div>
+      <div class="info-row"><span class="info-label">Combat</span><span class="info-value">Jake Paul (12-1, 7 KO) vs. Gervonta Davis (30-0-1, 28 KO)</span></div>
+      <div class="info-row"><span class="info-label">Catégorie</span><span class="info-value">Poids lourds-légers</span></div>
+      <div class="info-row"><span class="info-label">Lieu</span><span class="info-value">State Farm Arena, Atlanta, Géorgie</span></div>
+      <div class="info-row"><span class="info-label">Diffusion</span><span class="info-value">Netflix</span></div></div>
+    <h2>Jake Paul, phénomène réel ou coup marketing ?</h2>
+    <p>La question revient à chaque combat de Jake Paul, et chaque fois il y répond sur le ring. Ancien YouTubeur, Paul a construit une carrière de 12 victoires et une défaite. Il est classé 14e chez les lourds-légers par la WBA — un classement qui fait débat, mais qui ne peut pas être totalement ignoré.</p>
+    <p>Gervonta Davis, lui, est le contraire du coup marketing. Élevé dans les quartiers durs de Baltimore, formé par l'entraîneur légendaire Calvin Ford, il représente la boxe traditionnelle dans ce qu'elle a de plus pur. 28 KO en 31 combats parlent d'eux-mêmes.</p>
+    <h2>Deux philosophies du sport qui s'affrontent</h2>
+    <p>Au-delà des coups, ce combat illustrait un débat plus profond : que veut-on de la boxe ? Un spectacle grand public accessible à des millions de personnes ? Ou la préservation d'une tradition technique et humaine construite sur des décennies de sacrifice ? La réponse honnête est que les deux peuvent coexister.</p>
+    <div class="callout"><p>Davis est entré à Atlanta avec le statut de favori logique. Sa vitesse de mains, sa précision et sa puissance de frappe restent parmi les qualités les plus redoutables de la division.</p></div>`},
+
+  b3:{tags:['Boxe','Poids lourds','Actualité'],tagColors:['red','',''],
+    title:'Usyk vs Dubois 2 : <em>la revanche des poids lourds</em> qui a enflammé 2025',
+    lead:'Après une première rencontre controversée en 2023, Oleksandr Usyk et Daniel Dubois se sont affrontés à nouveau en 2025 pour les titres unifiés des poids lourds.',
+    date:'Août 2025',time:'8 min',listPage:'boxe',prev:'b2',prevTitle:'Jake Paul vs Tank Davis',next:'b4',nextTitle:'Fury vs Joshua',
+    html:`<h2>Un premier combat qui avait laissé un goût amer</h2>
+    <p>Lors de leur première rencontre en 2023, Oleksandr Usyk avait conservé ses titres face à Daniel Dubois. Mais ce combat avait été marqué par une controverse majeure : Dubois avait mis Usyk au tapis à mi-parcours, et l'arbitre avait jugé le coup bas — une décision qui avait fait débat des deux côtés de l'Atlantique. La revanche était donc chargée d'une symbolique particulière.</p>
+    <h2>Usyk, une légende qui confirme</h2>
+    <p>Oleksandr Usyk est l'un des boxeurs les plus complets de l'histoire moderne. Ancien champion incontesté des poids lourds-légers, il a réalisé l'exploit de devenir champion incontesté des poids lourds en battant Anthony Joshua deux fois, puis Tyson Fury deux fois. Son palmarès est une succession de coups d'éclat.</p>
+    <h2>Dubois, une génération qui veut sa part</h2>
+    <p>Daniel Dubois incarne une nouvelle génération de poids lourds britanniques. Puissant, technique, avec une explosivité rare, il est détenteur du titre IBF et représente une vraie menace pour n'importe quel rival. Sa principale qualité reste son jab-cross dévastateur et sa capacité à couper le ring.</p>
+    <div class="callout"><p>La catégorie des poids lourds n'a pas été aussi vivante depuis les années 1990. Usyk, Dubois, Joshua, Fury — rarement autant de stars ont coexisté au même niveau dans la division reine.</p></div>`},
+
+  b4:{tags:['Boxe','Poids lourds','Analyse'],tagColors:['red','',''],
+    title:'Fury vs Joshua : le mega-fight que la boxe attend <em>depuis 10 ans</em> est-il enfin possible ?',
+    lead:'Tyson Fury et Anthony Joshua sont les deux noms les plus bankables de la boxe mondiale depuis une décennie. Leur combat n\'a jamais eu lieu. En 2025, les conditions semblent enfin réunies pour que cela change.',
+    date:'Octobre 2025',time:'9 min',listPage:'boxe',prev:'b3',prevTitle:'Usyk vs Dubois 2',next:'b5',nextTitle:'Netflix et la boxe',
+    html:`<h2>L'histoire d'un combat qui n'a jamais pu avoir lieu</h2>
+    <p>Depuis 2017, les négociations pour un Fury-Joshua ont régulièrement abouti à une impasse. Problèmes contractuels, obligations envers d'autres promoteurs, blessures, changements de classements — les raisons ont été nombreuses et variées. Les fans ont appris à composer avec cette frustration.</p>
+    <p>En 2024, les deux combattants ont connu leurs premières défaites majeures : Fury a été battu deux fois par Usyk, et Joshua a subi une défaite surprenante. Paradoxalement, ces résultats les ont rapprochés l'un de l'autre, en les excluant temporairement de la course aux titres incontestés.</p>
+    <h2>Pourquoi ce combat fascine toujours autant</h2>
+    <p>Fury et Joshua représentent deux visions opposées de la boxe lourde. <strong>Tyson Fury</strong> est le boxeur pur, mobile, au jab impeccable, avec un QI boxeur hors normes. <strong>Anthony Joshua</strong> est l'athlète parfait, un modèle de puissance et de précision, capable de mettre fin à un combat d'un seul coup.</p>
+    <div class="callout"><p>"Ce n'est plus un combat pour un titre, c'est un combat pour la légende. Nous avons tous les deux quelque chose à prouver." — Anthony Joshua, automne 2025</p></div>
+    <h2>Les obstacles qui restent</h2>
+    <p>Fury est lié à Bob Arum et Top Rank, tandis que Joshua travaille avec Eddie Hearn et Matchroom. Ces deux structures ont des intérêts qui convergent rarement facilement. Une série de Riyad Season financée par l'Arabie Saoudite semble être la seule plateforme capable de réunir les cachets nécessaires.</p>`},
+
+  b5:{tags:['Boxe','Médias','Analyse'],tagColors:['red','',''],
+    title:'Netflix et la boxe : comment la plateforme a <em>révolutionné</em> la diffusion du noble art',
+    lead:'En deux ans, Netflix est devenu l\'acteur incontournable de la boxe mondiale. Paul vs Tyson, Canelo vs Crawford, Paul vs Davis... L\'impact va bien au-delà des chiffres d\'audience.',
+    date:'Décembre 2025',time:'8 min',listPage:'boxe',prev:'b4',prevTitle:'Fury vs Joshua',next:'b6',nextTitle:'Portrait de Tank Davis',
+    html:`<h2>Comment tout a commencé</h2>
+    <p>En novembre 2024, Netflix a diffusé le combat entre Jake Paul et Mike Tyson devant plus de 108 millions de spectateurs en simultané — le record de l'histoire du sport en direct sur une plateforme de streaming. Ce chiffre astronomique a changé la perception de tout le monde : promoteurs, boxeurs et diffuseurs traditionnels.</p>
+    <p>En 2025, la plateforme a enchaîné avec Canelo vs Crawford en septembre, puis Paul vs Davis en novembre.</p>
+    <h2>La révolution du modèle économique</h2>
+    <p>Le pay-per-view traditionnel — qui imposait aux fans de payer entre 20 et 60 € par combat — était devenu un frein à la popularisation de la boxe. Netflix a changé la règle du jeu : les abonnés accèdent aux combats inclus dans leur abonnement habituel. Pour le grand public, c'est une révolution.</p>
+    <div class="callout"><p>Netflix a annoncé son intention de continuer à investir dans la boxe en 2026, notamment dans les catégories féminines.</p></div>
+    <h2>Les limites du modèle</h2>
+    <p>La critique la plus récurrente est que Netflix privilégie le spectacle et la notoriété sur le mérite sportif pur. Les boxeurs inconnus, même talentueux, ont peu de chances d'accéder à ces cartes premium. Reste que pour l'ensemble de l'écosystème boxing, l'entrée de Netflix est globalement une bonne nouvelle.</p>`},
+
+  b6:{tags:['Boxe','Portrait','Champion'],tagColors:['red','',''],
+    title:'Gervonta "Tank" Davis : le profil technique du <em>boxeur le plus explosif</em> de sa génération',
+    lead:'Triple champion du monde, invaincu après plus de 30 combats, Gervonta Davis est considéré comme l\'un des meilleurs boxeurs pound-for-pound au monde. Décryptage d\'un style unique.',
+    date:'Novembre 2025',time:'9 min',listPage:'boxe',prev:'b5',prevTitle:'Netflix et la boxe',next:'b7',nextTitle:'Classement P4P 2025',
+    html:`<h2>Les origines : Baltimore et l'école dure</h2>
+    <p>Gervonta Davis est né et a grandi à Baltimore, Maryland. Son entraîneur de toujours, <strong>Calvin Ford</strong>, est lui-même un personnage légendaire de la boxe américaine. Ford a façonné Davis depuis l'adolescence, lui inculquant une éthique de travail et une rigueur technique qui transparaissent à chaque combat.</p>
+    <h2>Anatomie d'un style dévastateur</h2>
+    <ul>
+      <li><strong>La vitesse des mains :</strong> ses combinaisons partent avec une rapidité qui dépasse la réaction de la plupart des adversaires.</li>
+      <li><strong>La précision chirurgicale :</strong> 28 KO en 31 combats ne s'expliquent pas seulement par la puissance — chaque coup est placé avec intention.</li>
+      <li><strong>Le jeu de tête :</strong> Davis utilise un mouvement de tête constant qui le rend difficile à toucher proprement.</li>
+      <li><strong>La puissance à n'importe quelle distance :</strong> il peut finir un combat aussi bien à courte distance qu'à mi-distance.</li>
+    </ul>
+    <div class="callout"><p>"Tank Davis est le Mike Tyson de sa génération — la même explosion, la même concentration de puissance dans un gabarit compact."</p></div>
+    <h2>Ses limites objectives</h2>
+    <p>Malgré ses qualités exceptionnelles, Davis a montré des fragilités mentales dans certains combats : une tendance à prendre des coups inutiles quand il se sent en confiance, et une gestion de la pression médiatique complexe hors du ring.</p>`},
+
+  b7:{tags:['Boxe','Classement','Analyse'],tagColors:['red','',''],
+    title:'Qui est le meilleur boxeur pound-for-pound en 2025 ? <em>Notre classement commenté</em>',
+    lead:'Le classement pound-for-pound est le plus débattu de la boxe mondiale. Voici notre Top 5 basé sur les performances de l\'année 2025, avec l\'analyse détaillée de chaque candidat.',
+    date:'Décembre 2025',time:'8 min',listPage:'boxe',prev:'b6',prevTitle:'Portrait de Tank Davis',next:'b8',nextTitle:'Débuter la boxe adulte',
+    html:`<h2>Qu'est-ce que le pound-for-pound ?</h2>
+    <p>Le classement pound-for-pound ("livre pour livre") tente de répondre à la question : "Si tous les boxeurs avaient le même poids, qui serait le meilleur ?" Il s'agit d'évaluer la qualité technique, la domination sur ses adversaires, le niveau des oppositions et la régularité des performances — indépendamment de la catégorie de poids.</p>
+    <h2>Notre Top 5 en fin d'année 2025</h2>
+    <h3>1. Oleksandr Usyk — Champion incontesté poids lourds</h3>
+    <p>Usyk reste au sommet par accumulation. Ses victoires contre Fury, Joshua et Dubois font partie des plus impressionnantes de l'histoire moderne des poids lourds. Une technique de southpaw absolument unique, une mobilité et un sens des angles qui défient les lois de la physique pour un homme de sa corpulence.</p>
+    <h3>2. Canelo Álvarez — Champion incontesté super poids moyens</h3>
+    <p>À 35 ans, Canelo continue de surfer au sommet. Sa victoire contre Crawford en septembre 2025 a confirmé qu'il est l'adversaire le plus difficile à battre dans sa catégorie.</p>
+    <h3>3. Gervonta Davis — Champion poids légers</h3>
+    <p>28 KO en 31 combats, dans plusieurs catégories différentes — une domination écrasante sur ses adversaires directs.</p>
+    <h3>4. Terence Crawford — Meilleur technicien de sa génération</h3>
+    <p>Crawford reste dans le top 5 malgré sa défaite face à Canelo. Sa capacité à boxer des deux positions et son QI tactique hors normes en font un candidat légitime au titre de meilleur technicien de sa génération.</p>
+    <h3>5. Naoya Inoue — Champion incontesté super poids coqs</h3>
+    <p>"Monster" Inoue est une machine à KO. Invaincu, champion incontesté dans sa catégorie, il aligne les victoires avec une régularité et une brutalité qui forcent le respect de l'ensemble de la communauté boxistique mondiale.</p>`},
+
+  b8:{tags:['Boxe','Conseil','Débutant'],tagColors:['','gold',''],
+    title:'Débuter la boxe anglaise à l\'âge adulte : <em>conseils pratiques</em> et attentes réalistes',
+    lead:'Commencer la boxe à 25, 35 ou même 45 ans est tout à fait possible — et potentiellement l\'une des meilleures décisions sportives de votre vie. Voici comment aborder cette pratique de façon intelligente.',
+    date:'Octobre 2025',time:'10 min',listPage:'boxe',prev:'b7',prevTitle:'Classement P4P 2025',next:'b9',nextTitle:'7 erreurs des débutants',
+    html:`<h2>Lever l'idée reçue principale</h2>
+    <p>La boxe n'est pas un sport réservé aux jeunes ou aux "durs". Les clubs de boxe en France accueillent chaque année des milliers de pratiquants adultes qui ne cherchent pas à monter sur un ring, mais à se mettre en forme, gagner en confiance, apprendre à gérer le stress et pratiquer une discipline rigoureuse.</p>
+    <h2>Fixer des objectifs réalistes</h2>
+    <ul>
+      <li><strong>Remise en forme :</strong> cardio, gainage, coordination. La boxe est l'un des sports les plus complets pour cet objectif.</li>
+      <li><strong>Self-défense :</strong> acquérir des réflexes de base et de la confiance. 12 mois suffisent pour des bases solides.</li>
+      <li><strong>Compétition amateur :</strong> accessible à partir de 18 mois de pratique sérieuse pour des profils sportifs.</li>
+      <li><strong>Pratique pour le plaisir :</strong> apprendre un art et s'y consacrer sur le long terme, sans objectif précis.</li>
+    </ul>
+    <h2>Les bénéfices concrets après 6 mois</h2>
+    <p>La plupart des pratiquants qui s'y mettent sérieusement témoignent de bénéfices rapides : une amélioration notable de la condition physique, une meilleure gestion du stress au quotidien, et une confiance en soi renforcée. La boxe oblige à être présent mentalement à chaque instant.</p>
+    <div class="callout"><p>"Je n'avais jamais fait de sport de ma vie. J'ai commencé la boxe à 38 ans. Deux ans après, c'est la première chose que je ferais si je devais recommencer ma vie." — Témoignage d'un membre parisien</p></div>
+    <h2>Comment choisir son club</h2>
+    <p>Privilégiez un club affilié à la Fédération Française de Boxe (FFB), qui garantit des entraîneurs diplômés et un cadre réglementé. Une bonne salle se reconnaît à son atmosphère : bienveillante, structurée, avec des cours adaptés aux débutants clairement identifiés dans le planning.</p>`},
+
+  b9:{tags:['Boxe','Conseil','Technique'],tagColors:['','gold',''],
+    title:'Les 7 erreurs les plus courantes des débutants en boxe <em>(et comment les corriger)</em>',
+    lead:'Tout débutant en boxe fait les mêmes erreurs. Les connaître à l\'avance vous permettra de progresser plus vite et d\'éviter les mauvaises habitudes qui mettent des années à corriger.',
+    date:'Novembre 2025',time:'8 min',listPage:'boxe',prev:'b8',prevTitle:'Débuter la boxe adulte',next:'b10',nextTitle:'Boxe à la maison',
+    html:`<h2>Erreur n°1 : Ne pas regarder l'adversaire</h2>
+    <p>Le réflexe naturel du débutant est de baisser les yeux pendant l'échange. C'est une erreur critique. En boxe, vous lisez l'intention de votre adversaire dans ses épaules et ses hanches, pas dans ses poings. Forcez-vous à maintenir le contact visuel, même quand vous encaissez des coups.</p>
+    <h2>Erreur n°2 : Laisser les gardes trop basses</h2>
+    <p>Les gants doivent rester hauts — à hauteur du menton — en permanence, sauf lors d'une frappe active. Un coup bien placé quand vos gardes sont basses peut tout terminer immédiatement.</p>
+    <h2>Erreur n°3 : Frapper en retenant sa respiration</h2>
+    <p>Beaucoup de débutants bloquent leur respiration en frappant. Il faut faire l'inverse : <strong>expirer court et sec sur chaque frappe</strong>. Cela stabilise le tronc, renforce l'impact et améliore l'endurance.</p>
+    <h2>Erreur n°4 : Négliger le jeu de jambes</h2>
+    <p>La boxe, c'est autant le bas du corps que le haut. Se déplacer correctement — en glissant les pieds sans les croiser — est la base de tout le reste. Un débutant statique est une cible facile.</p>
+    <h2>Erreur n°5 : Trop en faire lors des sparrings</h2>
+    <p>L'ego est l'ennemi numéro un de la progression en boxe. Le sparring est un outil d'apprentissage, pas une compétition. Restez relax, pensez à vos placements, et laissez l'ego à la vestiaire.</p>
+    <h2>Erreur n°6 : Ignorer le travail hors ring</h2>
+    <p>La boxe se travaille aussi en dehors du ring : corde à sauter pour le cardio et la coordination, shadow boxing devant un miroir pour corriger sa garde, renforcement du tronc pour stabiliser les frappes.</p>
+    <h2>Erreur n°7 : Abandonner trop tôt</h2>
+    <p>La progression en boxe est lente, surtout au début. La plupart des boxeurs qui ont abandonné l'ont fait juste avant que les choses commencent à "cliquer".</p>
+    <div class="callout"><p>La boxe récompense la patience. Six mois de pratique régulière changent tout — le corps se souvient, les réflexes s'installent, et chaque séance devient un plaisir plutôt qu'un effort.</p></div>`},
+
+  b10:{tags:['Boxe','Conseil','Équipement'],tagColors:['','gold','gold'],
+    title:'Boxe à la maison : comment s\'entraîner <em>efficacement</em> sans salle ni partenaire',
+    lead:'Pas toujours le temps d\'aller à la salle ? L\'entraînement à domicile est un excellent complément — et parfois une nécessité. Voici comment structurer ses séances seul, chez soi, sans perdre en qualité.',
+    date:'Décembre 2025',time:'9 min',listPage:'boxe',prev:'b9',prevTitle:'7 erreurs des débutants',next:null,nextTitle:'',
+    html:`<h2>Ce que l'on peut faire sans équipement</h2>
+    <p>Le shadow boxing — boxe dans le vide — est l'outil le plus précieux du boxeur qui s'entraîne seul. Pratiqué devant un miroir, il permet de travailler sa garde, ses déplacements, ses enchaînements et son rythme. Quinze minutes de shadow boxing consciencieux, trois fois par semaine, accélèrent la progression de façon significative.</p>
+    <h2>L'équipement minimal pour aller plus loin</h2>
+    <ul>
+      <li><strong>Sac de frappe autoportant (60–150 €) :</strong> idéal si vous ne pouvez pas fixer au plafond.</li>
+      <li><strong>Sac accroché au plafond (80–200 €) :</strong> l'option la plus réaliste en termes de sensations.</li>
+      <li><strong>Sac de frappe mural (40–100 €) :</strong> compact, idéal pour les petits espaces.</li>
+    </ul>
+    <div class="callout"><p>Avant d'acheter un sac, assurez-vous toujours de porter des bandages sous vos gants. Frapper un sac sans protection génère des microtraumatismes répétés qui peuvent entraîner des tendinites.</p></div>
+    <h2>Une séance type à la maison (45 minutes)</h2>
+    <ul>
+      <li><strong>0–5 min :</strong> échauffement général — rotations des épaules, cercles de hanches, montées de genoux</li>
+      <li><strong>5–15 min :</strong> shadow boxing — 3 rounds de 3 minutes avec 1 minute de récupération</li>
+      <li><strong>15–30 min :</strong> travail au sac — alternance de rounds puissance et rounds vitesse</li>
+      <li><strong>30–40 min :</strong> corde à sauter — 3 rounds de 3 minutes</li>
+      <li><strong>40–45 min :</strong> étirements et récupération</li>
+    </ul>
+    <h2>Les limites de l'entraînement à domicile</h2>
+    <p>L'entraînement maison est un excellent complément, mais il ne remplace pas la salle. L'idéal reste une pratique en club deux à trois fois par semaine, complétée par une ou deux séances solo à domicile. C'est ce rythme qui génère les progressions les plus rapides sur le long terme.</p>`}
+};
+
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('nav-' + page)?.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function openArticle(id) {
+  const art = ARTICLES[id];
+  if (!art) return;
+  const tagHtml = art.tags.map((t,i) =>
+    `<span class="art-tag ${art.tagColors[i]||''}">${t}</span>`).join('');
+  const prevBtn = art.prev
+    ? `<div class="art-nav-btn" onclick="openArticle('${art.prev}')"><div class="nav-dir">← Précédent</div>${art.prevTitle}</div>`
+    : `<div class="art-nav-btn" onclick="nav('home')"><div class="nav-dir">← Retour</div>Accueil</div>`;
+  const nextBtn = art.next
+    ? `<div class="art-nav-btn right" onclick="openArticle('${art.next}')"><div class="nav-dir">Suivant →</div>${art.nextTitle}</div>`
+    : `<div class="art-nav-btn right" onclick="nav('${art.listPage}')"><div class="nav-dir">← Retour</div>Liste des articles</div>`;
+
+  document.getElementById('article-content').innerHTML = `
+    <div class="back-btn" onclick="nav('${art.listPage}')">← Retour à la liste</div>
+    <header style="all:unset;display:block;margin-bottom:2.5rem">
+      <div class="art-tags">${tagHtml}</div>
+      <h1 class="art-h1">${art.title}</h1>
+      <p class="art-lead">${art.lead}</p>
+      <div class="art-meta-row">
+        <span>✍ <strong>BushidoGuide</strong></span>
+        <span>📅 <strong>${art.date}</strong></span>
+        <span>⏱ <strong>${art.time} de lecture</strong></span>
+      </div>
+    </header>
+    <div class="art-content">${art.html}</div>
+    <div class="art-nav">${prevBtn}${nextBtn}</div>`;
+
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-article').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+/* ─────────────────────────────────────────
+   GUIDES DATA
+───────────────────────────────────────── */
+const GUIDES = {
+  mma:{sport:'MMA — Mixed Martial Arts',emoji:'🥊',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#1a0a0a,#2d1010)',
+    toc:['Introduction au MMA','Histoire & origines','Ce que vous apprendrez','Parcours du débutant','Équipement nécessaire','Choisir sa salle','Planning recommandé','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#1a0a0a,#2d1010)">🥊
+  <span class="guide-sport-tag">MMA · Combat complet</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">MMA</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter le MMA : <em>le guide complet</em> de zéro</h1>
+<p class="art-lead">Le MMA est le sport de combat le plus complet au monde — boxe, muay-thaï, wrestling, jiu-jitsu brésilien. Ce guide vous donne les clés pour commencer intelligemment, sans vous perdre dans la masse d'informations disponibles.</p>
+<div class="art-content">
+<h2 id="g-s1">Introduction au MMA</h2>
+<p>Le MMA (Mixed Martial Arts) autorise les frappes debout, le clinch, les projections et les soumissions. Contrairement à une idée reçue, ce n'est pas un sport de "combat de rue" — c'est une discipline réglementée, avec une progression technique très structurée, accessible à tous les âges et tous les gabarits.</p>
+<div class="callout"><p>"Le MMA ne vous rend pas violent. Il vous rend discipliné, patient et conscient de vos propres limites." — Dana White</p></div>
+<h2 id="g-s2">Histoire & origines</h2>
+<p>Les racines du MMA moderne remontent aux années 1920 au Brésil, avec les tournois "Vale Tudo" de la famille Gracie. L'UFC a été fondé en 1993 pour répondre à une question simple : quelle discipline est la plus efficace en combat réel ? Depuis lors, le sport s'est codifié en une discipline internationale suivie par des centaines de millions de personnes.</p>
+<h2 id="g-s3">Ce que vous apprendrez</h2>
+<ul>
+  <li><strong>Boxe anglaise :</strong> jab, croisé, crochet, uppercut — les frappes à distance</li>
+  <li><strong>Muay-Thaï :</strong> coups de pied, genoux, coudes, travail en clinch</li>
+  <li><strong>Wrestling / Judo :</strong> amenées au sol, contrôle, projections</li>
+  <li><strong>Jiu-Jitsu Brésilien :</strong> soumissions, étranglements, positionnement au sol</li>
+</ul>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 6 mois</div><div class="tl-level">Débutant</div><div class="tl-desc">Garde, déplacements, coups de base. Aucun sparring intensif.</div></div>
+  <div class="timeline-block"><div class="tl-period">6 – 18 mois</div><div class="tl-level">Intermédiaire</div><div class="tl-desc">Enchaînements, transitions debout/sol. Sparring léger.</div></div>
+  <div class="timeline-block"><div class="tl-period">18 mois +</div><div class="tl-level">Confirmé</div><div class="tl-desc">Sparring complet, stratégie, préparation compétition.</div></div>
+</div>
+<h2 id="g-s4">Parcours du débutant</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Choisissez votre approche</h3><p>Option A : cours MMA débutant directement. Option B : 12 mois de boxe ou muay-thaï en premier pour des bases debout solides avant d'intégrer le grappling.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Visitez 2–3 salles avant de vous engager</h3><p>Une bonne salle se reconnaît à son ambiance : bienveillante, structurée, sans ego toxique. Prenez un cours d'essai dans plusieurs endroits.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>Soyez patient les 3 premiers mois</h3><p>Vous perdrez tous vos sparrings. C'est normal — l'objectif est d'apprendre à placer sa garde, à respirer correctement, et à tomber sans se blesser.</p></div></div>
+  <div class="guide-step"><div class="step-num">04</div><div class="step-body"><h3>Complétez par du travail solo</h3><p>Shadow boxing 3× par semaine, corde à sauter, renforcement du tronc. Le MMA demande une condition physique globale.</p></div></div>
+  <div class="guide-step"><div class="step-num">05</div><div class="step-body"><h3>Première compétition (optionnel)</h3><p>Après 18 mois, si votre entraîneur le valide, une compétition amateur transforme la progression — même une défaite apprend plus qu'un an de cours.</p></div></div>
+</div>
+<h2 id="g-s5">Équipement nécessaire</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥊</span><div><div class="equip-name">Gants de sparring (14–16 oz)</div><div class="equip-price">Venum, Hayabusa, RDX — 60 à 100 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🦷</span><div><div class="equip-name">Protège-dents thermomoulable</div><div class="equip-price">Shock Doctor, Venum — 15 à 30 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🩱</span><div><div class="equip-name">Short MMA ou grappling</div><div class="equip-price">Hayabusa, Venum, Bad Boy — 30 à 70 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🦵</span><div><div class="equip-name">Protège-tibias</div><div class="equip-price">Fairtex, Twins — 30 à 70 €</div></div><span class="equip-badge badge-useful">Utile dès le départ</span></div>
+  <div class="equip-item"><span class="equip-icon">🤛</span><div><div class="equip-name">Bandages</div><div class="equip-price">Everlast, RDX — 10 à 20 €</div></div><span class="equip-badge badge-useful">Utile dès le départ</span></div>
+  <div class="equip-item"><span class="equip-icon">🥋</span><div><div class="equip-name">Kimono (gi) pour le grappling</div><div class="equip-price">Tatami, Scramble — 70 à 150 €</div></div><span class="equip-badge badge-later">Après 2–3 mois</span></div>
+</div>
+<h2 id="g-s6">Choisir sa salle</h2>
+<ul>
+  <li>Entraîneurs avec passé compétitif réel ou certifications reconnues</li>
+  <li>Cours séparés par niveaux (débutants / confirmés)</li>
+  <li>Culture du sparring léger — pas de "guerre" à chaque séance</li>
+  <li>Ambiance inclusive, sans pression sociale</li>
+</ul>
+<div class="callout"><p>Méfiez-vous des salles qui promettent de vous "transformer en combattant en 3 mois". La progression en MMA est lente — les meilleures salles le disent clairement.</p></div>
+<h2 id="g-s7">Planning recommandé (débutant)</h2>
+<ul>
+  <li><strong>3× en salle :</strong> 1 cours frappe, 1 cours grappling, 1 cours MMA complet</li>
+  <li><strong>2× solo :</strong> 15 min shadow boxing + corde à sauter</li>
+  <li><strong>1 jour récupération active :</strong> marche, natation, stretching</li>
+</ul>
+<h2 id="g-s8">Articles associés</h2>
+<p>Retrouvez nos articles sélectionnés pour votre niveau dans la section <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  boxe:{sport:'Boxe Anglaise',emoji:'🥊',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#0a0f1a,#10182a)',
+    toc:['Introduction','Histoire','Les 4 coups fondamentaux','Progression réaliste','Équipement','Choisir son club','Planning','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#0a0f1a,#10182a)">🥊
+  <span class="guide-sport-tag">Boxe · Noble art</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Boxe</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter la boxe anglaise : <em>le guide complet</em> de zéro</h1>
+<p class="art-lead">Deux siècles de science condensés en quatre coups fondamentaux. La boxe anglaise est l'un des arts les plus étudiés du monde du combat — accessible à tout âge, extraordinairement efficace pour la forme physique et la confiance en soi.</p>
+<div class="art-content">
+<h2 id="g-s1">Introduction</h2>
+<p>La boxe anglaise utilise uniquement les poings protégés par des gants. Les coups autorisés sont le jab, le croisé, le crochet et l'uppercut. Toute frappe sous la ceinture, les coups de tête, coudes et genoux sont interdits. C'est le sport de combat le plus pratiqué au monde — et l'un des meilleurs pour le cardio, la coordination et la confiance en soi.</p>
+<h2 id="g-s2">Histoire</h2>
+<p>Codifiée par les règles du Marquis de Queensberry en 1867, la boxe moderne impose les gants, les rounds chronométrés et l'interdiction de frapper à terre. La France a une longue tradition boxistique : Marcel Cerdan, Brahim Asloum, Souleymane Cissokho, Tony Yoka.</p>
+<h2 id="g-s3">Les 4 coups fondamentaux</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Le jab (direct avant)</h3><p>Coup rapide du poing avant. Sert à prendre la mesure, contrôler la distance, créer des ouvertures. La base de tout le reste.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Le croisé (direct arrière)</h3><p>Le coup le plus puissant. Rotation du bassin, transfert du poids sur le pied avant. La puissance vient des jambes, pas des épaules.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>Le crochet</h3><p>Coup latéral à distance courte ou moyenne. Le coude forme un angle droit. Nécessite une rotation du bassin marquée. La clé des KO spectaculaires.</p></div></div>
+  <div class="guide-step"><div class="step-num">04</div><div class="step-body"><h3>L'uppercut</h3><p>Coup ascendant à très courte distance, efficace dans le clinch. Trajectoire montante vers le menton ou le plexus.</p></div></div>
+</div>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 4 mois</div><div class="tl-level">Débutant</div><div class="tl-desc">Garde, jab/croisé, jeu de jambes, travail au sac.</div></div>
+  <div class="timeline-block"><div class="tl-period">4 – 12 mois</div><div class="tl-level">Intermédiaire</div><div class="tl-desc">4 coups maîtrisés, enchaînements, défenses, sparring léger.</div></div>
+  <div class="timeline-block"><div class="tl-period">12 mois +</div><div class="tl-level">Confirmé</div><div class="tl-desc">Stratégie de combat, sparring complet, compétitions amateurs.</div></div>
+</div>
+<h2 id="g-s4">Progression réaliste</h2>
+<p>La boxe récompense la régularité plus que l'intensité. Deux séances par semaine pendant un an valent mieux que six séances par semaine pendant deux mois. Le corps a besoin de temps pour automatiser les gestes.</p>
+<div class="callout"><p>"La boxe, c'est de l'algèbre avec les poings. Il faut résoudre des problèmes en temps réel, sous pression physique." — Sugar Ray Leonard</p></div>
+<h2 id="g-s5">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥊</span><div><div class="equip-name">Gants (12–16 oz)</div><div class="equip-price">Everlast, Venum, Cleto Reyes — 50 à 120 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🦷</span><div><div class="equip-name">Protège-dents</div><div class="equip-price">Shock Doctor, Opro — 15 à 40 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🤛</span><div><div class="equip-name">Bandages (2,5 ou 4 m)</div><div class="equip-price">Everlast, RDX — 8 à 20 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">👟</span><div><div class="equip-name">Chaussures de boxe</div><div class="equip-price">Adidas, Everlast — 40 à 100 €</div></div><span class="equip-badge badge-useful">Recommandé</span></div>
+  <div class="equip-item"><span class="equip-icon">🪢</span><div><div class="equip-name">Corde à sauter</div><div class="equip-price">Decathlon, RDX — 10 à 30 €</div></div><span class="equip-badge badge-useful">Recommandé</span></div>
+  <div class="equip-item"><span class="equip-icon">⛑️</span><div><div class="equip-name">Casque de sparring</div><div class="equip-price">Hayabusa, Everlast — 50 à 150 €</div></div><span class="equip-badge badge-later">Après 3 mois</span></div>
+</div>
+<h2 id="g-s6">Choisir son club</h2>
+<p>Privilégiez un club affilié à la <strong>Fédération Française de Boxe (FFB)</strong> — entraîneurs diplômés, cadre réglementé. Cherchez un planning avec des créneaux dédiés aux débutants, séparés des confirmés.</p>
+<h2 id="g-s7">Planning recommandé</h2>
+<ul>
+  <li><strong>2–3× en club :</strong> 2 séances technique + 1 sparring (après 4 mois)</li>
+  <li><strong>Solo :</strong> 10 min corde + 15 min shadow boxing devant miroir, 2× par semaine</li>
+  <li><strong>Récupération :</strong> stretching actif, mobilité des épaules et des hanches</li>
+</ul>
+<h2 id="g-s8">Articles associés</h2>
+<p>Retrouvez nos articles sélectionnés dans la section <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  muay:{sport:'Muay-Thaï',emoji:'🦵',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#1a0f00,#2a1800)',
+    toc:['Présentation','Histoire & culture','Les 8 armes','Progression','Équipement','Trouver une salle','Planning','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#1a0f00,#2a1800)">🦵
+  <span class="guide-sport-tag">Muay-Thaï · 8 membres</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Muay-Thaï</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter le Muay-Thaï : <em>l'art des 8 membres</em></h1>
+<p class="art-lead">Poings, pieds, coudes, genoux — huit armes disponibles, une philosophie de guerrier. Le Muay-Thaï produit les combattants debout les plus redoutables du monde. Voici comment aborder cette discipline.</p>
+<div class="art-content">
+<h2 id="g-s1">Présentation</h2>
+<p>Le Muay-Thaï est surnommé "l'art des 8 membres" car il autorise les frappes avec les poings, les pieds, les genoux et les coudes. Contrairement à la boxe anglaise (2 armes) ou au kickboxing (4 armes), il offre l'arsenal debout le plus complet. C'est la discipline debout la plus représentée dans le MMA professionnel.</p>
+<h2 id="g-s2">Histoire & culture</h2>
+<p>Enraciné dans des siècles de traditions guerrières thaïlandaises, le Muay-Thaï est devenu un sport national au XXe siècle. Les stades de Lumpinee et Rajadamnern à Bangkok restent ses temples sacrés. Le Wai Kru Ram Muay — la danse rituelle d'avant-combat — est un hommage au maître et aux ancêtres, encore enseigné dans les salles occidentales.</p>
+<div class="callout"><p>Les combattants thaïlandais commencent souvent à s'entraîner entre 6 et 10 ans. À 18 ans, certains comptent déjà plus de 100 combats professionnels.</p></div>
+<h2 id="g-s3">Les 8 armes</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Les poings</h3><p>Jab et croisé principalement. La boxe des mains au Muay-Thaï sert surtout à créer des ouvertures pour les frappes de jambes et de genoux.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Les jambes</h3><p>Coup de pied circulaire (rond de jambe) et coup de pied bas (low kick) sur la cuisse. Ces armes usent l'adversaire sur la durée et créent des déséquilibres structurels.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>Les coudes</h3><p>Arme redoutable à courte distance, particulièrement dangereuse pour les coupures. Horizontal, diagonal ou vertical. Souvent restreint dans les compétitions débutants.</p></div></div>
+  <div class="guide-step"><div class="step-num">04</div><div class="step-body"><h3>Les genoux & le clinch</h3><p>Les genoux en clinch constituent une spécialité Muay-Thaï à part entière. Maîtriser le corps-à-corps thaïlandais prend des années — mais c'est l'une des compétences les plus utiles en MMA.</p></div></div>
+</div>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 3 mois</div><div class="tl-level">Débutant</div><div class="tl-desc">Garde, jab, coup de pied bas, déplacements.</div></div>
+  <div class="timeline-block"><div class="tl-period">3 – 12 mois</div><div class="tl-level">Intermédiaire</div><div class="tl-desc">8 armes intégrées, clinch basique, pad work, sparring léger.</div></div>
+  <div class="timeline-block"><div class="tl-period">12 mois +</div><div class="tl-level">Confirmé</div><div class="tl-desc">Stratégie, coudes avancés, compétition amateur.</div></div>
+</div>
+<h2 id="g-s4">Progression</h2>
+<p>Le Muay-Thaï est un sport exigeant physiquement. Attendez-vous à des courbatures importantes les premiers mois — les tibias notamment nécessitent un temps d'adaptation. Ne sautez pas les étapes du conditionnement physique.</p>
+<h2 id="g-s5">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥊</span><div><div class="equip-name">Gants de boxe (14–16 oz)</div><div class="equip-price">Fairtex, Twins, Yokkao — 70 à 150 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🦵</span><div><div class="equip-name">Protège-tibias (grande taille)</div><div class="equip-price">Fairtex, Twins — 40 à 80 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🩱</span><div><div class="equip-name">Short de Muay-Thaï</div><div class="equip-price">Fairtex, Raja — 25 à 60 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">⛑️</span><div><div class="equip-name">Casque pour le sparring</div><div class="equip-price">Fairtex, Hayabusa — 60 à 120 €</div></div><span class="equip-badge badge-later">Après 3 mois</span></div>
+</div>
+<h2 id="g-s6">Trouver une salle</h2>
+<p>Cherchez une salle avec des entraîneurs ayant une expérience compétitive ou un séjour de formation en Thaïlande — cela garantit un enseignement authentique. La <strong>FFSCDA</strong> répertorie les clubs officiels en France.</p>
+<h2 id="g-s7">Planning recommandé</h2>
+<ul>
+  <li><strong>3× en salle :</strong> technique, pad work, sparring progressif</li>
+  <li><strong>Solo :</strong> shadow boxing + corde 2× par semaine</li>
+  <li><strong>Cardio :</strong> course à pied 20 min, 2× par semaine — le Muay-Thaï est très énergivore</li>
+</ul>
+<h2 id="g-s8">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  bjj:{sport:'Jiu-Jitsu Brésilien (BJJ)',emoji:'🤼',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#0a0a1a,#101025)',
+    toc:['Qu\'est-ce que le BJJ','Histoire Gracie','Philosophie','Progression ceintures','Équipement','Académies','Planning','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#0a0a1a,#101025)">🤼
+  <span class="guide-sport-tag">BJJ · Combat au sol</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">BJJ</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter le BJJ : <em>la philosophie du sol</em></h1>
+<p class="art-lead">Un petit gabarit peut maîtriser un adversaire plus grand grâce à la technique — c'est l'idée fondatrice du BJJ. Un sport qui change votre façon de penser votre corps et votre rapport au conflit.</p>
+<div class="art-content">
+<h2 id="g-s1">Qu'est-ce que le BJJ ?</h2>
+<p>Le Jiu-Jitsu Brésilien (BJJ) est un art martial de combat au sol axé sur les prises de soumission — étranglements et clés articulaires. L'objectif est de placer l'adversaire dans une position où il doit abandonner (taper) sans lui infliger de blessure. Son approche du sparring — appelé "roulage" (rolling) — se pratique dès les premières semaines, à intensité légère, ce qui permet d'apprendre en testant chaque technique réellement.</p>
+<h2 id="g-s2">Histoire Gracie</h2>
+<p>Né des enseignements de Mitsuyo Maeda, judoka japonais émigré au Brésil en 1914, le BJJ a été développé et systématisé par la famille Gracie. Royce Gracie a remporté les trois premiers tournois UFC (1993–1995) en soumettant des adversaires bien plus lourds — la démonstration la plus percutante de l'efficacité du BJJ dans l'histoire des sports de combat.</p>
+<h2 id="g-s3">Philosophie</h2>
+<div class="callout"><p>"Le BJJ vous apprend à être à l'aise dans l'inconfort. C'est la leçon la plus utile qu'un sport puisse vous donner." — Rickson Gracie</p></div>
+<p>Le BJJ est souvent décrit comme un "échecs physique" — chaque position ouvre des options, chaque mouvement génère une réponse. Cette dimension tactique, qui se complexifie sans cesse, est ce qui le rend aussi addictif qu'un jeu de stratégie.</p>
+<h2 id="g-s4">Progression par ceintures</h2>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 2 ans</div><div class="tl-level">Ceinture blanche</div><div class="tl-desc">Bases de survie, gardes fondamentales, échappements.</div></div>
+  <div class="timeline-block"><div class="tl-period">2 – 5 ans</div><div class="tl-level">Bleu / Violet</div><div class="tl-desc">Système de jeu défini, soumissions enchaînées, compétition.</div></div>
+  <div class="timeline-block"><div class="tl-period">5 – 12 ans +</div><div class="tl-level">Marron / Noir</div><div class="tl-desc">Maîtrise complète, enseignement, jeu profond.</div></div>
+</div>
+<p>La ceinture noire en BJJ prend en moyenne 8 à 12 ans — c'est la ceinture noire la plus difficile à obtenir dans tous les arts martiaux. Cette lenteur est voulue : elle garantit la valeur réelle du grade.</p>
+<h2 id="g-s5">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥋</span><div><div class="equip-name">Kimono (gi) blanc ou bleu</div><div class="equip-price">Tatami, Scramble, Fuji — 70 à 160 €</div></div><span class="equip-badge badge-must">Cours gi</span></div>
+  <div class="equip-item"><span class="equip-icon">🩱</span><div><div class="equip-name">Rashguard + short grappling</div><div class="equip-price">Tatami, Scramble — 40 à 90 €</div></div><span class="equip-badge badge-must">Cours no-gi</span></div>
+  <div class="equip-item"><span class="equip-icon">🦷</span><div><div class="equip-name">Protège-dents</div><div class="equip-price">15 à 30 €</div></div><span class="equip-badge badge-useful">Recommandé</span></div>
+  <div class="equip-item"><span class="equip-icon">🏋️</span><div><div class="equip-name">Genouillères / chevillères</div><div class="equip-price">Mcdavid — 20 à 50 €</div></div><span class="equip-badge badge-later">Prévention blessures</span></div>
+</div>
+<h2 id="g-s6">Trouver une académie</h2>
+<p>Cherchez une académie affiliée à un réseau reconnu : Gracie Barra, Alliance, Checkmat, Carlson Gracie. La réputation de la filiation garantit la qualité de l'enseignement. En France : Paris, Lyon, Marseille et Bordeaux ont des académies de haut niveau.</p>
+<h2 id="g-s7">Planning recommandé</h2>
+<ul>
+  <li><strong>2–4× par semaine :</strong> cours technique (30 min) + roulage (30 min)</li>
+  <li><strong>Renforcement :</strong> travail de la poignée (grip), renforcement cervical, gainage</li>
+  <li><strong>Récupération :</strong> le BJJ est très exigeant pour les articulations — accordez-vous du repos</li>
+</ul>
+<h2 id="g-s8">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  judo:{sport:'Judo',emoji:'🥋',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#0f0808,#1e1010)',
+    toc:['Introduction','Jigoro Kano & philosophie','Techniques fondamentales','Ceintures','Équipement','Trouver un dojo','Planning','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#0f0808,#1e1010)">🥋
+  <span class="guide-sport-tag">Judo · Olympique</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Judo</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter le Judo : <em>la voie de la souplesse</em></h1>
+<p class="art-lead">Sport olympique depuis 1964, pratiqué par plus de 40 millions de personnes dans le monde. Le judo développe l'équilibre, la coordination et la lecture du corps adverse — et reste l'un des meilleurs sports pour les enfants comme pour les adultes.</p>
+<div class="art-content">
+<h2 id="g-s1">Introduction</h2>
+<p>Le Judo (柔道 — "voie de la souplesse") utilise la force de l'adversaire pour le projeter, l'immobiliser ou le contraindre à l'abandon. L'objectif n'est pas d'opposer force à force, mais de créer des déséquilibres et d'exploiter les ouvertures. La France est l'une des grandes nations mondiales du judo : David Douillet, Teddy Riner, Clarisse Agbegnenou.</p>
+<h2 id="g-s2">Jigoro Kano & philosophie</h2>
+<p>Créé en 1882 par Jigoro Kano à Tokyo, le judo est issu du jiu-jitsu traditionnel. Kano a sélectionné les techniques les plus efficaces et les moins dangereuses pour créer un système pédagogique cohérent. Deux principes fondamentaux : <strong>seiryoku zen'yo</strong> (utilisation maximale de l'énergie) et <strong>jita kyoei</strong> (prospérité mutuelle).</p>
+<div class="callout"><p>"La souplesse triomphe de la rigidité, la douceur triomphe de la dureté." — Jigoro Kano</p></div>
+<h2 id="g-s3">Techniques fondamentales</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Ukemi (chutes)</h3><p>La première chose apprise en judo. Savoir tomber sans se blesser — sur le côté, en arrière, en avant — est la compétence la plus utile. Cela prend 2 à 4 semaines à automatiser.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Kumi kata (prise de judogi)</h3><p>Le contrôle du kimono adverse est la base de tout déséquilibre. Comment saisir, maintenir la prise et s'en libérer efficacement.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>O-soto-gari & O-uchi-gari</h3><p>Les deux premières projections classiquement enseignées : fauchage extérieur et intérieur. Simples, efficaces, fondateurs de la motricité judo.</p></div></div>
+  <div class="guide-step"><div class="step-num">04</div><div class="step-body"><h3>Osaekomi (immobilisations)</h3><p>Une fois au sol, immobiliser l'adversaire 10 secondes (waza-ari) ou 20 secondes (ippon). Kesa-gatame et mune-gatame sont les premières positions.</p></div></div>
+</div>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 1 an</div><div class="tl-level">Blanche → Jaune</div><div class="tl-desc">Chutes, prises de base, 5–8 projections fondamentales.</div></div>
+  <div class="timeline-block"><div class="tl-period">1 – 4 ans</div><div class="tl-level">Orange → Marron</div><div class="tl-desc">Combinaisons, compétitions régionales, travail au sol.</div></div>
+  <div class="timeline-block"><div class="tl-period">4 ans +</div><div class="tl-level">Ceinture noire</div><div class="tl-desc">Maîtrise technique et pédagogique. La ceinture noire est un début.</div></div>
+</div>
+<h2 id="g-s4">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥋</span><div><div class="equip-name">Judogi blanc homologué IJF</div><div class="equip-price">Mizuno, Adidas, Ippon Gear — 50 à 200 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🎽</span><div><div class="equip-name">T-shirt de corps</div><div class="equip-price">Recommandé sous le judogi</div></div><span class="equip-badge badge-useful">Recommandé</span></div>
+  <div class="equip-item"><span class="equip-icon">🏋️</span><div><div class="equip-name">Protection oreilles</div><div class="equip-price">Prévention de l'oreille en chou-fleur</div></div><span class="equip-badge badge-later">Pratique intensive</span></div>
+</div>
+<h2 id="g-s5">Trouver un dojo</h2>
+<p>La <strong>Fédération Française de Judo (FFJudo)</strong> répertorie plus de 5 600 clubs sur son site. Cherchez un créneau adultes débutants, un tatami en bon état, un entraîneur avec au minimum une ceinture noire 2e dan.</p>
+<h2 id="g-s6">Planning recommandé</h2>
+<ul>
+  <li><strong>2× par semaine minimum :</strong> le judo demande une répétition régulière pour automatiser chutes et prises</li>
+  <li><strong>Renforcement :</strong> grip training, gainage, renforcement cervical</li>
+</ul>
+<h2 id="g-s7">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  karate:{sport:'Karaté',emoji:'🥋',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#0a0f0a,#101810)',
+    toc:['Introduction','Origines','Les 4 styles','Les katas','Ceintures','Équipement','Trouver un dojo','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#0a0f0a,#101810)">🥋
+  <span class="guide-sport-tag">Karaté · Main vide</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Karaté</span><span class="art-tag gold">Guide débutant</span></div>
+<h1 class="art-h1">Débuter le Karaté : <em>bien plus qu'un art scolaire</em></h1>
+<p class="art-lead">Le karaté est souvent sous-estimé parce que mal enseigné dans sa version sport scolaire. Bien pratiqué, c'est une discipline d'une richesse technique extraordinaire — précision, distance, maîtrise du corps.</p>
+<div class="art-content">
+<h2 id="g-s1">Introduction</h2>
+<p>Le karaté (空手 — "main vide") utilise les frappes à mains nues et aux pieds. Il se pratique sous deux formes : le kumite (combat) et les katas (séquences codifiées). Discipline olympique depuis 2020, il compte environ 50 millions de pratiquants mondiaux.</p>
+<h2 id="g-s2">Origines d'Okinawa</h2>
+<p>Né à Okinawa, le karaté a été développé par des habitants interdits de port d'armes sous l'occupation japonaise. Ils ont créé un système de combat à mains nues en mélangeant influences chinoises et traditions locales. Gichin Funakoshi l'a ensuite introduit au Japon continental au début du XXe siècle.</p>
+<div class="callout"><p>"Le but ultime du karaté ne réside pas dans la victoire ou la défaite, mais dans le perfectionnement du caractère." — Gichin Funakoshi</p></div>
+<h2 id="g-s3">Les 4 styles principaux</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Shotokan</h3><p>Style le plus répandu en Occident. Positions basses, frappes longues et puissantes. Le plus accessible pour les débutants.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Kyokushin</h3><p>Contact complet au corps, coups de pied à la tête. Le plus dur des styles — formateur de champions MMA. Idéal si vous cherchez une pratique avec vrai contact.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>Goju-ryu</h3><p>Mélange de mouvements durs (frappes) et souples (saisies, enroulements). Très influent dans le MMA moderne.</p></div></div>
+  <div class="guide-step"><div class="step-num">04</div><div class="step-body"><h3>Wado-ryu / Shito-ryu</h3><p>Styles plus fluides, richesse de katas, jeu de jambes élaboré. Bons pour une pratique technique et artistique.</p></div></div>
+</div>
+<h2 id="g-s4">Les katas</h2>
+<p>Un kata est une séquence de techniques standardisées pratiquée seul face à des adversaires imaginaires. Les katas servent à mémoriser les principes techniques et à comprendre les applications martiales (bunkai). Chaque progression de ceinture introduit un nouveau kata.</p>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 1 an</div><div class="tl-level">Blanche → Jaune</div><div class="tl-desc">Postures, frappes de base, premiers katas, premiers kumite.</div></div>
+  <div class="timeline-block"><div class="tl-period">1 – 4 ans</div><div class="tl-level">Orange → Marron</div><div class="tl-desc">Katas intermédiaires, kumite sportif, stratégie.</div></div>
+  <div class="timeline-block"><div class="tl-period">4 ans +</div><div class="tl-level">Ceinture noire</div><div class="tl-desc">Maîtrise et enseignement. La ceinture noire est un début, pas une fin.</div></div>
+</div>
+<h2 id="g-s5">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">🥋</span><div><div class="equip-name">Karategi blanc</div><div class="equip-price">Tokaido, Shureido, Adidas — 40 à 200 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🤲</span><div><div class="equip-name">Protège-poings (kumite)</div><div class="equip-price">Adidas, Hayashi — 20 à 60 €</div></div><span class="equip-badge badge-useful">Dès le kumite</span></div>
+  <div class="equip-item"><span class="equip-icon">🦵</span><div><div class="equip-name">Protège-tibias & pieds</div><div class="equip-price">Adidas, Tokaido — 20 à 50 €</div></div><span class="equip-badge badge-useful">Dès le kumite</span></div>
+</div>
+<h2 id="g-s6">Trouver un dojo</h2>
+<p>La <strong>Fédération Française de Karaté (FFK)</strong> est l'organisme officiel. Choisissez votre style selon vos objectifs : Kyokushin pour le contact réel, Shotokan pour la compétition technique, Goju-ryu pour la tradition martiale.</p>
+<h2 id="g-s7">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  savate:{sport:'Savate — Boxe française',emoji:'👟',diffClass:'diff-debutant',diffLabel:'Tous niveaux',
+    banner:'linear-gradient(135deg,#0a1215,#0f1f25)',
+    toc:['Présentation','Histoire','Spécificités techniques','Progression (gants)','Équipement','Trouver une salle','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#0a1215,#0f1f25)">👟
+  <span class="guide-sport-tag">Savate · Boxe française</span>
+  <span class="guide-difficulty diff-debutant">Tous niveaux</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Savate</span><span class="art-tag gold">Guide débutant</span><span class="art-tag">Discipline rare</span></div>
+<h1 class="art-h1">Débuter la Savate : <em>la boxe française</em> expliquée</h1>
+<p class="art-lead">La seule boxe pieds-poings au monde pratiquée avec des chaussures. Née dans les ports français au XIXe siècle, c'est une discipline élégante, technique, et ridiculement sous-estimée.</p>
+<div class="art-content">
+<h2 id="g-s1">Présentation</h2>
+<p>La savate (ou boxe française) utilise les poings et les pieds chaussés — seules les touches avec la semelle et le dessus du pied sont comptées, pas les frappes avec le tibia (contrairement au muay-thaï). Cette contrainte génère un jeu de jambes et une technicité pied d'une richesse exceptionnelle.</p>
+<h2 id="g-s2">Histoire française</h2>
+<p>Née dans les milieux populaires marseillais et parisiens au début du XIXe siècle, la savate s'est développée comme un système de self-défense urbain. Le maître Charles Lecour l'a codifiée en 1832 en intégrant la boxe anglaise. La discipline possède aujourd'hui une fédération internationale et des championnats du monde.</p>
+<div class="callout"><p>La savate a influencé le kickboxing occidental. Plusieurs champions MMA ont un background savate — Francis Ngannou dans sa jeunesse, Cyrille Diabaté.</p></div>
+<h2 id="g-s3">Spécificités techniques</h2>
+<div class="guide-steps">
+  <div class="guide-step"><div class="step-num">01</div><div class="step-body"><h3>Le jeu de jambes</h3><p>La savate développe un jeu de déplacement exceptionnel. Les praticiens sont toujours en mouvement, utilisant des trajectoires circulaires pour créer des angles d'attaque.</p></div></div>
+  <div class="guide-step"><div class="step-num">02</div><div class="step-body"><h3>Les coups de pied "touchés"</h3><p>Seule la semelle "touche" — les coups de pied de savate ressemblent à des frappes d'escrime. Fouetté, chassé, revers, coup de pied bas — chacun a sa logique de distance.</p></div></div>
+  <div class="guide-step"><div class="step-num">03</div><div class="step-body"><h3>L'escrime des poings</h3><p>Les poings sont utilisés comme en boxe anglaise, mais le jeu de distance est plus élaboré — la savate emprunte à l'escrime sa notion de mesure et d'angle d'attaque.</p></div></div>
+</div>
+<h2 id="g-s4">Progression (système gants colorés)</h2>
+<div class="guide-timeline">
+  <div class="timeline-block"><div class="tl-period">0 – 1 an</div><div class="tl-level">Gant bleu</div><div class="tl-desc">Techniques de base, assauts, jeu de jambes fondamental.</div></div>
+  <div class="timeline-block"><div class="tl-period">1 – 3 ans</div><div class="tl-level">Vert / Rouge</div><div class="tl-desc">Enchaînements, combat, compétitions régionales.</div></div>
+  <div class="timeline-block"><div class="tl-period">3 ans +</div><div class="tl-level">Argent / Or</div><div class="tl-desc">Niveau national, enseignement, compétitions internationales.</div></div>
+</div>
+<h2 id="g-s5">Équipement</h2>
+<div class="equip-list">
+  <div class="equip-item"><span class="equip-icon">👟</span><div><div class="equip-name">Chaussures de savate</div><div class="equip-price">Superfight, Budo — 40 à 120 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">🥊</span><div><div class="equip-name">Gants de boxe</div><div class="equip-price">50 à 100 €</div></div><span class="equip-badge badge-must">Indispensable</span></div>
+  <div class="equip-item"><span class="equip-icon">⛑️</span><div><div class="equip-name">Casque + protège-dents</div><div class="equip-price">Pour les assauts</div></div><span class="equip-badge badge-useful">Recommandé</span></div>
+</div>
+<h2 id="g-s6">Trouver une salle</h2>
+<p>La <strong>Fédération Française de Savate Boxe française (FFSavate)</strong> répertorie environ 700 clubs. La savate est principalement concentrée dans les grandes villes — Paris, Lyon, Marseille, Bordeaux ont des clubs de haut niveau.</p>
+<h2 id="g-s7">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`},
+
+  lethwei:{sport:'Lethwei — Boxe birmane',emoji:'💀',diffClass:'diff-avance',diffLabel:'Pratiquants confirmés',
+    banner:'linear-gradient(135deg,#1a0808,#2a1010)',
+    toc:['Présentation','Culture & rituels','Les règles uniques','Base préalable requise','Où pratiquer en France','Articles associés'],
+    html:`<div class="back-btn" onclick="nav('guides')">← Retour aux guides</div>
+<div class="guide-intro-banner" style="background:linear-gradient(135deg,#1a0808,#2a1010)">💀
+  <span class="guide-sport-tag">Lethwei · Myanmar</span>
+  <span class="guide-difficulty diff-avance">Pratiquants confirmés</span>
+</div>
+<div class="art-tags" style="margin-bottom:1rem"><span class="art-tag red">Lethwei</span><span class="art-tag">Discipline rare</span><span class="art-tag gold">Confirmé requis</span></div>
+<h1 class="art-h1">Le Lethwei : <em>la boxe birmane sans gants</em></h1>
+<p class="art-lead">Le Lethwei est le sport de combat le plus brutal qui soit. Pas de gants, les têtes autorisées, pas de décision aux points — on gagne par KO ou abandon. Et pourtant, c'est une discipline d'une richesse technique insoupçonnée.</p>
+<div class="art-content">
+<h2 id="g-s1">Présentation</h2>
+<p>Le Lethwei (လက်ဝှေ့) est l'art martial national du Myanmar. Il ressemble au muay-thaï avec une différence fondamentale : les poings ne sont protégés que par des bandages, pas des gants. Les coups de tête sont autorisés et constituent une arme centrale du système. Il n'existe pas de victoire aux points — seuls le KO, l'abandon ou l'incapacité physique comptent.</p>
+<p>En cas de KO, le combattant blessé bénéficie d'une pause de 2 minutes. S'il se relève, le combat reprend. Ce règlement unique crée des remontées spectaculaires impossibles dans tout autre sport de combat.</p>
+<h2 id="g-s2">Culture & rituels</h2>
+<p>Comme le muay-thaï, le lethwei est profondément ancré dans la culture birmane. Les combattants portent des amulettes protectrices, effectuent des rituels avant le combat. Les combattants les plus célèbres — Tun Tun Min, Too Too — sont des héros nationaux.</p>
+<div class="callout"><p>Dave Leduc, combattant canadien, est devenu en 2018 le premier étranger à remporter le titre national birman de lethwei — une victoire historique qui a mis la discipline sur la carte mondiale.</p></div>
+<h2 id="g-s3">Les règles uniques</h2>
+<ul>
+  <li>Poings bandés (sans gants)</li>
+  <li>Coups de pied (tibia, comme en muay-thaï)</li>
+  <li>Genoux et coudes</li>
+  <li><strong>Coups de tête</strong> — arme emblématique et la plus redoutée</li>
+  <li>Clinch avec projections légères</li>
+</ul>
+<p>Pas de système de points. Victoire uniquement par KO, TKO ou abandon. Les matchs nuls sont courants — les deux combattants peuvent quitter le ring sans vainqueur déclaré.</p>
+<h2 id="g-s4">Base préalable requise</h2>
+<p>Le lethwei n'est <strong>pas</strong> une discipline pour débutants. Une solide expérience en muay-thaï (minimum 2 ans de pratique sérieuse) est fortement recommandée — vous aurez déjà les réflexes de garde, les habitudes de clinch, et la résistance physique nécessaire. L'entraînement spécifique inclut le conditionnement du crâne sur sac, l'adaptation des bandages et un travail intensif sur les esquives de têtes adverses.</p>
+<h2 id="g-s5">Où pratiquer en France</h2>
+<p>Le lethwei reste extrêmement rare en France. Quelques salles de muay-thaï et MMA proposent des initiations — cherchez des salles avec des entraîneurs ayant des liens avec l'Asie du Sud-Est. Des stages spécialisés ont lieu occasionnellement à Paris et Lyon. Suivez les pages des associations francophones de lethwei sur les réseaux sociaux pour être informé.</p>
+<h2 id="g-s6">Articles associés</h2>
+<p>Consultez notre sélection <span style="color:var(--gold);cursor:pointer;font-weight:500" onclick="nav('recommandations')">Recommandations →</span></p>
+</div>`}
+};
+
+/* ─────────────────────────────────────────
+   RECOMMANDATIONS DATA
+   Ajoutez vos propres articles ici :
+   { sport, level, icon, sportLabel, title, desc, type, typeClass, articleId, guideId }
+   sport   : 'mma'|'boxe'|'muay'|'bjj'|'judo'|'karate'|'niche'
+   level   : 'debutant'|'intermediaire'|'avance'
+   articleId : id article (ex: 'a1') ou null
+   guideId   : id guide  (ex: 'mma') ou null
+───────────────────────────────────────── */
+const RECOS = [
+  /* ── MMA Débutant ── */
+  {sport:'mma',level:'debutant',icon:'🥊',sportLabel:'MMA',
+   title:'Comment débuter le MMA en 2025 : le guide complet',
+   desc:'Par où commencer, comment choisir sa salle, à quoi s\'attendre les premiers mois.',
+   type:'Guide',typeClass:'t-conseil',articleId:'a8',guideId:null},
+  {sport:'mma',level:'debutant',icon:'🛒',sportLabel:'MMA',
+   title:'Quel équipement acheter pour commencer le MMA ?',
+   desc:'Gants, short, protège-dents — ce qu\'il faut vraiment dès le premier cours.',
+   type:'Équipement',typeClass:'t-equip',articleId:'a9',guideId:null},
+  {sport:'mma',level:'debutant',icon:'📖',sportLabel:'MMA',
+   title:'Guide débutant MMA — toutes les bases expliquées',
+   desc:'Histoire, disciplines, timeline de progression, équipement et comment choisir sa salle.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'mma'},
+  /* ── MMA Intermédiaire ── */
+  {sport:'mma',level:'intermediaire',icon:'💪',sportLabel:'MMA',
+   title:'Wrestling et MMA : pourquoi la lutte est la clé du succès à l\'UFC',
+   desc:'Comprendre pourquoi le contrôle du niveau est la compétence la plus précieuse en MMA.',
+   type:'Analyse',typeClass:'t-analyse',articleId:'a10',guideId:null},
+  {sport:'mma',level:'intermediaire',icon:'📊',sportLabel:'MMA',
+   title:'UFC 2025 en chiffres : l\'année des KO et des nouveaux champions',
+   desc:'Tendances tactiques, champions émergents et ce qui a dominé la saison 2025.',
+   type:'Bilan',typeClass:'t-analyse',articleId:'a7',guideId:null},
+  {sport:'mma',level:'intermediaire',icon:'🇫🇷',sportLabel:'MMA',
+   title:'Manon Fiorot : portrait de la meilleure combattante française de l\'UFC',
+   desc:'Analyse technique et tactique d\'une combattante de référence.',
+   type:'Portrait',typeClass:'t-analyse',articleId:'a6',guideId:null},
+  /* ── MMA Avancé ── */
+  {sport:'mma',level:'avance',icon:'🏆',sportLabel:'MMA',
+   title:'UFC 313 : Alex Pereira confirme son règne — décryptage tactique',
+   desc:'Utilisation de la distance, gestion des rounds, adaptation stratégique en temps réel.',
+   type:'Analyse combat',typeClass:'t-actu',articleId:'a1',guideId:null},
+  {sport:'mma',level:'avance',icon:'⚡',sportLabel:'MMA',
+   title:'UFC 317 : Topuria KO au 1er round — anatomie d\'une finition parfaite',
+   desc:'Timing, placement, lecture adverse — ce que ce KO enseigne sur l\'art de la frappe.',
+   type:'Analyse combat',typeClass:'t-actu',articleId:'a4',guideId:null},
+  {sport:'mma',level:'avance',icon:'🎯',sportLabel:'MMA',
+   title:'UFC 314 : Volkanovski reconquiert sa ceinture — leçons tactiques',
+   desc:'Comment un grand champion adapte son jeu après une défaite.',
+   type:'Analyse combat',typeClass:'t-actu',articleId:'a2',guideId:null},
+  /* ── Boxe Débutant ── */
+  {sport:'boxe',level:'debutant',icon:'🥊',sportLabel:'Boxe',
+   title:'Débuter la boxe à l\'âge adulte : conseils pratiques et attentes réalistes',
+   desc:'Ce que vous allez ressentir les premières semaines et comment choisir son club.',
+   type:'Guide',typeClass:'t-conseil',articleId:'b8',guideId:null},
+  {sport:'boxe',level:'debutant',icon:'❌',sportLabel:'Boxe',
+   title:'Les 7 erreurs des débutants en boxe (et comment les corriger)',
+   desc:'Connaître ces erreurs avant votre premier cours vous fera gagner des mois.',
+   type:'Conseil',typeClass:'t-conseil',articleId:'b9',guideId:null},
+  {sport:'boxe',level:'debutant',icon:'🏠',sportLabel:'Boxe',
+   title:'Boxe à la maison : s\'entraîner sans salle ni partenaire',
+   desc:'Shadow boxing, sac, corde — le complément indispensable à la pratique en salle.',
+   type:'Conseil',typeClass:'t-conseil',articleId:'b10',guideId:null},
+  {sport:'boxe',level:'debutant',icon:'📖',sportLabel:'Boxe',
+   title:'Guide débutant Boxe anglaise — de zéro au premier sparring',
+   desc:'Les 4 coups, le jeu de jambes, l\'équipement, comment choisir son club.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'boxe'},
+  /* ── Boxe Intermédiaire ── */
+  {sport:'boxe',level:'intermediaire',icon:'🎬',sportLabel:'Boxe',
+   title:'Netflix et la boxe : comment la plateforme a révolutionné la diffusion',
+   desc:'Comprendre le paysage économique de la boxe pour mieux suivre les grands combats.',
+   type:'Analyse',typeClass:'t-analyse',articleId:'b5',guideId:null},
+  {sport:'boxe',level:'intermediaire',icon:'💥',sportLabel:'Boxe',
+   title:'Tank Davis : anatomie d\'un style dévastateur',
+   desc:'Vitesse, précision, jeu de tête — décryptage technique d\'un boxeur de référence.',
+   type:'Portrait',typeClass:'t-analyse',articleId:'b6',guideId:null},
+  {sport:'boxe',level:'intermediaire',icon:'🏆',sportLabel:'Boxe',
+   title:'Usyk vs Dubois 2 : la revanche des poids lourds',
+   desc:'Comprendre les dynamiques tactiques de la division reine à travers ce combat.',
+   type:'Analyse combat',typeClass:'t-actu',articleId:'b3',guideId:null},
+  /* ── Boxe Avancé ── */
+  {sport:'boxe',level:'avance',icon:'🥇',sportLabel:'Boxe',
+   title:'Meilleur boxeur pound-for-pound 2025 : notre Top 5 commenté',
+   desc:'Usyk, Canelo, Davis, Crawford, Inoue — analyse comparative des meilleurs au monde.',
+   type:'Classement',typeClass:'t-analyse',articleId:'b7',guideId:null},
+  {sport:'boxe',level:'avance',icon:'🥊',sportLabel:'Boxe',
+   title:'Canelo vs Crawford : analyse tactique du combat du siècle',
+   desc:'Deux visions opposées de la boxe — à décortiquer techniquement.',
+   type:'Analyse combat',typeClass:'t-actu',articleId:'b1',guideId:null},
+  {sport:'boxe',level:'avance',icon:'💪',sportLabel:'Boxe',
+   title:'Fury vs Joshua : deux archétypes, un choc inédit à décrypter',
+   desc:'Comprendre les forces et faiblesses de chaque style pour anticiper ce combat.',
+   type:'Analyse',typeClass:'t-analyse',articleId:'b4',guideId:null},
+  /* ── Muay-Thaï ── */
+  {sport:'muay',level:'debutant',icon:'📖',sportLabel:'Muay-Thaï',
+   title:'Guide débutant Muay-Thaï : les 8 armes expliquées de zéro',
+   desc:'Culture, techniques, équipement, comment trouver une salle sérieuse.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'muay'},
+  {sport:'muay',level:'intermediaire',icon:'🦵',sportLabel:'Muay-Thaï',
+   title:'Muay-Thaï vs Kickboxing : 7 différences clés pour progresser',
+   desc:'Comprendre les nuances entre les deux disciplines pour affiner sa pratique. (À venir)',
+   type:'Comparatif',typeClass:'t-analyse',articleId:null,guideId:null},
+  {sport:'muay',level:'avance',icon:'🏆',sportLabel:'Muay-Thaï',
+   title:'ONE Championship : les meilleurs combattants Muay-Thaï du moment',
+   desc:'Analyse des tops combattants pour les pratiquants avancés. (À venir)',
+   type:'Analyse',typeClass:'t-analyse',articleId:null,guideId:null},
+  /* ── BJJ ── */
+  {sport:'bjj',level:'debutant',icon:'📖',sportLabel:'BJJ',
+   title:'Guide débutant BJJ : la philosophie du sol expliquée',
+   desc:'Comprendre le jiu-jitsu brésilien avant votre première séance.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'bjj'},
+  {sport:'bjj',level:'intermediaire',icon:'📍',sportLabel:'BJJ',
+   title:'Meilleures académies de BJJ en France : notre sélection 2025',
+   desc:'Guide des meilleures salles par ville. (À venir)',
+   type:'Salles',typeClass:'t-equip',articleId:null,guideId:null},
+  {sport:'bjj',level:'avance',icon:'🏆',sportLabel:'BJJ',
+   title:'ADCC 2025 : résultats et analyses des meilleurs grappleurs mondiaux',
+   desc:'Décryptage technique des finalistes pour les praticiens de haut niveau. (À venir)',
+   type:'Analyse',typeClass:'t-analyse',articleId:null,guideId:null},
+  /* ── Judo ── */
+  {sport:'judo',level:'debutant',icon:'📖',sportLabel:'Judo',
+   title:'Guide débutant Judo : la voie de la souplesse expliquée',
+   desc:'Histoire, philosophie, premières techniques, équipement, trouver un dojo.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'judo'},
+  {sport:'judo',level:'intermediaire',icon:'🏆',sportLabel:'Judo',
+   title:'IJF Grand Slam : suivre et comprendre les grandes compétitions',
+   desc:'Le circuit international expliqué pour les pratiquants de niveau intermédiaire. (À venir)',
+   type:'Événement',typeClass:'t-event',articleId:null,guideId:null},
+  /* ── Karaté ── */
+  {sport:'karate',level:'debutant',icon:'📖',sportLabel:'Karaté',
+   title:'Guide débutant Karaté : bien plus qu\'un art scolaire',
+   desc:'Les 4 styles, les katas, la progression en ceintures — tout pour bien démarrer.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'karate'},
+  {sport:'karate',level:'intermediaire',icon:'🎯',sportLabel:'Karaté',
+   title:'Kyokushin vs Shotokan : choisir son style de karaté en 2025',
+   desc:'Comparatif des deux styles les plus pratiqués pour affiner votre choix. (À venir)',
+   type:'Comparatif',typeClass:'t-analyse',articleId:null,guideId:null},
+  /* ── Disciplines rares ── */
+  {sport:'niche',level:'debutant',icon:'📖',sportLabel:'Savate',
+   title:'Guide Savate : la boxe française expliquée de zéro',
+   desc:'La discipline la plus méconnue de France — histoire, techniques, clubs.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'savate'},
+  {sport:'niche',level:'confirmé',icon:'📖',sportLabel:'Lethwei',
+   title:'Guide Lethwei : la boxe birmane sans gants',
+   desc:'Règles uniques, culture, quelle base préalable est indispensable.',
+   type:'Guide complet',typeClass:'t-conseil',articleId:null,guideId:'lethwei'},
+  {sport:'niche',level:'debutant',icon:'🇳🇬',sportLabel:'Dambe',
+   title:'Dambe : l\'art martial africain qui entre dans le MMA',
+   desc:'Histoire et techniques du Dambe nigérian pour les curieux. (À venir)',
+   type:'Analyse',typeClass:'t-analyse',articleId:null,guideId:null},
+];
+
+/* ─────────────────────────────────────────
+   GUIDE FUNCTIONS
+───────────────────────────────────────── */
+function openGuide(id) {
+  const g = GUIDES[id];
+  if (!g) return;
+  const tocHtml = g.toc.map((t,i) =>
+    `<span class="toc-item" onclick="document.getElementById('g-s${i+1}')?.scrollIntoView({behavior:'smooth'})">${i+1}. ${t}</span>`
+  ).join('');
+  document.getElementById('toc-body').innerHTML = tocHtml;
+  document.getElementById('guide-content').innerHTML = g.html;
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-guide-detail').classList.add('active');
+  document.getElementById('nav-guides').classList.add('active');
+  window.scrollTo(0,0);
+}
+
+/* ─────────────────────────────────────────
+   RECOMMANDATIONS FUNCTIONS
+───────────────────────────────────────── */
+let activeSport = 'all', activeLevel = 'all';
+
+function buildRecoGrid() {
+  const grid = document.getElementById('reco-grid');
+  const empty = document.getElementById('reco-empty');
+  if (!grid) return;
+  const filtered = RECOS.filter(r =>
+    (activeSport === 'all' || r.sport === activeSport) &&
+    (activeLevel === 'all' || r.level === activeLevel)
+  );
+  if (!filtered.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  const lvlLabel = {debutant:'🟢 Débutant', intermediaire:'🟡 Intermédiaire', avance:'🔴 Avancé', 'confirmé':'🔴 Confirmé'};
+  const lvlClass = {debutant:'lb-debutant', intermediaire:'lb-intermediaire', avance:'lb-avance', 'confirmé':'lb-avance'};
+  grid.innerHTML = filtered.map(r => {
+    const action = r.articleId ? `openArticle('${r.articleId}')` : r.guideId ? `openGuide('${r.guideId}')` : '';
+    const cta = (r.articleId || r.guideId) ? 'Lire →' : 'Bientôt →';
+    return `<div class="reco-card" ${action ? `onclick="${action}"` : 'style="opacity:.6;cursor:default"'}>
+      <div class="reco-top">
+        <span class="reco-sport-icon">${r.icon}</span>
+        <div class="reco-badges">
+          <span class="reco-sport-tag">${r.sportLabel}</span>
+          <span class="level-badge ${lvlClass[r.level]||'lb-debutant'}">${lvlLabel[r.level]||r.level}</span>
+        </div>
+      </div>
+      <div class="reco-title">${r.title}</div>
+      <div class="reco-desc">${r.desc}</div>
+      <div class="reco-footer">
+        <span class="reco-type atype ${r.typeClass}">${r.type}</span>
+        <span class="reco-cta">${cta}</span>
+      </div>
+    </div>`; }).join('');
+}
+
+function initRecoFilters() {
+  document.querySelectorAll('.filter-sport').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.filter-sport').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); activeSport = btn.dataset.sport; buildRecoGrid();
+    };
+  });
+  document.querySelectorAll('.filter-level').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('.filter-level').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); activeLevel = btn.dataset.level; buildRecoGrid();
+    };
+  });
+}
+
+/* override nav to init reco page */
+const _origNav = nav;
+function nav(page) {
+  _origNav(page);
+  if (page === 'recommandations') { setTimeout(() => { buildRecoGrid(); initRecoFilters(); }, 50); }
+}
+</script>
+</body>
+</html>
