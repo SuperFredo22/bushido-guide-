@@ -49,13 +49,15 @@ z-index:100;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:1rem 2rem;
+padding:1.2rem 2rem;
 max-width:1200px;
 margin:auto;
+gap:20px;
 }
 
 .logo img{
-height:48px;
+height:70px;
+width:auto;
 }
 
 /* NAV */
@@ -320,4 +322,97 @@ grid-template-columns:1fr;
 overflow-x:auto;
 }
 
+}
+/* ===== FRONT KICK UI IMPROVEMENTS ===== */
+
+.hero{
+margin-bottom:40px;
+}
+
+.featured-card{
+display:grid;
+grid-template-columns:1fr 1fr;
+background:white;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
+padding:20px;
+gap:20px;
+}
+
+.feat-h1{
+font-size:2rem;
+font-weight:700;
+line-height:1.3;
+}
+
+.feat-meta{
+font-size:0.8rem;
+color:#6B7280;
+margin-bottom:10px;
+}
+
+.feat-desc{
+font-size:0.95rem;
+color:#4B5563;
+}
+
+.art-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:24px;
+}
+
+.art-card{
+border-radius:12px;
+border:1px solid #E5E7EB;
+background:white;
+overflow:hidden;
+transition:all .2s ease;
+}
+
+.art-card:hover{
+transform:translateY(-5px);
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.art-thumb{
+height:140px;
+background:linear-gradient(135deg,#0F172A,#1E88E5);
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+font-size:2rem;
+}
+
+.sec-bar{
+display:flex;
+align-items:center;
+gap:20px;
+margin-bottom:15px;
+}
+
+.sec-bar h2{
+font-size:1.5rem;
+font-weight:700;
+}
+
+.sec-line{
+flex:1;
+height:2px;
+background:#E5E7EB;
+}
+
+.sport-hub-card{
+border:1px solid #E5E7EB;
+border-radius:12px;
+padding:18px;
+background:white;
+transition:0.2s;
+}
+
+.sport-hub-card:hover{
+transform:translateY(-3px);
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
 }
