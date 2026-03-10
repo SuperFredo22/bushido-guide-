@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Front Kick — Le Média des Sports de Combat</title>
+  <meta name="description" content="Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï et arts martiaux."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     HEADER — NAVIGATION
+═══════════════════════════════════════ -->
+<header>
+  <div class="header-top">
+    <a href="#/" class="logo">
+      <img src="images/frontkick-logo.png" alt="Front Kick">
+    </a>
+    <div class="header-actions">
+      <!-- Barre de recherche -->
+      <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="Rechercher..." aria-label="Rechercher un article">
+        <button type="submit" id="searchBtn" aria-label="Lancer la recherche">🔍</button>
+      </form>
+      <!-- Bouton mode sombre -->
+      <button id="darkModeToggle" aria-label="Basculer mode sombre">🌙</button>
+    </div>
+  </div>
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="#/"                class="nav-link" data-page="home">Accueil</a>
+      <a href="#/mma"             class="nav-link" data-page="mma">MMA</a>
+      <a href="#/boxe"            class="nav-link" data-page="boxe">Boxe</a>
+      <a href="#/kickboxing"      class="nav-link" data-page="kickboxing">Kickboxing</a>
+      <a href="#/muay-thai"       class="nav-link" data-page="muay-thai">Muay Thaï</a>
+      <a href="#/grappling"       class="nav-link" data-page="grappling">Grappling</a>
+      <a href="#/autres-sports"   class="nav-link" data-page="autres-sports">Autres sports</a>
+      <a href="#/guides"          class="nav-link" data-page="guides">Guides</a>
+      <a href="#/actualites"      class="nav-link" data-page="actualites">Actualités</a>
+    </div>
+  </nav>
+</header>
+
+<div class="hero-accent-band"></div>
+
+<!-- Spinner de chargement global -->
+<div id="global-loader" class="loader" style="display:none;"></div>
+
+<!-- ═══════════════════════════════════════
+     APP CONTAINER
+═══════════════════════════════════════ -->
+<div id="app"></div>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<div class="footer-ad">
+  <div class="ad-slot ad-leader">AdSense 728×90</div>
+</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:.04em;color:var(--text-primary)">Front<span style="color:var(--accent-blue)"> Kick</span></div>
+      <p>Le média des sports de combat.<br>Analyses, guides et équipement pour pratiquants et passionnés.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Disciplines</h4>
+      <ul>
+        <li><a href="#/mma">MMA / UFC</a></li>
+        <li><a href="#/boxe">Boxe anglaise</a></li>
+        <li><a href="#/kickboxing">Kickboxing</a></li>
+        <li><a href="#/muay-thai">Muay-Thaï</a></li>
+        <li><a href="#/grappling">Grappling</a></li>
+        <li><a href="#/autres-sports">Autres sports</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ressources</h4>
+      <ul>
+        <li><a href="#/guides">Guides débutants</a></li>
+        <li><a href="#/equipement">Équipement</a></li>
+        <li><a href="#/actualites">Actualités</a></li>
+        <li><a href="#/recommandations">Recommandations</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>À propos</h4>
+      <ul>
+        <li><a href="#/">Accueil</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Front Kick · Tous droits réservés</span>
+    <span>* Liens affiliés — nous percevons une commission sans surcoût pour vous.</span>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     CHARGEMENT DES DONNÉES
+     Ordre impératif :
+     1. Fichiers articles bruts (dans articles.js)
+     2. data/guides.js
+     3. data/recos.js
+     4. Scripts fonctionnels
+═══════════════════════════════════════ -->
+<script src="articles.js"></script>
+<script src="data/guides.js"></script>
+<script src="data/recos.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/pages.js"></script>
+<script src="js/router.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/search.js"></script>
+
+</body>
+</html>
