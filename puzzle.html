@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Free the Arrow</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a2e;
+    color: #eee;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 16px;
+    user-select: none;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+    color: #a78bfa;
+    letter-spacing: 1px;
+  }
+
+  #subtitle {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 12px;
+  }
+
+  #ui-bar {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #level-label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #60a5fa;
+  }
+
+  #moves-label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+  }
+
+  button {
+    background: #312e81;
+    color: #c4b5fd;
+    border: 1px solid #4c1d95;
+    border-radius: 8px;
+    padding: 6px 14px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+  }
+  button:hover { background: #4338ca; }
+
+  #hint-btn { background: #1e3a5f; color: #7dd3fc; border-color: #1d4ed8; }
+  #hint-btn:hover { background: #1d4ed8; }
+
+  #board-wrap {
+    position: relative;
+    background: #f0e8ff;
+    border-radius: 12px;
+    border: 4px solid #6d28d9;
+    box-shadow: 0 0 30px #7c3aed55;
+    overflow: hidden;
+    touch-action: none;
+  }
+
+  canvas { display: block; }
+
+  #msg-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #0009;
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+  #msg-overlay.show { display: flex; }
+
+  #msg-box {
+    background: #1e1b4b;
+    border: 2px solid #7c3aed;
+    border-radius: 16px;
+    padding: 32px 40px;
+    text-align: center;
+  }
+  #msg-title { font-size: 2rem; color: #a78bfa; margin-bottom: 8px; }
+  #msg-sub   { font-size: 1rem; color: #cbd5e1; margin-bottom: 20px; }
+
+  #level-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    max-width: 400px;
+    margin-bottom: 10px;
+  }
+
+  .lvl-btn {
+    width: 42px; height: 42px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 0;
+  }
+  .lvl-btn.completed { background: #065f46; color: #6ee7b7; border-color: #059669; }
+  .lvl-btn.current   { background: #4338ca; color: #e0e7ff; border-color: #818cf8; }
+
+  #hint-text {
+    font-size: 0.8rem;
+    color: #fbbf24;
+    max-width: 340px;
+    text-align: center;
+    min-height: 1.2em;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Free the Arrow</h1>
+<p id="subtitle">Libère la flèche <span style="color:#a78bfa">violette</span></p>
+
+<div id="ui-bar">
+  <span id="level-label">Niveau 1</span>
+  <span id="moves-label">Mouvements: 0</span>
+  <button id="hint-btn">💡 Aide</button>
+  <button id="reset-btn">↺ Restart</button>
+</div>
+
+<div id="board-wrap">
+  <canvas id="canvas"></canvas>
+</div>
+
+<p id="hint-text"></p>
+
+<div id="msg-overlay">
+  <div id="msg-box">
+    <div id="msg-title"></div>
+    <div id="msg-sub"></div>
+    <div id="level-select"></div>
+    <button id="next-btn" style="font-size:1rem;padding:10px 28px;">Niveau suivant ▶</button>
+  </div>
+</div>
+
+<script>
+const COLS = 6, ROWS = 6;
+let CELL;
+
+const LEVELS = [
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:3, len:2, dir:'V' },
+      { id:2, r:3, c:0, len:3, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:1, len:2, dir:'H', target:true },
+      { id:1, r:0, c:3, len:3, dir:'V' },
+      { id:2, r:2, c:3, len:2, dir:'V' },
+      { id:3, r:4, c:0, len:3, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:2, len:2, dir:'V' },
+      { id:2, r:2, c:2, len:2, dir:'V' },
+      { id:3, r:1, c:3, len:3, dir:'H' },
+      { id:4, r:4, c:2, len:2, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:2, len:3, dir:'V' },
+      { id:2, r:0, c:3, len:2, dir:'H' },
+      { id:3, r:1, c:4, len:3, dir:'V' },
+      { id:4, r:2, c:3, len:2, dir:'H' },
+      { id:5, r:4, c:0, len:2, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:2, len:2, dir:'V' },
+      { id:2, r:2, c:2, len:2, dir:'V' },
+      { id:3, r:0, c:3, len:3, dir:'H' },
+      { id:4, r:1, c:5, len:3, dir:'V' },
+      { id:5, r:3, c:3, len:2, dir:'H' },
+      { id:6, r:4, c:1, len:2, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:1, len:2, dir:'H', target:true },
+      { id:1, r:0, c:1, len:2, dir:'V' },
+      { id:2, r:0, c:3, len:3, dir:'V' },
+      { id:3, r:1, c:4, len:2, dir:'H' },
+      { id:4, r:2, c:3, len:2, dir:'H' },
+      { id:5, r:3, c:0, len:3, dir:'H' },
+      { id:6, r:4, c:3, len:2, dir:'V' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:2, len:2, dir:'V' },
+      { id:2, r:2, c:2, len:3, dir:'V' },
+      { id:3, r:0, c:3, len:2, dir:'H' },
+      { id:4, r:1, c:4, len:2, dir:'V' },
+      { id:5, r:0, c:5, len:3, dir:'V' },
+      { id:6, r:3, c:3, len:3, dir:'H' },
+      { id:7, r:5, c:0, len:3, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:0, len:2, dir:'V' },
+      { id:2, r:0, c:2, len:3, dir:'H' },
+      { id:3, r:0, c:5, len:3, dir:'V' },
+      { id:4, r:1, c:1, len:2, dir:'V' },
+      { id:5, r:2, c:2, len:2, dir:'V' },
+      { id:6, r:2, c:4, len:3, dir:'V' },
+      { id:7, r:3, c:2, len:3, dir:'H' },
+      { id:8, r:5, c:0, len:2, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:0, len:3, dir:'H' },
+      { id:2, r:0, c:3, len:2, dir:'V' },
+      { id:3, r:0, c:4, len:2, dir:'H' },
+      { id:4, r:1, c:2, len:2, dir:'V' },
+      { id:5, r:1, c:5, len:2, dir:'V' },
+      { id:6, r:2, c:2, len:2, dir:'H' },
+      { id:7, r:3, c:1, len:3, dir:'V' },
+      { id:8, r:3, c:4, len:2, dir:'H' },
+      { id:9, r:4, c:4, len:2, dir:'V' },
+      { id:10,r:5, c:0, len:3, dir:'H' },
+    ]
+  },
+  {
+    exitRow: 2,
+    pieces: [
+      { id:0, r:2, c:0, len:2, dir:'H', target:true },
+      { id:1, r:0, c:0, len:2, dir:'V' },
+      { id:2, r:0, c:2, len:2, dir:'H' },
+      { id:3, r:0, c:4, len:2, dir:'V' },
+      { id:4, r:1, c:1, len:2, dir:'H' },
+      { id:5, r:1, c:3, len:2, dir:'V' },
+      { id:6, r:1, c:5, len:2, dir:'V' },
+      { id:7, r:2, c:2, len:2, dir:'V' },
+      { id:8, r:2, c:4, len:2, dir:'H' },
+      { id:9, r:3, c:0, len:3, dir:'H' },
+      { id:10,r:3, c:3, len:3, dir:'H' },
+      { id:11,r:4, c:1, len:2, dir:'V' },
+      { id:12,r:4, c:4, len:2, dir:'V' },
+      { id:13,r:5, c:0, len:2, dir:'H' },
+      { id:14,r:5, c:3, len:3, dir:'H' },
+    ]
+  },
+];
+
+const COLORS = [
+  '#7c3aed',
+  '#2563eb','#059669','#dc2626','#d97706',
+  '#0891b2','#7c3aed','#be185d','#4f46e5',
+  '#047857','#b45309','#1d4ed8','#9333ea',
+  '#065f46','#c2410c','#6d28d9',
+];
+
+let currentLevel = 0;
+let pieces = [];
+let moves = 0;
+let completed = new Set(JSON.parse(localStorage.getItem('fta_completed') || '[]'));
+let hintStep = null;
+let hintTimer = null;
+let drag = null;
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+
+function computeCell() {
+  const maxW = Math.min(window.innerWidth - 40, 420);
+  const maxH = window.innerHeight - 220;
+  CELL = Math.floor(Math.min(maxW, maxH) / COLS);
+}
+
+function resizeCanvas() {
+  computeCell();
+  canvas.width  = COLS * CELL;
+  canvas.height = ROWS * CELL;
+}
+
+function loadLevel(idx) {
+  currentLevel = idx;
+  moves = 0;
+  hintStep = null;
+  clearHintText();
+  const lvl = LEVELS[idx];
+  pieces = lvl.pieces.map(p => ({ ...p }));
+  document.getElementById('level-label').textContent = `Niveau ${idx + 1} / ${LEVELS.length}`;
+  document.getElementById('moves-label').textContent = `Mouvements: 0`;
+  draw();
+}
+
+function resetLevel() { loadLevel(currentLevel); }
+
+function draw() {
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  ctx.strokeStyle = '#c4b5fd44';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= COLS; i++) {
+    ctx.beginPath(); ctx.moveTo(i*CELL, 0); ctx.lineTo(i*CELL, H); ctx.stroke();
+  }
+  for (let j = 0; j <= ROWS; j++) {
+    ctx.beginPath(); ctx.moveTo(0, j*CELL); ctx.lineTo(W, j*CELL); ctx.stroke();
+  }
+  const exitRow = LEVELS[currentLevel].exitRow;
+  ctx.fillStyle = '#a78bfa33';
+  ctx.fillRect(W - CELL*0.3, exitRow*CELL, CELL*0.3, CELL);
+  ctx.fillStyle = '#a78bfa';
+  ctx.font = `bold ${CELL*0.5}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.fillText('▶', W - CELL*0.15, exitRow*CELL + CELL*0.65);
+  pieces.forEach(p => drawPiece(p));
+}
+
+function drawPiece(p) {
+  const PAD = CELL * 0.08;
+  let x, y, w, h;
+  if (p.dir === 'H') {
+    x = p.c * CELL + PAD; y = p.r * CELL + PAD;
+    w = p.len * CELL - PAD*2; h = CELL - PAD*2;
+  } else {
+    x = p.c * CELL + PAD; y = p.r * CELL + PAD;
+    w = CELL - PAD*2; h = p.len * CELL - PAD*2;
+  }
+  const color = COLORS[p.id % COLORS.length];
+  const isTarget = p.target;
+  const isHinted = hintStep && hintStep.pieceId === p.id;
+  ctx.shadowColor = isHinted ? '#fbbf24' : (isTarget ? '#7c3aed' : '#0004');
+  ctx.shadowBlur = isHinted ? 18 : (isTarget ? 14 : 4);
+  const r = CELL * 0.15;
+  ctx.beginPath();
+  roundRect(ctx, x, y, w, h, r);
+  ctx.fillStyle = isHinted ? '#fbbf2488' : color + (isTarget ? 'cc' : '99');
+  ctx.fill();
+  ctx.strokeStyle = isHinted ? '#fbbf24' : color;
+  ctx.lineWidth = isTarget ? 3 : 2;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  const cx = x + w/2, cy = y + h/2;
+  const s = Math.min(w, h) * 0.35;
+  ctx.fillStyle = isTarget ? '#fff' : '#ffffffcc';
+  ctx.font = `bold ${s * 1.8}px sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(isTarget ? '→' : (p.dir === 'H' ? '↔' : '↕'), cx, cy);
+  ctx.textBaseline = 'alphabetic';
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.moveTo(x+r, y);
+  ctx.arcTo(x+w, y,   x+w, y+h, r);
+  ctx.arcTo(x+w, y+h, x,   y+h, r);
+  ctx.arcTo(x,   y+h, x,   y,   r);
+  ctx.arcTo(x,   y,   x+w, y,   r);
+  ctx.closePath();
+}
+
+function buildGrid(excludeId = -1) {
+  const grid = Array.from({length: ROWS}, () => new Array(COLS).fill(-1));
+  pieces.forEach(p => {
+    if (p.id === excludeId) return;
+    for (let i = 0; i < p.len; i++) {
+      const r = p.dir === 'H' ? p.r : p.r + i;
+      const c = p.dir === 'H' ? p.c + i : p.c;
+      if (r >= 0 && r < ROWS && c >= 0 && c < COLS) grid[r][c] = p.id;
+    }
+  });
+  return grid;
+}
+
+function canMove(p, delta) {
+  const grid = buildGrid(p.id);
+  if (p.dir === 'H') {
+    const newC = p.c + delta;
+    if (newC < 0 || newC + p.len - 1 >= COLS) return false;
+    for (let i = 0; i < p.len; i++) if (grid[p.r][newC + i] !== -1) return false;
+  } else {
+    const newR = p.r + delta;
+    if (newR < 0 || newR + p.len - 1 >= ROWS) return false;
+    for (let i = 0; i < p.len; i++) if (grid[newR + i][p.c] !== -1) return false;
+  }
+  return true;
+}
+
+function maxDelta(p, sign) {
+  let d = 0;
+  while (canMove(p, (d + sign))) d += sign;
+  return d;
+}
+
+function checkWin() {
+  const target = pieces.find(p => p.target);
+  const exitRow = LEVELS[currentLevel].exitRow;
+  return target.dir === 'H' && target.r === exitRow && target.c + target.len >= COLS;
+}
+
+function encodeState(pcs) {
+  return pcs.map(p => `${p.r},${p.c}`).join('|');
+}
+
+function solveHint() {
+  const initial = pieces.map(p => ({ id: p.id, r: p.r, c: p.c, len: p.len, dir: p.dir, target: p.target }));
+  const exitRow = LEVELS[currentLevel].exitRow;
+  const queue = [{ state: initial, path: [] }];
+  const visited = new Set([encodeState(initial)]);
+  let iterations = 0;
+  while (queue.length && iterations < 8000) {
+    iterations++;
+    const { state, path } = queue.shift();
+    const tgt = state.find(p => p.target);
+    if (tgt.dir === 'H' && tgt.r === exitRow && tgt.c + tgt.len >= COLS) return path;
+    for (const p of state) {
+      for (const sign of [-1, +1]) {
+        let d = 0;
+        while (true) {
+          d += sign;
+          const newState = state.map(x => ({ ...x }));
+          const piece = newState.find(x => x.id === p.id);
+          if (piece.dir === 'H') {
+            if (piece.c + d < 0 || piece.c + d + piece.len - 1 >= COLS) break;
+          } else {
+            if (piece.r + d < 0 || piece.r + d + piece.len - 1 >= ROWS) break;
+          }
+          const occupied = new Set();
+          newState.forEach(x => {
+            if (x.id === piece.id) return;
+            for (let i = 0; i < x.len; i++) {
+              const rr = x.dir === 'H' ? x.r : x.r + i;
+              const cc = x.dir === 'H' ? x.c + i : x.c;
+              occupied.add(`${rr},${cc}`);
+            }
+          });
+          let blocked = false;
+          for (let i = 0; i < piece.len; i++) {
+            const rr = piece.dir === 'H' ? piece.r : piece.r + d + i;
+            const cc = piece.dir === 'H' ? piece.c + d + i : piece.c;
+            if (occupied.has(`${rr},${cc}`)) { blocked = true; break; }
+          }
+          if (blocked) break;
+          if (piece.dir === 'H') piece.c = p.c + d; else piece.r = p.r + d;
+          const key = encodeState(newState);
+          if (!visited.has(key)) {
+            visited.add(key);
+            queue.push({ state: newState, path: [...path, { pieceId: p.id, delta: d }] });
+          }
+        }
+      }
+    }
+  }
+  return null;
+}
+
+function showHint() {
+  clearTimeout(hintTimer);
+  const path = solveHint();
+  if (!path || path.length === 0) { showHintText('Félicitations, encore un mouvement !'); return; }
+  const step = path[0];
+  hintStep = step;
+  const p = pieces.find(x => x.id === step.pieceId);
+  const dir = p.dir === 'H' ? (step.delta > 0 ? 'droite' : 'gauche') : (step.delta > 0 ? 'bas' : 'haut');
+  const label = p.target ? 'la flèche violette' : `la pièce ${step.pieceId + 1}`;
+  showHintText(`Déplace ${label} vers le ${dir} (${Math.abs(step.delta)} case${Math.abs(step.delta)>1?'s':''})`);
+  draw();
+  hintTimer = setTimeout(() => { hintStep = null; draw(); clearHintText(); }, 4000);
+}
+
+function showHintText(t) { document.getElementById('hint-text').textContent = t; }
+function clearHintText() { document.getElementById('hint-text').textContent = ''; }
+
+function getCell(clientX, clientY) {
+  const rect = canvas.getBoundingClientRect();
+  return { c: (clientX - rect.left) / CELL, r: (clientY - rect.top) / CELL };
+}
+
+function pieceAt(r, c) {
+  return pieces.find(p => {
+    if (p.dir === 'H') return Math.floor(r) === p.r && c >= p.c && c < p.c + p.len;
+    else               return Math.floor(c) === p.c && r >= p.r && r < p.r + p.len;
+  });
+}
+
+canvas.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  const pos = getCell(e.clientX, e.clientY);
+  const p = pieceAt(pos.r, pos.c);
+  if (!p) return;
+  drag = { pieceId: p.id, axis: p.dir, startPos: p.dir === 'H' ? pos.c : pos.r, startCell: p.dir === 'H' ? p.c : p.r, moved: false };
+  canvas.setPointerCapture(e.pointerId);
+});
+
+canvas.addEventListener('pointermove', e => {
+  if (!drag) return;
+  e.preventDefault();
+  const pos = getCell(e.clientX, e.clientY);
+  const cur = drag.axis === 'H' ? pos.c : pos.r;
+  const rawDelta = cur - drag.startPos;
+  const snapDelta = Math.round(rawDelta);
+  const p = pieces.find(x => x.id === drag.pieceId);
+  const clampedDelta = Math.max(maxDelta(p, -1), Math.min(maxDelta(p, +1), snapDelta));
+  if (p.dir === 'H') p.c = drag.startCell + clampedDelta;
+  else               p.r = drag.startCell + clampedDelta;
+  draw();
+});
+
+canvas.addEventListener('pointerup', e => {
+  if (!drag) return;
+  const p = pieces.find(x => x.id === drag.pieceId);
+  const newCell = p.dir === 'H' ? p.c : p.r;
+  if (newCell !== drag.startCell) {
+    moves++;
+    document.getElementById('moves-label').textContent = `Mouvements: ${moves}`;
+    hintStep = null;
+    clearHintText();
+    if (p.dir === 'H') p.c = Math.round(p.c);
+    else               p.r = Math.round(p.r);
+    if (checkWin()) { draw(); setTimeout(showWin, 300); }
+  } else {
+    if (p.dir === 'H') p.c = drag.startCell;
+    else               p.r = drag.startCell;
+  }
+  drag = null;
+  draw();
+});
+
+function showWin() {
+  completed.add(currentLevel);
+  localStorage.setItem('fta_completed', JSON.stringify([...completed]));
+  const overlay = document.getElementById('msg-overlay');
+  document.getElementById('msg-title').textContent = '🎉 Niveau réussi !';
+  document.getElementById('msg-sub').textContent = `Résolu en ${moves} mouvement${moves>1?'s':''}.`;
+  const nextBtn = document.getElementById('next-btn');
+  if (currentLevel + 1 >= LEVELS.length) {
+    nextBtn.textContent = '🏆 Rejouer depuis le début';
+    nextBtn.onclick = () => { overlay.classList.remove('show'); loadLevel(0); };
+  } else {
+    nextBtn.textContent = 'Niveau suivant ▶';
+    nextBtn.onclick = () => { overlay.classList.remove('show'); loadLevel(currentLevel + 1); };
+  }
+  buildLevelSelect();
+  overlay.classList.add('show');
+}
+
+function buildLevelSelect() {
+  const sel = document.getElementById('level-select');
+  sel.innerHTML = '';
+  LEVELS.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'lvl-btn' + (completed.has(i) ? ' completed' : '') + (i === currentLevel ? ' current' : '');
+    b.textContent = i + 1;
+    b.onclick = () => { document.getElementById('msg-overlay').classList.remove('show'); loadLevel(i); };
+    sel.appendChild(b);
+  });
+}
+
+document.getElementById('hint-btn').onclick = showHint;
+document.getElementById('reset-btn').onclick = resetLevel;
+window.addEventListener('resize', () => { resizeCanvas(); draw(); });
+resizeCanvas();
+loadLevel(0);
+</script>
+</body>
+</html>
