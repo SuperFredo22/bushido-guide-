@@ -1,122 +1,242 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>Front Kick — Le Média des Sports de Combat</title>
-  <meta name="description" content="Guides, analyses et actualités sur tous les sports de combat : MMA, boxe, kickboxing, muay thaï et arts martiaux."/>
-  <meta name="theme-color" content="#0F172A"/>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=DM+Serif+Display:ital@0;1&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Free the Arrow</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #1a1a2e;
+    color: #eee;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 16px;
+    user-select: none;
+  }
+  h1 { font-size: 1.4rem; margin-bottom: 4px; color: #a78bfa; letter-spacing: 1px; }
+  #subtitle { font-size: 0.85rem; color: #888; margin-bottom: 12px; }
+  #ui-bar {
+    display: flex; gap: 12px; align-items: center;
+    margin-bottom: 14px; flex-wrap: wrap; justify-content: center;
+  }
+  #level-label { font-size: 1rem; font-weight: bold; color: #60a5fa; }
+  #moves-label { font-size: 0.9rem; color: #94a3b8; }
+  button {
+    background: #312e81; color: #c4b5fd; border: 1px solid #4c1d95;
+    border-radius: 8px; padding: 6px 14px; cursor: pointer;
+    font-size: 0.85rem; transition: background 0.2s;
+  }
+  button:hover { background: #4338ca; }
+  #hint-btn { background: #1e3a5f; color: #7dd3fc; border-color: #1d4ed8; }
+  #hint-btn:hover { background: #1d4ed8; }
+  #board-wrap {
+    position: relative; background: #f0e8ff; border-radius: 12px;
+    border: 4px solid #6d28d9; box-shadow: 0 0 30px #7c3aed55;
+    overflow: hidden; touch-action: none;
+  }
+  canvas { display: block; }
+  #msg-overlay {
+    display: none; position: fixed; inset: 0; background: #0009;
+    z-index: 100; align-items: center; justify-content: center;
+    flex-direction: column; gap: 16px;
+  }
+  #msg-overlay.show { display: flex; }
+  #msg-box {
+    background: #1e1b4b; border: 2px solid #7c3aed;
+    border-radius: 16px; padding: 32px 40px; text-align: center;
+  }
+  #msg-title { font-size: 2rem; color: #a78bfa; margin-bottom: 8px; }
+  #msg-sub   { font-size: 1rem; color: #cbd5e1; margin-bottom: 20px; }
+  #level-select {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; max-width: 400px; margin-bottom: 10px;
+  }
+  .lvl-btn { width: 42px; height: 42px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; padding: 0; }
+  .lvl-btn.completed { background: #065f46; color: #6ee7b7; border-color: #059669; }
+  .lvl-btn.current   { background: #4338ca; color: #e0e7ff; border-color: #818cf8; }
+  #hint-text {
+    font-size: 0.8rem; color: #fbbf24; max-width: 340px;
+    text-align: center; min-height: 1.2em; margin-top: 4px;
+  }
+</style>
 </head>
 <body>
-
-<!-- ═══════════════════════════════════════
-     HEADER — NAVIGATION
-═══════════════════════════════════════ -->
-<header>
-  <div class="header-top">
-    <a href="#/" class="logo">
-      <img src="images/frontkick-logo.png" alt="Front Kick">
-    </a>
-    <div class="header-actions">
-      <form id="searchForm">
-        <input type="text" id="searchInput" placeholder="Rechercher…" aria-label="Rechercher un article">
-        <button type="submit" id="searchBtn" aria-label="Lancer la recherche">🔍</button>
-      </form>
-      <button id="darkModeToggle" aria-label="Basculer mode sombre">🌙</button>
-    </div>
-  </div>
-
-  <nav class="nav-bar" role="navigation" aria-label="Navigation principale">
-    <div class="nav-inner">
-      <a href="#/"                class="nav-link" data-page="home">Accueil</a>
-      <a href="#/mma"             class="nav-link" data-page="mma">MMA</a>
-      <a href="#/boxe"            class="nav-link" data-page="boxe">Boxe</a>
-      <a href="#/kickboxing"      class="nav-link" data-page="kickboxing">Kickboxing</a>
-      <a href="#/muay-thai"       class="nav-link" data-page="muay-thai">Muay Thaï</a>
-      <a href="#/grappling"       class="nav-link" data-page="grappling">Grappling</a>
-      <a href="#/autres-sports"   class="nav-link" data-page="autres-sports">Autres sports</a>
-      <a href="#/guides"          class="nav-link" data-page="guides">Guides</a>
-      <a href="#/actualites"      class="nav-link" data-page="actualites">Actualités</a>
-    </div>
-  </nav>
-</header>
-
-<div class="hero-accent-band" role="presentation"></div>
-
-<!-- Spinner de chargement -->
-<div id="global-loader" class="loader" style="display:none;" role="progressbar" aria-label="Chargement…"></div>
-
-<!-- ═══════════════════════════════════════
-     APP CONTAINER
-═══════════════════════════════════════ -->
-<div id="app" role="main"></div>
-
-<!-- ═══════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════ -->
-<div class="footer-ad">
-  <div class="ad-slot ad-leader">AdSense 728×90</div>
+<h1>Free the Arrow</h1>
+<p id="subtitle">Libère la flèche <span style="color:#a78bfa">violette</span></p>
+<div id="ui-bar">
+  <span id="level-label">Niveau 1</span>
+  <span id="moves-label">Mouvements: 0</span>
+  <button id="hint-btn">💡 Aide</button>
+  <button id="reset-btn">↺ Restart</button>
 </div>
-
-<footer role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.05em;color:#fff;">
-        Front<span style="color:#38BDF8;">Kick</span>
-      </div>
-      <p>Le média des sports de combat.<br>Analyses, guides et équipement pour pratiquants et passionnés.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Disciplines</h4>
-      <ul>
-        <li><a href="#/mma">MMA / UFC</a></li>
-        <li><a href="#/boxe">Boxe anglaise</a></li>
-        <li><a href="#/kickboxing">Kickboxing</a></li>
-        <li><a href="#/muay-thai">Muay-Thaï</a></li>
-        <li><a href="#/grappling">Grappling</a></li>
-        <li><a href="#/autres-sports">Autres sports</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Ressources</h4>
-      <ul>
-        <li><a href="#/guides">Guides débutants</a></li>
-        <li><a href="#/equipement">Équipement</a></li>
-        <li><a href="#/actualites">Actualités</a></li>
-        <li><a href="#/recommandations">Recommandations</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>À propos</h4>
-      <ul>
-        <li><a href="#/">Accueil</a></li>
-      </ul>
-    </div>
+<div id="board-wrap"><canvas id="canvas"></canvas></div>
+<p id="hint-text"></p>
+<div id="msg-overlay">
+  <div id="msg-box">
+    <div id="msg-title"></div>
+    <div id="msg-sub"></div>
+    <div id="level-select"></div>
+    <button id="next-btn" style="font-size:1rem;padding:10px 28px;">Niveau suivant ▶</button>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Front Kick · Tous droits réservés</span>
-    <span>* Liens affiliés — nous percevons une commission sans surcoût pour vous.</span>
-  </div>
-</footer>
-
-<!-- ═══════════════════════════════════════
-     SCRIPTS
-═══════════════════════════════════════ -->
-<script src="articles.js"></script>
-<script src="data/guides.js"></script>
-<script src="data/recos.js"></script>
-<script src="js/utils.js"></script>
-<script src="js/pages.js"></script>
-<script src="js/router.js"></script>
-<script src="js/theme.js"></script>
-<script src="js/search.js"></script>
-
+</div>
+<script>
+const COLS=6,ROWS=6;let CELL;
+const LEVELS=[
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:3,len:2,dir:'V'},{id:2,r:3,c:0,len:3,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:1,len:2,dir:'H',target:true},{id:1,r:0,c:3,len:3,dir:'V'},{id:2,r:2,c:3,len:2,dir:'V'},{id:3,r:4,c:0,len:3,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:2,len:2,dir:'V'},{id:2,r:2,c:2,len:2,dir:'V'},{id:3,r:1,c:3,len:3,dir:'H'},{id:4,r:4,c:2,len:2,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:2,len:3,dir:'V'},{id:2,r:0,c:3,len:2,dir:'H'},{id:3,r:1,c:4,len:3,dir:'V'},{id:4,r:2,c:3,len:2,dir:'H'},{id:5,r:4,c:0,len:2,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:2,len:2,dir:'V'},{id:2,r:2,c:2,len:2,dir:'V'},{id:3,r:0,c:3,len:3,dir:'H'},{id:4,r:1,c:5,len:3,dir:'V'},{id:5,r:3,c:3,len:2,dir:'H'},{id:6,r:4,c:1,len:2,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:1,len:2,dir:'H',target:true},{id:1,r:0,c:1,len:2,dir:'V'},{id:2,r:0,c:3,len:3,dir:'V'},{id:3,r:1,c:4,len:2,dir:'H'},{id:4,r:2,c:3,len:2,dir:'H'},{id:5,r:3,c:0,len:3,dir:'H'},{id:6,r:4,c:3,len:2,dir:'V'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:2,len:2,dir:'V'},{id:2,r:2,c:2,len:3,dir:'V'},{id:3,r:0,c:3,len:2,dir:'H'},{id:4,r:1,c:4,len:2,dir:'V'},{id:5,r:0,c:5,len:3,dir:'V'},{id:6,r:3,c:3,len:3,dir:'H'},{id:7,r:5,c:0,len:3,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:0,len:2,dir:'V'},{id:2,r:0,c:2,len:3,dir:'H'},{id:3,r:0,c:5,len:3,dir:'V'},{id:4,r:1,c:1,len:2,dir:'V'},{id:5,r:2,c:2,len:2,dir:'V'},{id:6,r:2,c:4,len:3,dir:'V'},{id:7,r:3,c:2,len:3,dir:'H'},{id:8,r:5,c:0,len:2,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:0,len:3,dir:'H'},{id:2,r:0,c:3,len:2,dir:'V'},{id:3,r:0,c:4,len:2,dir:'H'},{id:4,r:1,c:2,len:2,dir:'V'},{id:5,r:1,c:5,len:2,dir:'V'},{id:6,r:2,c:2,len:2,dir:'H'},{id:7,r:3,c:1,len:3,dir:'V'},{id:8,r:3,c:4,len:2,dir:'H'},{id:9,r:4,c:4,len:2,dir:'V'},{id:10,r:5,c:0,len:3,dir:'H'}]},
+  {exitRow:2,pieces:[{id:0,r:2,c:0,len:2,dir:'H',target:true},{id:1,r:0,c:0,len:2,dir:'V'},{id:2,r:0,c:2,len:2,dir:'H'},{id:3,r:0,c:4,len:2,dir:'V'},{id:4,r:1,c:1,len:2,dir:'H'},{id:5,r:1,c:3,len:2,dir:'V'},{id:6,r:1,c:5,len:2,dir:'V'},{id:7,r:2,c:2,len:2,dir:'V'},{id:8,r:2,c:4,len:2,dir:'H'},{id:9,r:3,c:0,len:3,dir:'H'},{id:10,r:3,c:3,len:3,dir:'H'},{id:11,r:4,c:1,len:2,dir:'V'},{id:12,r:4,c:4,len:2,dir:'V'},{id:13,r:5,c:0,len:2,dir:'H'},{id:14,r:5,c:3,len:3,dir:'H'}]}
+];
+const COLORS=['#7c3aed','#2563eb','#059669','#dc2626','#d97706','#0891b2','#7c3aed','#be185d','#4f46e5','#047857','#b45309','#1d4ed8','#9333ea','#065f46','#c2410c','#6d28d9'];
+let currentLevel=0,pieces=[],moves=0,completed=new Set(JSON.parse(localStorage.getItem('fta_completed')||'[]')),hintStep=null,hintTimer=null,drag=null;
+const canvas=document.getElementById('canvas'),ctx=canvas.getContext('2d');
+function computeCell(){const maxW=Math.min(window.innerWidth-40,420),maxH=window.innerHeight-220;CELL=Math.floor(Math.min(maxW,maxH)/COLS);}
+function resizeCanvas(){computeCell();canvas.width=COLS*CELL;canvas.height=ROWS*CELL;}
+function loadLevel(idx){currentLevel=idx;moves=0;hintStep=null;clearHintText();pieces=LEVELS[idx].pieces.map(p=>({...p}));document.getElementById('level-label').textContent=`Niveau ${idx+1} / ${LEVELS.length}`;document.getElementById('moves-label').textContent='Mouvements: 0';draw();}
+function resetLevel(){loadLevel(currentLevel);}
+function draw(){
+  const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='#c4b5fd44';ctx.lineWidth=1;
+  for(let i=0;i<=COLS;i++){ctx.beginPath();ctx.moveTo(i*CELL,0);ctx.lineTo(i*CELL,H);ctx.stroke();}
+  for(let j=0;j<=ROWS;j++){ctx.beginPath();ctx.moveTo(0,j*CELL);ctx.lineTo(W,j*CELL);ctx.stroke();}
+  const er=LEVELS[currentLevel].exitRow;
+  ctx.fillStyle='#a78bfa33';ctx.fillRect(W-CELL*0.3,er*CELL,CELL*0.3,CELL);
+  ctx.fillStyle='#a78bfa';ctx.font=`bold ${CELL*0.5}px sans-serif`;ctx.textAlign='center';
+  ctx.fillText('▶',W-CELL*0.15,er*CELL+CELL*0.65);
+  pieces.forEach(p=>drawPiece(p));
+}
+function drawPiece(p){
+  const PAD=CELL*0.08;let x,y,w,h;
+  if(p.dir==='H'){x=p.c*CELL+PAD;y=p.r*CELL+PAD;w=p.len*CELL-PAD*2;h=CELL-PAD*2;}
+  else{x=p.c*CELL+PAD;y=p.r*CELL+PAD;w=CELL-PAD*2;h=p.len*CELL-PAD*2;}
+  const color=COLORS[p.id%COLORS.length],isT=p.target,isH=hintStep&&hintStep.pieceId===p.id;
+  ctx.shadowColor=isH?'#fbbf24':(isT?'#7c3aed':'#0004');ctx.shadowBlur=isH?18:(isT?14:4);
+  const r=CELL*0.15;ctx.beginPath();rRect(x,y,w,h,r);
+  ctx.fillStyle=isH?'#fbbf2488':color+(isT?'cc':'99');ctx.fill();
+  ctx.strokeStyle=isH?'#fbbf24':color;ctx.lineWidth=isT?3:2;ctx.stroke();
+  ctx.shadowBlur=0;
+  ctx.fillStyle=isT?'#fff':'#ffffffcc';ctx.font=`bold ${Math.min(w,h)*0.63}px sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(isT?'→':(p.dir==='H'?'↔':'↕'),x+w/2,y+h/2);
+  ctx.textBaseline='alphabetic';
+}
+function rRect(x,y,w,h,r){ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+function buildGrid(ex=-1){
+  const g=Array.from({length:ROWS},()=>new Array(COLS).fill(-1));
+  pieces.forEach(p=>{if(p.id===ex)return;for(let i=0;i<p.len;i++){const r=p.dir==='H'?p.r:p.r+i,c=p.dir==='H'?p.c+i:p.c;if(r>=0&&r<ROWS&&c>=0&&c<COLS)g[r][c]=p.id;}});
+  return g;
+}
+function canMove(p,d){
+  const g=buildGrid(p.id);
+  if(p.dir==='H'){const nc=p.c+d;if(nc<0||nc+p.len-1>=COLS)return false;for(let i=0;i<p.len;i++)if(g[p.r][nc+i]!==-1)return false;}
+  else{const nr=p.r+d;if(nr<0||nr+p.len-1>=ROWS)return false;for(let i=0;i<p.len;i++)if(g[nr+i][p.c]!==-1)return false;}
+  return true;
+}
+function maxDelta(p,s){let d=0;while(canMove(p,d+s))d+=s;return d;}
+function checkWin(){const t=pieces.find(p=>p.target);return t.dir==='H'&&t.r===LEVELS[currentLevel].exitRow&&t.c+t.len>=COLS;}
+function encodeState(s){return s.map(p=>`${p.r},${p.c}`).join('|');}
+function solveHint(){
+  const init=pieces.map(p=>({...p})),er=LEVELS[currentLevel].exitRow;
+  const q=[{state:init,path:[]}],vis=new Set([encodeState(init)]);
+  let it=0;
+  while(q.length&&it<8000){
+    it++;const{state,path}=q.shift();
+    const t=state.find(p=>p.target);
+    if(t.dir==='H'&&t.r===er&&t.c+t.len>=COLS)return path;
+    for(const p of state)for(const sign of[-1,+1]){
+      let d=0;
+      while(true){
+        d+=sign;
+        const ns=state.map(x=>({...x})),pc=ns.find(x=>x.id===p.id);
+        if(pc.dir==='H'){if(pc.c+d<0||pc.c+d+pc.len-1>=COLS)break;}
+        else{if(pc.r+d<0||pc.r+d+pc.len-1>=ROWS)break;}
+        const occ=new Set();
+        ns.forEach(x=>{if(x.id===pc.id)return;for(let i=0;i<x.len;i++){const rr=x.dir==='H'?x.r:x.r+i,cc=x.dir==='H'?x.c+i:x.c;occ.add(`${rr},${cc}`);}});
+        let bl=false;
+        for(let i=0;i<pc.len;i++){const rr=pc.dir==='H'?pc.r:pc.r+d+i,cc=pc.dir==='H'?pc.c+d+i:pc.c;if(occ.has(`${rr},${cc}`)){bl=true;break;}}
+        if(bl)break;
+        if(pc.dir==='H')pc.c=p.c+d;else pc.r=p.r+d;
+        const k=encodeState(ns);
+        if(!vis.has(k)){vis.add(k);q.push({state:ns,path:[...path,{pieceId:p.id,delta:d}]});}
+      }
+    }
+  }
+  return null;
+}
+function showHint(){
+  clearTimeout(hintTimer);const path=solveHint();
+  if(!path||!path.length){showHintText('Félicitations, encore un mouvement !');return;}
+  const step=path[0];hintStep=step;
+  const p=pieces.find(x=>x.id===step.pieceId);
+  const dir=p.dir==='H'?(step.delta>0?'droite':'gauche'):(step.delta>0?'bas':'haut');
+  const label=p.target?'la flèche violette':`la pièce ${step.pieceId+1}`;
+  showHintText(`Déplace ${label} vers le ${dir} (${Math.abs(step.delta)} case${Math.abs(step.delta)>1?'s':''})`);
+  draw();hintTimer=setTimeout(()=>{hintStep=null;draw();clearHintText();},4000);
+}
+function showHintText(t){document.getElementById('hint-text').textContent=t;}
+function clearHintText(){document.getElementById('hint-text').textContent='';}
+function getCell(cx,cy){const r=canvas.getBoundingClientRect();return{c:(cx-r.left)/CELL,r:(cy-r.top)/CELL};}
+function pieceAt(r,c){return pieces.find(p=>p.dir==='H'?Math.floor(r)===p.r&&c>=p.c&&c<p.c+p.len:Math.floor(c)===p.c&&r>=p.r&&r<p.r+p.len);}
+canvas.addEventListener('pointerdown',e=>{
+  e.preventDefault();const pos=getCell(e.clientX,e.clientY),p=pieceAt(pos.r,pos.c);
+  if(!p)return;
+  drag={pieceId:p.id,axis:p.dir,startPos:p.dir==='H'?pos.c:pos.r,startCell:p.dir==='H'?p.c:p.r};
+  canvas.setPointerCapture(e.pointerId);
+});
+canvas.addEventListener('pointermove',e=>{
+  if(!drag)return;e.preventDefault();
+  const pos=getCell(e.clientX,e.clientY),cur=drag.axis==='H'?pos.c:pos.r;
+  const snap=Math.round(cur-drag.startPos),p=pieces.find(x=>x.id===drag.pieceId);
+  const cl=Math.max(maxDelta(p,-1),Math.min(maxDelta(p,+1),snap));
+  if(p.dir==='H')p.c=drag.startCell+cl;else p.r=drag.startCell+cl;
+  draw();
+});
+canvas.addEventListener('pointerup',e=>{
+  if(!drag)return;
+  const p=pieces.find(x=>x.id===drag.pieceId);
+  const nc=p.dir==='H'?p.c:p.r;
+  if(nc!==drag.startCell){
+    moves++;document.getElementById('moves-label').textContent=`Mouvements: ${moves}`;
+    hintStep=null;clearHintText();
+    if(p.dir==='H')p.c=Math.round(p.c);else p.r=Math.round(p.r);
+    if(checkWin()){draw();setTimeout(showWin,300);}
+  }else{if(p.dir==='H')p.c=drag.startCell;else p.r=drag.startCell;}
+  drag=null;draw();
+});
+function showWin(){
+  completed.add(currentLevel);localStorage.setItem('fta_completed',JSON.stringify([...completed]));
+  const ov=document.getElementById('msg-overlay');
+  document.getElementById('msg-title').textContent='🎉 Niveau réussi !';
+  document.getElementById('msg-sub').textContent=`Résolu en ${moves} mouvement${moves>1?'s':''}.`;
+  const nb=document.getElementById('next-btn');
+  if(currentLevel+1>=LEVELS.length){nb.textContent='🏆 Rejouer';nb.onclick=()=>{ov.classList.remove('show');loadLevel(0);};}
+  else{nb.textContent='Niveau suivant ▶';nb.onclick=()=>{ov.classList.remove('show');loadLevel(currentLevel+1);};}
+  buildLevelSelect();ov.classList.add('show');
+}
+function buildLevelSelect(){
+  const sel=document.getElementById('level-select');sel.innerHTML='';
+  LEVELS.forEach((_,i)=>{
+    const b=document.createElement('button');
+    b.className='lvl-btn'+(completed.has(i)?' completed':'')+(i===currentLevel?' current':'');
+    b.textContent=i+1;
+    b.onclick=()=>{document.getElementById('msg-overlay').classList.remove('show');loadLevel(i);};
+    sel.appendChild(b);
+  });
+}
+document.getElementById('hint-btn').onclick=showHint;
+document.getElementById('reset-btn').onclick=resetLevel;
+window.addEventListener('resize',()=>{resizeCanvas();draw();});
+resizeCanvas();loadLevel(0);
+</script>
 </body>
 </html>
